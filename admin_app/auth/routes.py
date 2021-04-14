@@ -7,6 +7,16 @@ def login():
     return render_template('login.html')
 
 
+@auth_bp.route('/recover', methods=['POST'])
+def recover():
+    """
+        recover password
+    :return:
+    """
+    pass
+
+
+
 @auth_bp.route('/register')
 def register():
     return render_template('register.html')

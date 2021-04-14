@@ -1,0 +1,144 @@
+
+
+{% extends "layouts/layout.html" %}
+
+{% block content %}
+          <div class="right_col" role="main">
+                    <div class="page-title">
+						<div class="title_left">
+							<h3>Scrapping Settings</h3>
+						</div>
+
+						<div class="title_right">
+							<div class="col-md-5 col-sm-5  form-group pull-right top_search">
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="Search for...">
+									<span class="input-group-btn">
+										<button class="btn btn-default" type="button">Go!</button>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="clearfix"></div>
+					<div class="row">
+						<div class="col-md-12 col-sm-12 ">
+							<div class="x_panel">
+								<div class="x_title">
+									<h2>Scrapping <small> Details</small></h2>
+									<ul class="nav navbar-right panel_toolbox">
+										<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+										</li>
+										<li class="dropdown">
+											<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+											<ul class="dropdown-menu" role="menu">
+												<li><a class="dropdown-item" href="#">Add Target</a>
+												</li>
+												<li><a class="dropdown-item" href="#">Scrapping Targets</a>
+												</li>
+											</ul>
+										</li>
+										<li><a class="close-link"><i class="fa fa-close"></i></a>
+										</li>
+									</ul>
+									<div class="clearfix"></div>
+								</div>
+								<div class="x_content">
+									<br />
+									<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+                                        <div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="exchange">Select Exchange <span class="required">*</span>
+											</label>
+                                            <div class="col-md-6 col-sm-6 ">
+                                                <select class="form-control" id="exchange">
+                                                    <option> Phillipines Stock Exchange </option>
+                                                </select>
+                                            </div>
+
+                                        </div>
+
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="website-name">Website Name <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="text" id="website-name" required="required" class="form-control ">
+											</div>
+										</div>
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="target-uri">Target URI <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="url" id="target-uri" name="target-uri" required="required" class="form-control">
+											</div>
+										</div>
+										<div class="ln_solid"></div>
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="edit-schedule">Edit Schedule <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+													<small>For 24H format use format: 'HH:mm'</small>
+													<div class="form-group">
+														<div class="input-group date" id="editschedule">
+															<input type="text" class="form-control" id="edit-schedule">
+															<span class="input-group-addon">
+															   <span class="glyphicon glyphicon-calendar"><i class="fa fa-clock-o"> </i></span>
+															</span>
+														</div>
+													</div>
+											</div>
+										</div>
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="schedule-type">Schedule Type <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<select id="schedule-type" name="schedule-type" required="required" class="form-control">
+													<option value="weekdays">Week Days</option>
+													<option value="daily">Daily</option>
+													<option value="hourly">Hourly</option>
+												</select>
+											</div>
+										</div>
+										<div class="ln_solid"></div>
+                                        <div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="username">Username <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+                                                <input type="text" id="username" name="username" class="form-control" />
+											</div>
+										</div>
+                                        <div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="password">Password <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+                                                <input type="password" id="password" name="password" class="form-control" />
+											</div>
+										</div>
+                                        <div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="login-uri">Login URI <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+                                                <input type="url" id="login-uri" name="login-uri" class="form-control" />
+											</div>
+										</div>
+
+
+
+										<div class="ln_solid"></div>
+										<div class="item form-group">
+											<div class="col-md-6 col-sm-6 offset-md-3">
+												<button class="btn btn-primary" type="button">Cancel</button>
+												<button class="btn btn-primary" type="reset">Reset</button>
+												<button type="submit" class="btn btn-success">Submit</button>
+											</div>
+										</div>
+
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+
+          </div>
+          <!-- /page content -->
+
+{% endblock %}

@@ -39,8 +39,8 @@
                 <input type="password" class="form-control" placeholder="Password" required="" />
               </div>
               <div>
-                <a class="btn btn-default submit" href="index.html">Log in</a>
-                <a class="reset_pass" href="#signup">Lost your password?</a>
+                <a class="btn btn-default submit" href="#" id="submit-login">Log in</a>
+                <a class="btn btn-default" href="#signup">Lost your password?</a>
               </div>
 
               <div class="clearfix"></div>
@@ -68,19 +68,18 @@
                 <input type="email" class="form-control" placeholder="Email" required="" />
               </div>
               <div>
-                <a class="btn btn-default submit" href="/">Submit</a>
+                <button class="btn btn-default" id="submit-recover">Recover</button>
+
+
               </div>
 
               <div class="clearfix"></div>
 
               <div class="separator">
-                <p class="change_link">
-                  <a href="#signin" class="to_register"> Log in </a>
-                </p>
 
                 <div class="clearfix"></div>
                 <br />
-
+                  <a href="{{ url_for('auth.login') }}" class="btn btn-default"> Back to Login </a>
                 <div>
                   <a href="/">
                     <h1><i class="fa fa-paw"></i> Pinoy Desk</h1>

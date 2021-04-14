@@ -2,50 +2,82 @@
             <!-- sidebar menu -->
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
               <div class="menu_section">
-                <h3>General</h3>
+                <h3>Pinoydesk Admin</h3>
                 <ul class="nav side-menu">
-                  <li><a><i class="fa fa-home"></i> Dashboard <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-dashboard"></i> Dashboard <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="#">Brokers</a></li>
-                      <li><a href="#">Stocks</a></li>
+                      <li><a href="{{ url_for('dashboard.dashboard', path='statistics') }}">Statistics</a></li>
+                      <li><a href="{{ url_for('dashboard.dashboard', path='exchanges') }}">Exchanges</a></li>
+                      <li><a href="{{ url_for('dashboard.dashboard', path='brokers') }}">Brokers</a></li>
+                      <li><a href="{{ url_for('dashboard.dashboard', path='stocks') }}">Stocks </a></li>
                     </ul>
                   </li>
-                  <li title="Manual Data Entry"><a><i class="fa fa-edit"></i> Data <span class="fa fa-chevron-down"></span></a>
+                  <li title="Manual Data Entry"><a><i class="fa fa-file"></i> Data <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{{ url_for('admin.data', path='exchange')}}">Exchange Data</a></li>
                       <li><a href="{{ url_for('admin.data', path='broker')}}">Broker Data</a></li>
                       <li><a href="{{ url_for('admin.data', path='stock')}}">Stock Data</a></li>
                     </ul>
                   </li>
-                  <li><a><i class="fa fa-edit"></i> Scrapping Service <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-file-archive-o"></i> Scrapping Service <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="#">Settings</a></li>
-                      <li><a href="#">Schedules</a></li>
+                      <li><a href="{{ url_for('admin.settings', path='scrapper')}}">Settings</a></li>
+                      <li><a href="{{ url_for('admin.schedules', path='scrapper')}}">Schedules</a></li>
+                      <li><a href="{{ url_for('admin.logs', path='scrapper')}}">logs</a></li>
                     </ul>
                   </li>
-                  <li><a><i class="fa fa-edit"></i> API Service <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-external-link"></i> API Service <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="#">Settings</a></li>
-                      <li><a href="#">Schedules</a></li>
+                      <li><a href="{{ url_for('admin.settings', path='api') }}">Settings</a></li>
+                      <li><a href="{{ url_for('admin.schedules', path='api') }}">Schedules</a></li>
+                      <li><a href="{{ url_for('admin.logs', path='api')}}">Logs</a></li>
                     </ul>
                   </li>
 
                 </ul>
               </div>
-              <div class="menu_section">
-                <h3>Users</h3>
+
+
+                <ul class="nav side-menu">
+                  <li><a><i class="fa fa-user-plus"></i> Membership Plans <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                          <li><a href="">Create Plan</a></li>
+                          <li><a href="">Membership Plans</a></li>
+                        </ul>
+                  </li>
+
+                </ul>
+
+
+
+                <ul class="nav side-menu">
+                  <li><a><i class="fa fa-bar-chart"></i> Affiliate Program <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                          <li><a href="">Affiliate Program</a></li>
+                          <li><a href="">Affiliates</a></li>
+                        </ul>
+                  </li>
+                </ul>
+
+
                 <ul class="nav side-menu">
                   <li><a><i class="fa fa-user"></i> Users Information <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="#">Users</a></li>
-                      <li><a href="#">Messages</a></li>
-                      <li><a href="#">Subscriptions</a></li>
+                      <li><a href="{{ url_for('users.users', path='users')}}">Users</a></li>
+                      <li><a href="{{ url_for('users.users', path='subscriptions')}}">Subscriptions</a></li>
+                    </ul>
+                  </li>
+                </ul>
+                <ul class="nav side-menu">
+                  <li><a><i class="fa fa-envelope"></i> Help Desk <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ url_for('helpdesk.helpdesk', path='messages')}}">Messages</a></li>
+                      <li><a href="{{ url_for('helpdesk.helpdesk', path='tickets')}}">Support Tickets</a></li>
                     </ul>
                   </li>
                 </ul>
               </div>
 
-            </div>
             <!-- /sidebar menu -->
 
             <!-- /menu footer buttons -->

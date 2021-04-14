@@ -15,3 +15,28 @@ def data(path):
         return render_template("forms/broker.html")
     elif path == "stock":
         return render_template("forms/stock.html")
+
+
+@admin_bp.route('/settings/<path:path>', methods=["GET", "POST"])
+def settings(path):
+    if path == "api":
+        return render_template("api/settings.html")
+    elif path == "scrapper":
+        return render_template("scrapper/settings.html")
+
+
+@admin_bp.route('/schedules/<path:path>', methods=["GET", "POST"])
+def schedules(path):
+    if path == "api":
+        return render_template("api/schedules.html")
+    elif path == "scrapper":
+        return render_template("scrapper/schedules.html")
+
+
+@admin_bp.route('/logs/<path:path>', methods=["GET"])
+def logs(path):
+    if path == "api":
+        return render_template("api/logs.html")
+    elif path == "scrapper":
+        return render_template("scrapper/logs.html")
+
