@@ -1,0 +1,66 @@
+
+            <!-- sidebar menu -->
+            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+              <div class="menu_section">
+                <h3>General</h3>
+                <ul class="nav side-menu">
+                  <li><a><i class="fa fa-home"></i> Dashboard <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="#">Brokers</a></li>
+                      <li><a href="#">Stocks</a></li>
+                    </ul>
+                  </li>
+                  <li title="Manual Data Entry"><a><i class="fa fa-edit"></i> Data <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ url_for('admin.data', path='exchange')}}">Exchange Data</a></li>
+                      <li><a href="{{ url_for('admin.data', path='broker')}}">Broker Data</a></li>
+                      <li><a href="{{ url_for('admin.data', path='stock')}}">Stock Data</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-edit"></i> Scrapping Service <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="#">Settings</a></li>
+                      <li><a href="#">Schedules</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-edit"></i> API Service <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="#">Settings</a></li>
+                      <li><a href="#">Schedules</a></li>
+                    </ul>
+                  </li>
+
+                </ul>
+              </div>
+              <div class="menu_section">
+                <h3>Users</h3>
+                <ul class="nav side-menu">
+                  <li><a><i class="fa fa-user"></i> Users Information <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="#">Users</a></li>
+                      <li><a href="#">Messages</a></li>
+                      <li><a href="#">Subscriptions</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+
+            </div>
+            <!-- /sidebar menu -->
+
+            <!-- /menu footer buttons -->
+            <div class="sidebar-footer hidden-small">
+              <a data-toggle="tooltip" data-placement="top" title="Settings">
+                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="Lock">
+                <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="Login" href="{{ url_for('auth.login') }}">
+                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+              </a>
+            </div>
+            <!-- /menu footer buttons -->
