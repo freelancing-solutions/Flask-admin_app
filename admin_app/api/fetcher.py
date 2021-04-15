@@ -58,7 +58,7 @@ class APIFetcher:
                 response = requests.post(url=url, json=data)
             else:
                 response = requests.post(url=url)
-            response_data = response.json()
+            response_data: dict = response.json()
             if response.ok:
                 return jsonify({'status': True, 'message': response_data['message'], 'payload': response_data['payload']}), 200
             return jsonify({'status': False, 'message': response_data['message']}), 500
@@ -66,7 +66,7 @@ class APIFetcher:
             return jsonify({'status': False, 'message': e}), 200
 
     def fetch_exchanges(self) -> tuple:
-        url = self._build_url(endpoint='exchange')
+        url: str = self._build_url(endpoint='exchange')
         return self._requester(url=url)
 
     def fetch_brokers(self) -> tuple:

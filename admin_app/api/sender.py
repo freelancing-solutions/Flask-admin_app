@@ -49,7 +49,7 @@ class APISender:
     def _requester(url: str, data: dict) -> tuple:
         try:
             response = requests.post(url=url, json=data)
-            response_data = response.json()
+            response_data: dict = response.json()
             if response.ok:
                 return jsonify(response_data), 200
             return jsonify({'status': False, 'message': response_data['message']}), 500
@@ -62,7 +62,7 @@ class APISender:
         :param stock:
         :return:
         """
-        url = self._build_url(endpoint="stock")
+        url: str = self._build_url(endpoint="stock")
         return self._requester(url=url, data=stock)
 
     def send_broker(self, broker: dict) -> tuple:
@@ -71,7 +71,7 @@ class APISender:
         :param broker:
         :return:
         """
-        url = self._build_url(endpoint="broker")
+        url: str = self._build_url(endpoint="broker")
         return self._requester(url=url, data=broker)
 
     def send_exchange(self, exchange: dict) -> tuple:
@@ -80,8 +80,7 @@ class APISender:
         :param exchange:
         :return:
         """
-
-        url = self._build_url(endpoint="exchange")
+        url: str = self._build_url(endpoint="exchange")
         return self._requester(url=url, data=exchange)
 
     def send_messages(self, messages: dict) -> tuple:
@@ -90,7 +89,7 @@ class APISender:
         :param messages:
         :return:
         """
-        url = self._build_url(endpoint="messages")
+        url: str = self._build_url(endpoint="messages")
         return self._requester(url=url, data=messages)
 
     def send_tickets(self, ticket: dict) -> tuple:
@@ -100,7 +99,7 @@ class APISender:
         :return:
         """
 
-        url = self._build_url(endpoint="tickets")
+        url: str = self._build_url(endpoint="tickets")
         return self._requester(url=url, data=ticket)
 
     def send_affiliate(self, affiliate_data: dict) -> tuple:
@@ -110,7 +109,7 @@ class APISender:
         :return:
         """
 
-        url = self._build_url(endpoint="affiliate")
+        url: str = self._build_url(endpoint="affiliate")
         return self._requester(url=url, data=affiliate_data)
 
     def send_user(self, user: dict) -> tuple:
@@ -120,7 +119,7 @@ class APISender:
         :return:
         """
 
-        url = self._build_url(endpoint="user")
+        url: str = self._build_url(endpoint="user")
         return self._requester(url=url, data=user)
 
     def send_memberships(self, memberships: dict) -> tuple:
@@ -131,7 +130,7 @@ class APISender:
         :return:
         """
 
-        url = self._build_url(endpoint="memberships")
+        url: str = self._build_url(endpoint="memberships")
         return self._requester(url=url, data=memberships)
 
     def send_api(self, api: dict) -> tuple:
@@ -140,8 +139,7 @@ class APISender:
         :param api:
         :return:
         """
-        data = {'api': api}
-        url = self._build_url(endpoint="memberships")
+        url: str = self._build_url(endpoint="memberships")
         return self._requester(url=url, data=api)
 
     def send_scrapper(self, scrapper: dict) -> tuple:
@@ -150,6 +148,5 @@ class APISender:
         :param scrapper:
         :return:
         """
-        data = {'scrapper': scrapper}
-        url = self._build_url(endpoint="scrapper")
+        url: str = self._build_url(endpoint="scrapper")
         return self._requester(url=url, data=scrapper)

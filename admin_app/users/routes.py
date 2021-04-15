@@ -3,7 +3,7 @@ users_bp = Blueprint('users', __name__)
 
 
 @users_bp.route('/users/<path:path>', methods=["GET", "POST"])
-def users(path):
+def users(path: str) -> tuple:
     if path == "users":
         return render_template('users/users.html')
     elif path == "messages":

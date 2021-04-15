@@ -1,6 +1,6 @@
 
 
-self.addEventListener('load', e => {
+self.addEventListener('load', async e => {
     // TODO - listen for form input
     // TODO take data and send to backend
     let broker_id = document.getElementById('broker_id');

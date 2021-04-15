@@ -72,8 +72,8 @@
 
 										<div class="item form-group">
 											<div class="col-md-6 col-sm-6 offset-md-3">
-												<button class="btn btn-danger" type="button">Delete</button>
-												<button id="submit-button" type="button" class="btn btn-success">Update</button>
+												<button id="delete-button" class="btn btn-danger" type="button">Delete</button>
+												<button id="update-button" type="button" class="btn btn-success">Update</button>
 											</div>
 										</div>
 										<div class="ln_solid"></div>
@@ -91,4 +91,5 @@
 
 {% block scripts %}
 	<script src="{{ url_for('static', filename='js/data/broker.js')}}" rel="script"></script>
+	<script src="{{ url_for('static', filename='js/data/edit-broker.js')}}" rel="script"></script>
 {% endblock %}

@@ -16,7 +16,6 @@ def recover():
     pass
 
 
-
 @auth_bp.route('/register')
 def register():
     return render_template('register.html')

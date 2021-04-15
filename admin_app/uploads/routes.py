@@ -6,23 +6,22 @@ uploads_bp = Blueprint('uploads', __name__)
 
 
 @uploads_bp.route('/uploads/<path:path>', methods=['GET', 'POST'])
-def uploads(path):
+def uploads(path: str) -> tuple:
+    data_service_api: APISender = APISender()
     if path == "broker":
         """ broker file is uploaded"""
-        data_service_api: APISender = APISender()
         f = request.files['file']
         if f.filename.endswith('csv'):
-            data_frame = pd.read_csv(f, names=['broker_code', 'broker_name'])
-            print("Printing List")
+            data_frame = pd.read_csv(f, names=['broker_id', 'broker_code', 'broker_name'])
             brokers_data = data_frame.values.tolist()
             for broker in brokers_data[1:]:
                 data: dict = {
-                    "broker_code": broker[0],
-                    "broker_name": broker[1]
+                    "broker_id": broker[0],
+                    "broker_code": broker[1],
+                    "broker_name": broker[2]
                 }
-                print(data)
                 data_service_api.send_broker(broker=data)
-            # TODO sends data to data-service
+
             return jsonify({'status': True, 'message': 'successfully uploaded'}), 200
         else:
             return jsonify({'status': False, 'message': 'please upload csv file'}), 500
@@ -30,14 +29,19 @@ def uploads(path):
         """ stock file is being uploaded"""
         f = request.files['file']
         if f.filename.endswith('csv'):
-            data_frame = pd.read_csv(f, names=['broker_code', 'broker_name'])
-            print("Printing List")
-            print(data_frame.DataFrame.values.tolist())
-            # TODO sends data to data-service
+            data_frame = pd.read_csv(f, names=['stock_id', 'stock_code', 'stock_name', 'symbol'])
+            stock_list: list = data_frame.DataFrame.values.tolist()
+            for stock in stock_list:
+                data: dict = {
+                    'stock_id': stock[0],
+                    'stock_code': stock[1],
+                    'stock_name': stock[2],
+                    'symbol': stock[3]
+                }
+                data_service_api.send_stock(stock=data)
             return jsonify({'status': True, 'message': 'successfully uploaded'}), 200
         else:
             return jsonify({'status': False, 'message': 'please upload csv file'}), 500
-
     elif path == "user":
         """ user image is being uploaded"""
         f = request.files['file']
