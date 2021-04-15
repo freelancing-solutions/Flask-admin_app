@@ -33,10 +33,8 @@
 										<li class="dropdown">
 											<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-wrench"></i></a>
 											<ul class="dropdown-menu" role="menu">
-												<li><a class="dropdown-item" href="#">Enter Data</a>
-												</li>
-												<li><a class="dropdown-item" href="#">Brokers List</a>
-												</li>
+												<li id="add-broker"><a class="dropdown-item" href="#">Add Broker</a></li>
+												<li id="brokers-list"><a class="dropdown-item" href="#">Brokers List</a></li>
 											</ul>
 										</li>
 										<li><a class="close-link"><i class="fa fa-close"></i></a>
@@ -44,7 +42,7 @@
 									</ul>
 									<div class="clearfix"></div>
 								</div>
-								<div class="x_content">
+								<div class="x_content" id="form_data">
 									<br />
 									<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
                                         <div class="item form-group">
@@ -52,11 +50,18 @@
 											</label>
                                             <div class="col-md-6 col-sm-6 ">
                                                 <select class="form-control">
-                                                    <option> Phillipines Stock Exchange </option>
+                                                    <option> Philippines Stock Exchange </option>
                                                 </select>
                                             </div>
 
                                         </div>
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="broker-id">Broker ID <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="text" id="broker-id"  class="form-control ">
+											</div>
+										</div>
 
 										<div class="item form-group">
 											<label class="col-form-label col-md-3 col-sm-3 label-align" for="broker-code">Broker Code <span class="required">*</span>
@@ -79,16 +84,22 @@
 											<div class="col-md-6 col-sm-6 offset-md-3">
 												<button class="btn btn-primary" type="button">Cancel</button>
 												<button class="btn btn-primary" type="reset">Reset</button>
-												<button type="submit" class="btn btn-success">Submit</button>
+												<button id="submit-button" type="button" class="btn btn-success">Submit</button>
 											</div>
 										</div>
+										<div class="ln_solid"></div>
+										<div class="item form-group" id="message">
+
+										</div>
+										<div class="ln_solid"></div>
 
 									</form>
 									<form action="/uploads/broker" class="dropzone dz-clickable"><div class="dz-default dz-message">
 										<span>
 											<p>To Upload Broker Data in CSV Formatted Files, Drop Files Here</p>
-											<p>Broker Data Format</p>
-											<p><code>broker_code</code>, <code>broker_name</code></p>
+											<p>Broker Data Format: </p>
+											<p>format 1: <code>broker_code</code>, <code>broker_name</code></p>
+											<p>format 2: <code>broker_id</code>, <code>broker_code</code>, <code>broker_name</code></p>
 									    </span>
 									</div>
 									</form>
@@ -99,4 +110,8 @@
 
           </div>
           <!-- /page content -->
+{% endblock %}
+
+{% block scripts %}
+	<script src="{{ url_for('static', filename='js/data/broker.js')}}" rel="script"></script>
 {% endblock %}

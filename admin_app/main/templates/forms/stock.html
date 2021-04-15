@@ -33,9 +33,8 @@
 										<li class="dropdown">
 											<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-wrench"></i></a>
 											<ul class="dropdown-menu" role="menu">
-												<li><a class="dropdown-item" href="#">Enter Data</a>
-												</li>
-												<li><a class="dropdown-item" href="#">Stocks List</a>
+												<li id="add-stock"><a class="dropdown-item" href="#">Add Stock</a></li>
+												<li id="stocks-list"><a class="dropdown-item" href="#">Stocks List</a>
 												</li>
 											</ul>
 										</li>
@@ -44,7 +43,7 @@
 									</ul>
 									<div class="clearfix"></div>
 								</div>
-								<div class="x_content">
+								<div class="x_content" id="form_data">
 									<br />
 									<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
 
@@ -53,11 +52,18 @@
 											</label>
                                             <div class="col-md-6 col-sm-6 ">
                                                 <select class="form-control">
-                                                    <option> Phillipines Stock Exchange </option>
+                                                    <option> Philippines Stock Exchange </option>
                                                 </select>
                                             </div>
 
                                         </div>
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="stock-id">Stock ID <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="text" id="stock-id"  class="form-control ">
+											</div>
+										</div>
 
 										<div class="item form-group">
 											<label class="col-form-label col-md-3 col-sm-3 label-align" for="stock-code">Stock Code <span class="required">*</span>
@@ -86,23 +92,31 @@
 											<div class="col-md-6 col-sm-6 offset-md-3">
 												<button class="btn btn-primary" type="button">Cancel</button>
 												<button class="btn btn-primary" type="reset">Reset</button>
-												<button type="submit" class="btn btn-success">Submit</button>
+												<button id="submit-button" type="button" class="btn btn-success">Submit</button>
 											</div>
 										</div>
 
 									</form>
+									<div class="ln_solid"></div>
+									<div class="item form-group" id="message">
+
+									</div>
+									<div class="ln_solid"></div>
 									<form action="/uploads/stock" class="dropzone dz-clickable"><div class="dz-default dz-message">
 										<span>
 											<p>To Upload Stock Data in CSV Formatted Files, Drop Files Here..</p>
 											<p>Stock Data Format</p>
-											<p><code>stock_code</code>, <code>stock_name</code>, <code>symbol</code></p>
+											<p>Format 1: <code>stock_code</code>, <code>stock_name</code>, <code>symbol</code></p>
+											<p>Format 2: <code>stock_id</code>, <code>stock_code</code>, <code>stock_name</code>, <code>symbol</code></p>
 									    </span>
 									</div></form>
 								</div>
 							</div>
 						</div>
 					</div>
-
           </div>
           <!-- /page content -->
+{% endblock %}
+{% block scripts %}
+	<script src="{{ url_for('static', filename='js/data/stock.js')}}" rel="script"></script>
 {% endblock %}

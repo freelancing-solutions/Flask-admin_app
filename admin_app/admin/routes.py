@@ -1,4 +1,8 @@
-from flask import Blueprint, render_template, url_for
+import json
+
+from flask import Blueprint, render_template, url_for, request
+from admin_app.api.sender import APISender
+from admin_app.api.fetcher import APIFetcher
 admin_bp = Blueprint('admin', __name__)
 
 
@@ -9,12 +13,61 @@ def home():
 
 @admin_bp.route('/data/<path:path>', methods=["GET", "POST"])
 def data(path):
-    if path == "exchange":
-        return render_template("forms/exchange.html")
-    elif path == "broker":
-        return render_template("forms/broker.html")
-    elif path == "stock":
-        return render_template("forms/stock.html")
+    data_service_instance: APISender = APISender()
+    if request.method == "GET":
+        if path == "exchange":
+            return render_template("forms/exchange.html")
+        elif path == "broker":
+            return render_template("forms/broker.html")
+        elif path == "stock":
+            return render_template("forms/stock.html")
+    else:
+        json_data: dict = request.get_json()
+        if path == "exchange":
+            return data_service_instance.send_exchange(exchange=json_data)
+        elif path == "broker":
+            print(json_data)
+            return data_service_instance.send_broker(broker=json_data)
+        elif path == "stock":
+            return data_service_instance.send_stock(stock=json_data)
+
+
+@admin_bp.route('/data/<path:resource>/edit/<path:uid>', methods=["GET", "POST"])
+def data_edit(resource: str, uid: str) -> tuple:
+    data_service_sender: APISender = APISender()
+    data_service_fetcher: APIFetcher = APIFetcher()
+
+    if request.method == "GET":
+        if resource == "exchange":
+            response = data_service_fetcher.fetch_exchange(exchange_id=uid)
+            response_code = int(response[1])
+            if response_code == 200:
+                exchange_data = response[0].get_json().get('payload')
+                return render_template("forms/edit-exchange.html", exchange_data=exchange_data)
+            else:
+                # let error handlers handle this problem
+                pass
+        elif resource == "broker":
+            response = data_service_fetcher.fetch_broker(broker_id=uid)
+            response_code = int(response[1])
+            if response_code == 200:
+                broker_data: dict = response[0].get_json().get('payload')
+                return render_template("forms/edit-broker.html", broker_data=broker_data)
+        elif resource == "stock":
+            response = data_service_fetcher.fetch_stock(stock_id=uid)
+            response_code = int(response[1])
+            if response_code == 200:
+                stock_data: dict = response[0].get_json().get('payload')
+                return render_template("forms/edit-stock.html", stock_data=stock_data)
+    else:
+        json_data: dict = request.get_json()
+        if resource == "exchange":
+            return data_service_sender.send_exchange(exchange=json_data)
+        elif resource == "broker":
+            print(json_data)
+            return data_service_sender.send_broker(broker=json_data)
+        elif resource == "stock":
+            return data_service_sender.send_stock(stock=json_data)
 
 
 @admin_bp.route('/settings/<path:path>', methods=["GET", "POST"])

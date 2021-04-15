@@ -45,16 +45,16 @@ class APISender:
         else:
             return ""
 
-    def _requester(self, url: str, data: dict) -> tuple:
+    @staticmethod
+    def _requester(url: str, data: dict) -> tuple:
         try:
             response = requests.post(url=url, json=data)
-            print(response.text)
+            response_data = response.json()
             if response.ok:
-                print("OK")
-                return jsonify({'status': True, 'message': 'success'}), 200
-            return jsonify({'status': True, 'message': 'success'}), 200
+                return jsonify(response_data), 200
+            return jsonify({'status': False, 'message': response_data['message']}), 500
         except ConnectionError as e:
-            return jsonify({'status': True, 'message': 'success'}), 200
+            return jsonify({'status': False, 'message': e}), 200
 
     def send_stock(self, stock: dict) -> tuple:
         """
@@ -62,9 +62,8 @@ class APISender:
         :param stock:
         :return:
         """
-        data = {"stock": stock}
         url = self._build_url(endpoint="stock")
-        return self._requester(url=url, data=data)
+        return self._requester(url=url, data=stock)
 
     def send_broker(self, broker: dict) -> tuple:
         """
@@ -72,9 +71,8 @@ class APISender:
         :param broker:
         :return:
         """
-        data = {"broker": broker}
         url = self._build_url(endpoint="broker")
-        return self._requester(url=url, data=data)
+        return self._requester(url=url, data=broker)
 
     def send_exchange(self, exchange: dict) -> tuple:
         """
@@ -82,9 +80,9 @@ class APISender:
         :param exchange:
         :return:
         """
-        data = {"exchange": exchange}
+
         url = self._build_url(endpoint="exchange")
-        return self._requester(url=url, data=data)
+        return self._requester(url=url, data=exchange)
 
     def send_messages(self, messages: dict) -> tuple:
         """
@@ -92,9 +90,8 @@ class APISender:
         :param messages:
         :return:
         """
-        data = jsonify({"messages": messages})
         url = self._build_url(endpoint="messages")
-        return self._requester(url=url, data=data)
+        return self._requester(url=url, data=messages)
 
     def send_tickets(self, ticket: dict) -> tuple:
         """
@@ -102,9 +99,9 @@ class APISender:
         :param ticket:
         :return:
         """
-        data = {'ticket': ticket}
+
         url = self._build_url(endpoint="tickets")
-        return self._requester(url=url, data=data)
+        return self._requester(url=url, data=ticket)
 
     def send_affiliate(self, affiliate_data: dict) -> tuple:
         """
@@ -112,9 +109,9 @@ class APISender:
         :param affiliate_data:
         :return:
         """
-        data = {'affiliate': affiliate_data}
+
         url = self._build_url(endpoint="affiliate")
-        return self._requester(url=url, data=data)
+        return self._requester(url=url, data=affiliate_data)
 
     def send_user(self, user: dict) -> tuple:
         """
@@ -122,9 +119,9 @@ class APISender:
         :param user:
         :return:
         """
-        data = {'user': user}
+
         url = self._build_url(endpoint="user")
-        return self._requester(url=url, data=data)
+        return self._requester(url=url, data=user)
 
     def send_memberships(self, memberships: dict) -> tuple:
         """
@@ -133,9 +130,9 @@ class APISender:
         :param subscriptions:
         :return:
         """
-        data = {'memberships': memberships}
+
         url = self._build_url(endpoint="memberships")
-        return self._requester(url=url, data=data)
+        return self._requester(url=url, data=memberships)
 
     def send_api(self, api: dict) -> tuple:
         """
@@ -145,7 +142,7 @@ class APISender:
         """
         data = {'api': api}
         url = self._build_url(endpoint="memberships")
-        return self._requester(url=url, data=data)
+        return self._requester(url=url, data=api)
 
     def send_scrapper(self, scrapper: dict) -> tuple:
         """
@@ -155,4 +152,4 @@ class APISender:
         """
         data = {'scrapper': scrapper}
         url = self._build_url(endpoint="scrapper")
-        return self._requester(url=url, data=data)
+        return self._requester(url=url, data=scrapper)

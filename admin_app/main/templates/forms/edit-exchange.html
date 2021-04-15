@@ -26,7 +26,7 @@
 						<div class="col-md-12 col-sm-12 ">
 							<div class="x_panel">
 								<div class="x_title">
-									<h2>Exchange <small> Details</small></h2>
+									<h2>Exchange <small> Editor</small></h2>
 									<ul class="nav navbar-right panel_toolbox">
 										<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
 										</li>
@@ -50,23 +50,22 @@
 											<label class="col-form-label col-md-3 col-sm-3 label-align" for="exchange-name">Exchange Name <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input type="text" id="exchange-name" required="required" class="form-control ">
+												<input type="text" id="exchange-name" required="required" class="form-control" value="{{ exchange_data.exchange_name }}">
 											</div>
 										</div>
 										<div class="item form-group">
 											<label class="col-form-label col-md-3 col-sm-3 label-align" for="country">Country <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input type="text" id="country" name="country" required="required" class="form-control">
+												<input type="text" id="country" name="country" required="required" class="form-control" value="{{ exchange_data.exchange_country }}">
 											</div>
 										</div>
 
 										<div class="ln_solid"></div>
 										<div class="item form-group">
 											<div class="col-md-6 col-sm-6 offset-md-3">
-												<button class="btn btn-primary" type="button">Cancel</button>
-												<button class="btn btn-primary" type="reset">Reset</button>
-												<button id="submit-button" type="button" class="btn btn-success">Submit</button>
+												<button class="btn btn-danger" type="button">Delete</button>
+												<button id="submit-button" type="button" class="btn btn-success">Update</button>
 											</div>
 										</div>
 										<div class="ln_solid"></div>
