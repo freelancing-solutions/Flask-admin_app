@@ -2,7 +2,7 @@ import requests
 from flask import jsonify
 from flask_caching import Cache
 from requests import ReadTimeout, TooManyRedirects
-from requests.exceptions import ConnectTimeout, SSLError, ConnectionError
+from requests.exceptions import ConnectTimeout, SSLError, ConnectionError, HTTPError
 
 
 # noinspection PyAttributeOutsideInit
@@ -86,22 +86,24 @@ class APIFetcher:
             if data:
                 response = requests.post(url=url, json=data, headers=self.headers)
             else:
-                response = requests.post(url=url)
+                response = requests.post(url=url, headers=self.headers)
+            response.raise_for_status()
             response_data: dict = response.json()
-            if response.ok:
-                return jsonify(
-                    {'status': True, 'message': response_data['message'], 'payload': response_data['payload']}), 200
-            return jsonify({'status': False, 'message': response_data['message']}), 500
+            return jsonify({'status': True, 'message': response_data['message'],
+                            'payload': response_data['payload']}), 200
+
+        except HTTPError as e:
+            return jsonify({'status': False, 'message': e}), 500
         except ConnectTimeout as e:
-            return jsonify({'status': False, 'message': e}), 200
+            return jsonify({'status': False, 'message': e}), 500
         except ReadTimeout as e:
-            return jsonify({'status': False, 'message': e}), 200
+            return jsonify({'status': False, 'message': e}), 500
         except TooManyRedirects as e:
-            return jsonify({'status': False, 'message': e}), 200
+            return jsonify({'status': False, 'message': e}), 500
         except SSLError as e:
-            return jsonify({'status': False, 'message': e}), 200
+            return jsonify({'status': False, 'message': e}), 500
         except ConnectionError as e:
-            return jsonify({'status': False, 'message': e}), 200
+            return jsonify({'status': False, 'message': e}), 500
 
     def fetch_exchanges(self) -> tuple:
         url: str = self._build_url(endpoint='exchange')

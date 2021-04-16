@@ -1,25 +1,34 @@
 import requests
 from flask import jsonify
+from flask_caching import Cache
 from requests import ReadTimeout, TooManyRedirects
 from requests.exceptions import ConnectionError, ConnectTimeout, SSLError, HTTPError
 
+
+# noinspection PyAttributeOutsideInit
 class APISender:
     """
         send data to data-service
     """
+    cache = None
+    headers: dict = {'user-agent': 'admin-app',
+                     'project': '',
+                     'Content-type': 'application/json',
+                     'mode': 'cors',
+                     'token': ''}
 
     def __init__(self):
-        self.base_uri: str = "https://data-service.pinoydesk.com/"
-        self.send_stock_data_endpoint: str = "api/v1/stocks/create/stock"
-        self.send_broker_data_endpoint: str = "api/v1/stocks/create/broker"
-        self.send_add_exchange_data_endpoint: str = "api/v1/exchange/add"
-        self.send_messages_data_endpoint: str = "api/v1/messages/update"
-        self.send_tickets_data_endpoint: str = "api/v1/tickets/update"
-        self.send_affiliate_data_endpoint: str = "api/v1/affiliates/update"
-        self.send_user_data_endpoint: str = "api/v1/user/update"
-        self.send_membership_data_endpoint: str = "api/v1/membership/update"
-        self.send_api_data_endpoint: str = "api/v1/api/add"
-        self.send_scrapper_data_endpoint: str = "api/v1/scrapper/add"
+        self.base_uri: str = ""
+        self.send_stock_data_endpoint: str = ""
+        self.send_broker_data_endpoint: str = ""
+        self.send_add_exchange_data_endpoint: str = ""
+        self.send_messages_data_endpoint: str = ""
+        self.send_tickets_data_endpoint: str = ""
+        self.send_affiliate_data_endpoint: str = ""
+        self.send_user_data_endpoint: str = ""
+        self.send_membership_data_endpoint: str = ""
+        self.send_api_data_endpoint: str = ""
+        self.send_scrapper_data_endpoint: str = ""
 
     def init_app(self, app):
         with app.app_context():
@@ -34,6 +43,9 @@ class APISender:
             self.send_membership_data_endpoint = app.config.get("SEND_MEMBERSHIP_DATA_ENDPOINT")
             self.send_api_data_endpoint = app.config.get("SEND_API_DATA_ENDPOINT")
             self.send_scrapper_data_endpoint = app.config.get("SEND_SCRAPPER_DATA_ENDPOINT")
+            self.headers.setdefault('project', app.config.get('PROJECT'))
+            self.headers.setdefault('token', app.config.get('SECRET'))
+        return self
 
     def _build_url(self, endpoint: str) -> str:
         if endpoint == "stock":
@@ -59,25 +71,24 @@ class APISender:
         else:
             return ""
 
-    @staticmethod
-    def _requester(url: str, data: dict) -> tuple:
+    def _requester(self, url: str, data: dict) -> tuple:
         try:
-            response = requests.post(url=url, json=data)
+            response = requests.post(url=url, json=data, headers=self.headers)
             response.raise_for_status()
             response_data: dict = response.json()
             return jsonify(response_data), 200
         except HTTPError as e:
-            return jsonify({'status': False, 'message': e}), 200
+            return jsonify({'status': False, 'message': e}), 500
         except ConnectTimeout as e:
-            return jsonify({'status': False, 'message': e}), 200
+            return jsonify({'status': False, 'message': e}), 500
         except ReadTimeout as e:
-            return jsonify({'status': False, 'message': e}), 200
+            return jsonify({'status': False, 'message': e}), 500
         except TooManyRedirects as e:
-            return jsonify({'status': False, 'message': e}), 200
+            return jsonify({'status': False, 'message': e}), 500
         except SSLError as e:
-            return jsonify({'status': False, 'message': e}), 200
+            return jsonify({'status': False, 'message': e}), 500
         except ConnectionError as e:
-            return jsonify({'status': False, 'message': e}), 200
+            return jsonify({'status': False, 'message': e}), 500
 
     def send_stock(self, stock: dict) -> tuple:
         """
