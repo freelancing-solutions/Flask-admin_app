@@ -3,8 +3,11 @@
 {% extends "layouts/layout.html" %}
 
 {% block content %}
-          <div class="right_col" role="main">
+          <div class="right_col" role="main" id="brokers_list">
+
           </div>
           <!-- /page content -->
-
+{% endblock %}
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/dashboard/broker.js') }}"> </script>
 {% endblock %}

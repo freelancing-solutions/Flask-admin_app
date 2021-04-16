@@ -2,37 +2,41 @@ import requests
 from flask import jsonify
 
 
+# noinspection PyAttributeOutsideInit
 class APIFetcher:
-    base_uri: str = ""
-    all_stocks_data_endpoint: str = ""
-    all_brokers_data_endpoint: str = ""
-    exchange_data_endpoint: str = ""
-    messages_data_endpoint: str = ""
-    tickets_data_endpoint: str = ""
-    affiliate_data_endpoint: str = ""
-    user_data_endpoint: str = ""
-    membership_data_endpoint: str = ""
-    api_data_endpoint: str = ""
-    scrapper_data_endpoint: str = ""
-    get_exchange_endpoint: str = ""
-    get_broker_endpoint: str = ""
-    get_stock_endpoint: str = ""
+    def __int__(self):
+        self.base_uri: str = ""
+        self.all_stocks_data_endpoint: str = ""
+        self.all_brokers_data_endpoint: str = ""
+        self.exchange_data_endpoint: str = ""
+        self.messages_data_endpoint: str = ""
+        self.tickets_data_endpoint: str = ""
+        self.affiliate_data_endpoint: str = ""
+        self.user_data_endpoint: str = ""
+        self.membership_data_endpoint: str = ""
+        self.api_data_endpoint: str = ""
+        self.scrapper_data_endpoint: str = ""
+        self.get_exchange_endpoint: str = ""
+        self.get_broker_endpoint: str = ""
+        self.get_stock_endpoint: str = ""
 
-    def __init__(self, app):
-        self.base_uri = app.config.base_uri
-        self.all_stocks_data_endpoint = app.config.all_stocks_data_endpoint
-        self.all_brokers_data_endpoint = app.config.all_brokers_data_endpoint
-        self.exchange_data_endpoint = app.config.exchange_data_endpoint
-        self.messages_data_endpoint = app.config.messages_data_endpoint
-        self.tickets_data_endpoint = app.config.tickets_data_endpoint
-        self.affiliate_data_endpoint = app.config.affiliate_data_endpoint
-        self.user_data_endpoint = app.config.user_data_endpoint
-        self.membership_data_endpoint = app.config.membership_data_endpoint
-        self.api_data_endpoint = app.config.api_data_endpoint
-        self.scrapper_data_endpoint = app.config.scrapper_data_endpoint
-        self.get_exchange_endpoint = app.config.get_exchange_endpoint
-        self.get_broker_endpoint = app.config.get_broker_endpoint
-        self.get_stock_endpoint = app.config.get_stock_endpoint
+    def init_app(self, app):
+        with app.app_context():
+            self.base_uri = app.config.get('BASE_URI')
+            self.all_stocks_data_endpoint = app.config.get('ALL_STOCKS_DATA_ENDPOINT')
+            self.all_brokers_data_endpoint = app.config.get('ALL_BROKERS_DATA_ENDPOINT')
+            self.exchange_data_endpoint = app.config.get('EXCHANGE_DATA_ENDPOINT')
+            self.messages_data_endpoint = app.config.get('MESSAGES_DATA_ENDPOINT')
+            self.tickets_data_endpoint = app.config.get('TICKETS_DATA_ENDPOINT')
+            self.affiliate_data_endpoint = app.config.get('AFFILIATE_DATA_ENDPOINT')
+            self.user_data_endpoint = app.config.get('USER_DATA_ENDPOINT')
+            self.membership_data_endpoint = app.config.get('MEMBERSHIP_DATA_ENDPOINT')
+            self.api_data_endpoint = app.config.get('API_DATA_ENDPOINT')
+            self.scrapper_data_endpoint = app.config.get('SCRAPPER_DATA_ENDPOINT')
+            self.get_exchange_endpoint = app.config.get('GET_EXCHANGE_DATA_ENDPOINT')
+            self.get_broker_endpoint = app.config.get('GET_BROKER_ENDPOINT')
+            self.get_stock_endpoint = app.config.get('GET_STOCK_ENDPOINT')
+        return self
 
     def _build_url(self, endpoint: str) -> str:
         if endpoint == "stock":

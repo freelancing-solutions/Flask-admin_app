@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, url_for, request
+from flask import Blueprint, render_template, url_for, request, current_app
 from admin_app.api.sender import APISender
 from admin_app.api.fetcher import APIFetcher
 admin_bp = Blueprint('admin', __name__)
@@ -32,7 +32,7 @@ def data(path: str) -> tuple:
 @admin_bp.route('/data/<path:resource>/edit/<path:uid>', methods=["GET", "POST"])
 def data_edit(resource: str, uid: str) -> tuple:
     data_service_sender: APISender = APISender()
-    data_service_fetcher: APIFetcher = APIFetcher()
+    data_service_fetcher: APIFetcher = APIFetcher(app=current_app)
 
     if request.method == "GET":
         if resource == "exchange":

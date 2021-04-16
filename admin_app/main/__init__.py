@@ -1,11 +1,17 @@
 from flask import Flask
+from admin_app.api.fetcher import APIFetcher
+from admin_app.api.sender import APISender
 from admin_app.config import Config
+
+api_fetcher: APIFetcher = APIFetcher()
+api_sender: APISender = APISender()
 
 
 def create_admin_app(config_class=Config):
     admin_app = Flask(__name__, template_folder='templates', static_folder='static')
     admin_app.config.from_object(config_class)
-
+    api_fetcher.init_app(app=admin_app)
+    api_sender.init_app(app=admin_app)
     # routes
     from ..admin.routes import admin_bp
     from ..auth.routes import auth_bp

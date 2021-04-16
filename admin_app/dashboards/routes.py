@@ -1,5 +1,5 @@
-from flask import Blueprint, render_template, url_for, request, current_app
-from admin_app.api.fetcher import APIFetcher
+from flask import Blueprint, render_template, url_for, request
+from admin_app.main import api_fetcher
 dash_bp = Blueprint('dashboard', __name__)
 
 
@@ -17,10 +17,10 @@ def dashboard(path):
         elif path == "statistics":
             return render_template("dashboard/statistics.html")
     else:
-        data_service_instance: APIFetcher = APIFetcher(app=current_app)
+
         if path == "exchanges":
-            return data_service_instance.fetch_exchanges()
+            return api_fetcher.fetch_exchanges()
         elif path == "brokers":
-            return data_service_instance.fetch_brokers()
+            return api_fetcher.fetch_brokers()
         elif path == "stocks":
-            return data_service_instance.fetch_stocks()
+            return api_fetcher.fetch_stocks()

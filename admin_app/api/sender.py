@@ -6,44 +6,60 @@ class APISender:
     """
         send data to data-service
     """
-    base_uri: str = "https://data-service.pinoydesk.com/"
-    stock_data_endpoint: str = "api/v1/stocks/create/stock"
-    broker_data_endpoint: str = "api/v1/stocks/create/broker"
-    add_exchange_data_endpoint: str = "api/v1/exchange/add"
-    messages_data_endpoint: str = "api/v1/messages/update"
-    tickets_data_endpoint: str = "api/v1/tickets/update"
-    affiliate_data_endpoint: str = "api/v1/affiliates/update"
-    user_data_endpoint: str = "api/v1/user/update"
-    membership_data_endpoint: str = "api/v1/membership/update"
-    api_data_endpoint: str = "api/v1/api/add"
-    scrapper_data_endpoint: str = "api/v1/scrapper/add"
 
     def __init__(self):
-        pass
+        self.base_uri: str = "https://data-service.pinoydesk.com/"
+        self.send_stock_data_endpoint: str = "api/v1/stocks/create/stock"
+        self.send_broker_data_endpoint: str = "api/v1/stocks/create/broker"
+        self.send_add_exchange_data_endpoint: str = "api/v1/exchange/add"
+        self.send_messages_data_endpoint: str = "api/v1/messages/update"
+        self.send_tickets_data_endpoint: str = "api/v1/tickets/update"
+        self.send_affiliate_data_endpoint: str = "api/v1/affiliates/update"
+        self.send_user_data_endpoint: str = "api/v1/user/update"
+        self.send_membership_data_endpoint: str = "api/v1/membership/update"
+        self.send_api_data_endpoint: str = "api/v1/api/add"
+        self.send_scrapper_data_endpoint: str = "api/v1/scrapper/add"
+
+    def init_app(self, app):
+        with app.app_context():
+            self.base_uri = app.config.get("BASE_URI")
+            self.send_stock_data_endpoint = app.config.get("SEND_STOCK_DATA_ENDPOINT")
+            self.send_broker_data_endpoint = app.config.get("SEND_BROKER_DATA_ENDPOINT")
+            self.send_add_exchange_data_endpoint = app.config.get("SEND_ADD_EXCHANGE_DATA_ENDPOINT")
+            self.send_messages_data_endpoint = app.config.get("SEND_MESSAGES_DATA_ENDPOINT")
+            self.send_tickets_data_endpoint = app.config.get("SEND_TICKETS_DATA_ENDPOINT")
+            self.send_affiliate_data_endpoint = app.config.get("SEND_AFFILIATE_DATA_ENDPOINT")
+            self.send_user_data_endpoint = app.config.get("SEND_USER_DATA_ENDPOINT")
+            self.send_membership_data_endpoint = app.config.get("SEND_MEMBERSHIP_DATA_ENDPOINT")
+            self.send_api_data_endpoint = app.config.get("SEND_API_DATA_ENDPOINT")
+            self.send_scrapper_data_endpoint = app.config.get("SEND_SCRAPPER_DATA_ENDPOINT")
+
+
 
     def _build_url(self, endpoint: str) -> str:
         if endpoint == "stock":
-            return self.base_uri + self.stock_data_endpoint
+            return self.base_uri + self.send_stock_data_endpoint
         elif endpoint == "broker":
-            return self.base_uri + self.broker_data_endpoint
+            return self.base_uri + self.send_broker_data_endpoint
         elif endpoint == "exchange":
-            return self.base_uri + self.add_exchange_data_endpoint
+            return self.base_uri + self.send_add_exchange_data_endpoint
         elif endpoint == "messages":
-            return self.base_uri + self.messages_data_endpoint
+            return self.base_uri + self.send_messages_data_endpoint
         elif endpoint == "tickets":
-            return self.base_uri + self.tickets_data_endpoint
+            return self.base_uri + self.send_tickets_data_endpoint
         elif endpoint == "affiliate":
-            return self.base_uri + self.affiliate_data_endpoint
+            return self.base_uri + self.send_affiliate_data_endpoint
         elif endpoint == "user":
-            return self.base_uri + self.user_data_endpoint
+            return self.base_uri + self.send_user_data_endpoint
         elif endpoint == "membership":
-            return self.base_uri + self.membership_data_endpoint
+            return self.base_uri + self.send_membership_data_endpoint
         elif endpoint == "api":
-            return self.base_uri + self.api_data_endpoint
+            return self.base_uri + self.send_api_data_endpoint
         elif endpoint == "scrapper":
-            return self.base_uri + self.scrapper_data_endpoint
+            return self.base_uri + self.send_scrapper_data_endpoint
         else:
             return ""
+
 
     @staticmethod
     def _requester(url: str, data: dict) -> tuple:
