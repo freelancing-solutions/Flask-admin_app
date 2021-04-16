@@ -9,7 +9,7 @@ class APISender:
     base_uri: str = "https://data-service.pinoydesk.com/"
     stock_data_endpoint: str = "api/v1/stocks/create/stock"
     broker_data_endpoint: str = "api/v1/stocks/create/broker"
-    exchange_data_endpoint: str = "api/v1/exchange/add"
+    add_exchange_data_endpoint: str = "api/v1/exchange/add"
     messages_data_endpoint: str = "api/v1/messages/update"
     tickets_data_endpoint: str = "api/v1/tickets/update"
     affiliate_data_endpoint: str = "api/v1/affiliates/update"
@@ -27,7 +27,7 @@ class APISender:
         elif endpoint == "broker":
             return self.base_uri + self.broker_data_endpoint
         elif endpoint == "exchange":
-            return self.base_uri + self.exchange_data_endpoint
+            return self.base_uri + self.add_exchange_data_endpoint
         elif endpoint == "messages":
             return self.base_uri + self.messages_data_endpoint
         elif endpoint == "tickets":
