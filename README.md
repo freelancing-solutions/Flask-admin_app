@@ -1,2 +1,4 @@
-# P_Desk Admin Application
- Flask Admin Application 
+### Cloud Run Trading Admin Application
+--
+ - Created with Python + Flask + Docker 
+ - Deployed on Google Cloud Run
