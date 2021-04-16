@@ -10,7 +10,6 @@ class APISender:
     """
         send data to data-service
     """
-    cache = None
     headers: dict = {'user-agent': 'admin-app',
                      'project': '',
                      'Content-type': 'application/json',
@@ -29,6 +28,7 @@ class APISender:
         self.send_membership_data_endpoint: str = ""
         self.send_api_data_endpoint: str = ""
         self.send_scrapper_data_endpoint: str = ""
+        self.cache: Cache = Cache(config={'CACHE_TYPE': 'SimpleCache'})
 
     def init_app(self, app):
         with app.app_context():
@@ -45,6 +45,9 @@ class APISender:
             self.send_scrapper_data_endpoint = app.config.get("SEND_SCRAPPER_DATA_ENDPOINT")
             self.headers.setdefault('project', app.config.get('PROJECT'))
             self.headers.setdefault('token', app.config.get('SECRET'))
+
+            # # initializing cache
+            # self.cache.init_app(app)
         return self
 
     def _build_url(self, endpoint: str) -> str:
@@ -77,18 +80,19 @@ class APISender:
             response.raise_for_status()
             response_data: dict = response.json()
             return jsonify(response_data), 200
-        except HTTPError as e:
-            return jsonify({'status': False, 'message': e}), 500
-        except ConnectTimeout as e:
-            return jsonify({'status': False, 'message': e}), 500
-        except ReadTimeout as e:
-            return jsonify({'status': False, 'message': e}), 500
-        except TooManyRedirects as e:
-            return jsonify({'status': False, 'message': e}), 500
-        except SSLError as e:
-            return jsonify({'status': False, 'message': e}), 500
-        except ConnectionError as e:
-            return jsonify({'status': False, 'message': e}), 500
+
+        except ConnectTimeout:
+            return jsonify({'status': False, 'message': 'A time-out occurred while connecting to data-service'}), 500
+        except ReadTimeout:
+            return jsonify({'status': False, 'message': 'Error Reading Response, check data-service'}), 500
+        except TooManyRedirects:
+            return jsonify({'status': False, 'message': 'Too Many Redirects Probable Cause is DNS Settings'}), 500
+        except SSLError:
+            return jsonify({'status': False, 'message': 'Unable to connect using SSL'}), 500
+        except ConnectionError:
+            return jsonify({'status': False, 'message': 'Error connecting to data-service'}), 500
+        except HTTPError:
+            return jsonify({'status': False, 'message': 'Well Something Snapped'}), 500
 
     def send_stock(self, stock: dict) -> tuple:
         """

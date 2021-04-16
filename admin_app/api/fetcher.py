@@ -7,7 +7,8 @@ from requests.exceptions import ConnectTimeout, SSLError, ConnectionError, HTTPE
 
 # noinspection PyAttributeOutsideInit
 class APIFetcher:
-    cache = None
+    cache: Cache = Cache(config={'CACHE_TYPE': 'SimpleCache'})
+    use_cache: bool = True
     headers: dict = {'user-agent': 'admin-app',
                      'project': '',
                      'Content-type': 'application/json',
@@ -49,6 +50,10 @@ class APIFetcher:
             self.get_stock_endpoint = app.config.get('GET_STOCK_ENDPOINT')
             self.headers.setdefault('project', app.config.get('PROJECT'))
             self.headers.setdefault('token', app.config.get('SECRET'))
+
+            # initializing cache
+            self.cache.init_app(app, config={'CACHE_TYPE': 'simple'})
+
         return self
 
     def _build_url(self, endpoint: str) -> str:
@@ -81,6 +86,7 @@ class APIFetcher:
         else:
             return ""
 
+    @cache.memoize(timeout=600)
     def _requester(self, url: str, data: dict = None) -> tuple:
         try:
             if data:
@@ -92,18 +98,18 @@ class APIFetcher:
             return jsonify({'status': True, 'message': response_data['message'],
                             'payload': response_data['payload']}), 200
 
-        except HTTPError as e:
-            return jsonify({'status': False, 'message': e}), 500
-        except ConnectTimeout as e:
-            return jsonify({'status': False, 'message': e}), 500
-        except ReadTimeout as e:
-            return jsonify({'status': False, 'message': e}), 500
-        except TooManyRedirects as e:
-            return jsonify({'status': False, 'message': e}), 500
-        except SSLError as e:
-            return jsonify({'status': False, 'message': e}), 500
-        except ConnectionError as e:
-            return jsonify({'status': False, 'message': e}), 500
+        except ConnectTimeout:
+            return jsonify({'status': False, 'message': 'A time-out occurred while connecting to data-service'}), 500
+        except ReadTimeout:
+            return jsonify({'status': False, 'message': 'Error Reading Response, check data-service'}), 500
+        except TooManyRedirects:
+            return jsonify({'status': False, 'message': 'Too Many Redirects Probable Cause is DNS Settings'}), 500
+        except SSLError:
+            return jsonify({'status': False, 'message': 'Unable to connect using SSL'}), 500
+        except ConnectionError:
+            return jsonify({'status': False, 'message': 'Error connecting to data-service'}), 500
+        except HTTPError:
+            return jsonify({'status': False, 'message': 'Well Something Snapped'}), 500
 
     def fetch_exchanges(self) -> tuple:
         url: str = self._build_url(endpoint='exchange')

@@ -36,3 +36,6 @@ class Config:
     SEND_SCRAPPER_DATA_ENDPOINT: str = os.getenv('send_scrapper_data_endpoint') or config('send_scrapper_data_endpoint')
     SECRET: str = os.getenv('secret') or config('secret')
     PROJECT: str = os.getenv('project') or config('project')
+
+    CACHE_DEFAULT_TIMEOUT: int = os.getenv('cache_default_timeout') or config('cache_default_timeout')
+    CACHE_TYPE: str = os.getenv('cache_type') or config('cache_type')
