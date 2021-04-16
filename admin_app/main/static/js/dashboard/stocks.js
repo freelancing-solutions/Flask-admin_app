@@ -30,29 +30,29 @@ self.addEventListener('load', async e => {
         )
     })
     document.getElementById('stocks_list').innerHTML = `
-                      <div class="row">
-                          <div class="col-sm-12">
-                            <div class="card-box table-responsive">
-                            <p class="text-muted font-13 m-b-30">
-                              Stocks Dashboard
-                            </p>
-                            <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action" style="width:100%">
-                              <thead>
-                                <tr>                                  
-                                  <th><input type="checkbox" id="check-all" ></th>
-                                  <th>Stock ID</th>
-                                  <th>Stock Code</th>
-                                  <th>Stock Name</th>
-                                  <td>Symbol</td>
-                                  <td>Action</td>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                ${stocks_dom_model}
-                              </tbody>
-                          </table>
-                        </div>
-                      </div>                
+          <div class="row">
+              <div class="col-sm-12">
+                <div class="card-box table-responsive">
+                <p class="text-muted font-13 m-b-30">
+                  Stocks Dashboard - the information above is totals for each stock, 
+                  detailed buys and sells for a specific stock can be found on view
+                </p>
+                <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action" style="width:100%">
+                  <thead>
+                    <tr>                                  
+                      <th><input type="checkbox" id="check-all" ></th>
+                      <th>Stock ID</th>
+                      <th>Stock Code</th>
+                      <th>Stock Name</th>
+                      <td>Symbol</td>
+                      <td>Action</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${stocks_dom_model}
+                  </tbody>
+              </table>
+            </div>
+          </div>                
         `
-
 });

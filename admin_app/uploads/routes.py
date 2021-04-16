@@ -15,13 +15,15 @@ def uploads(path: str) -> tuple:
             data_frame = pd.read_csv(f, names=['broker_id', 'broker_code', 'broker_name'])
             brokers_data = data_frame.values.tolist()
             for broker in brokers_data[1:]:
-                data: dict = {
-                    "broker_id": broker[0],
-                    "broker_code": broker[1],
-                    "broker_name": broker[2]
-                }
-                data_service_api.send_broker(broker=data)
-
+                try:
+                    data: dict = {
+                        "broker_id": broker[0],
+                        "broker_code": broker[1],
+                        "broker_name": broker[2]
+                    }
+                    data_service_api.send_broker(broker=data)
+                except IndexError:
+                    jsonify({'status': False, 'message': 'please check your csv file format'}), 500
             return jsonify({'status': True, 'message': 'successfully uploaded'}), 200
         else:
             return jsonify({'status': False, 'message': 'please upload csv file'}), 500
@@ -31,14 +33,17 @@ def uploads(path: str) -> tuple:
         if f.filename.endswith('csv'):
             data_frame = pd.read_csv(f, names=['stock_id', 'stock_code', 'stock_name', 'symbol'])
             stock_list: list = data_frame.DataFrame.values.tolist()
-            for stock in stock_list:
-                data: dict = {
-                    'stock_id': stock[0],
-                    'stock_code': stock[1],
-                    'stock_name': stock[2],
-                    'symbol': stock[3]
-                }
-                data_service_api.send_stock(stock=data)
+            for stock in stock_list[1:]:
+                try:
+                    data: dict = {
+                        'stock_id': stock[0],
+                        'stock_code': stock[1],
+                        'stock_name': stock[2],
+                        'symbol': stock[3]
+                    }
+                    data_service_api.send_stock(stock=data)
+                except IndexError:
+                    jsonify({'status': False, 'message': 'please check your csv file format'}), 500
             return jsonify({'status': True, 'message': 'successfully uploaded'}), 200
         else:
             return jsonify({'status': False, 'message': 'please upload csv file'}), 500
@@ -49,15 +54,16 @@ def uploads(path: str) -> tuple:
 
         if f.filename.endswith('png') or f.filename.endswith('jpg') or f.filename.endswith('jpeg'):
             image_data = f.read()
-            #TODO-  send the image to user database, json_data will contain the information
+            # TODO-  send the image to user database, json_data will contain the information
             # for the user being updated
         return jsonify({'status': True, 'message': 'successfully uploaded'}), 200
     elif path == "tickets":
         """ files related to support tickets are being uploaded"""
         f = request.files['file']
-        if f.filename.endswith('png') or f.filename.endswith('jpg') or f.filename.endswith('jpeg') or f.filename.endswith('pdf'):
+        if f.filename.endswith('png') or f.filename.endswith('jpg') or f.filename.endswith(
+                'jpeg') or f.filename.endswith('pdf'):
             file_data = f.read()
-            #TODO - sends the filedata to data-service
+            # TODO - sends the filedata to data-service
 
         return jsonify({'status': True, 'message': 'successfully uploaded'}), 200
     elif path == "messages":

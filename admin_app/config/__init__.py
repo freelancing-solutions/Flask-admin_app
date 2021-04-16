@@ -1,5 +1,16 @@
 import os
 from decouple import config
+from flask import request
+
+
+# noinspection PyUnusedLocal
+def only_cache_get(*args, **kwargs):
+    return False if request.method == "GET" else True
+
+
+# noinspection PyUnusedLocal
+def only_cache_post(*args, **kwargs):
+    return False if request.method == "POST" else True
 
 
 class Config:
@@ -28,7 +39,8 @@ class Config:
         'send_add_exchange_data_endpoint')
     SEND_MESSAGES_DATA_ENDPOINT: str = os.getenv('send_messages_data_endpoint') or config('send_messages_data_endpoint')
     SEND_TICKETS_DATA_ENDPOINT: str = os.getenv('send_tickets_data_endpoint') or config('send_tickets_data_endpoint')
-    SEND_AFFILIATE_DATA_ENDPOINT: str = os.getenv('send_affiliate_data_endpoint') or config('send_affiliate_data_endpoint')
+    SEND_AFFILIATE_DATA_ENDPOINT: str = os.getenv('send_affiliate_data_endpoint') or config(
+        'send_affiliate_data_endpoint')
     SEND_USER_DATA_ENDPOINT: str = os.getenv('send_user_data_endpoint') or config('send_user_data_endpoint')
     SEND_MEMBERSHIP_DATA_ENDPOINT: str = os.getenv('send_membership_data_endpoint') or config(
         'send_membership_data_endpoint')
@@ -37,5 +49,5 @@ class Config:
     SECRET: str = os.getenv('secret') or config('secret')
     PROJECT: str = os.getenv('project') or config('project')
 
-    CACHE_DEFAULT_TIMEOUT: int = os.getenv('cache_default_timeout') or config('cache_default_timeout')
+    CACHE_DEFAULT_TIMEOUT: int = int(os.getenv('cache_default_timeout')) or int(config('cache_default_timeout'))
     CACHE_TYPE: str = os.getenv('cache_type') or config('cache_type')

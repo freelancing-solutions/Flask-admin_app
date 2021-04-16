@@ -29,28 +29,28 @@ self.addEventListener('load', async e => {
         )
     })
     document.getElementById('brokers_list').innerHTML = `
-                      <div class="row">
-                          <div class="col-sm-12">
-                            <div class="card-box table-responsive">
-                            <p class="text-muted font-13 m-b-30">
-                              Available Brokers 
-                            </p>
-                            <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action" style="width:100%">
-                              <thead>
-                                <tr>                                  
-                                  <th><input type="checkbox" id="check-all" ></th>
-                                  <th>Broker ID</th>
-                                  <th>Broker Code</th>
-                                  <th>Broker Name</th>
-                                  <td>Action</td>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                ${brokers_dom_elements}
-                              </tbody>
-                          </table>
-                        </div>
-                      </div>                
+              <div class="row">
+                  <div class="col-sm-12">
+                    <div class="card-box table-responsive">
+                    <p class="text-muted font-13 m-b-30">
+                      The information above is for all brokers / stats for single brokers are accessible on view
+                    </p>
+                    <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action" style="width:100%">
+                      <thead>
+                        <tr>                                  
+                          <th><input type="checkbox" id="check-all" ></th>
+                          <th>Broker ID</th>
+                          <th>Broker Code</th>
+                          <th>Broker Name</th>
+                          <td>Action</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        ${brokers_dom_elements}
+                      </tbody>
+                  </table>
+                </div>
+              </div>                
         `
 
 });

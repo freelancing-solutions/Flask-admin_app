@@ -1,10 +1,16 @@
 from flask import Flask
+from flask_caching import Cache
 from admin_app.api.fetcher import APIFetcher
 from admin_app.api.sender import APISender
 from admin_app.config import Config
 
+# NOTE this services enables communications to and from the data-service
 api_fetcher: APIFetcher = APIFetcher()
 api_sender: APISender = APISender()
+
+# NOTE: used to cache routes, normally cache get requests
+route_cache: Cache = Cache()
+cache_timeout: int = Config.CACHE_DEFAULT_TIMEOUT
 
 
 def create_admin_app(config_class=Config):
@@ -12,6 +18,9 @@ def create_admin_app(config_class=Config):
     admin_app.config.from_object(config_class)
     api_fetcher.init_app(app=admin_app)
     api_sender.init_app(app=admin_app)
+    route_cache.init_app(app=admin_app, config={
+        'CACHE_TYPE': 'simple', 'CACHE_DEFAULT_TIMEOUT': 3600
+    })
     # routes
     from ..admin.routes import admin_bp
     from ..auth.routes import auth_bp

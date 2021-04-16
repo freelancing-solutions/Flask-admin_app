@@ -1,16 +1,20 @@
-from flask import Blueprint, render_template, url_for, request
-from admin_app.main import api_fetcher, api_sender
+from flask import Blueprint, render_template, url_for, request, current_app
+from admin_app.config import only_cache_get
+from admin_app.main import api_fetcher, api_sender, cache_timeout
+from admin_app.main import route_cache
+
 admin_bp = Blueprint('admin', __name__)
 
 
 @admin_bp.route('/', methods=["GET"])
+@route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
 def home() -> tuple:
     return render_template('index.html')
 
 
 @admin_bp.route('/data/<path:path>', methods=["GET", "POST"])
+@route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
 def data(path: str) -> tuple:
-    
     if request.method == "GET":
         if path == "exchange":
             return render_template("forms/exchange.html")
@@ -29,8 +33,8 @@ def data(path: str) -> tuple:
 
 
 @admin_bp.route('/data/<path:resource>/edit/<path:uid>', methods=["GET", "POST"])
+@route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
 def data_edit(resource: str, uid: str) -> tuple:
-
     if request.method == "GET":
         if resource == "exchange":
             response = api_fetcher.fetch_exchange(exchange_id=uid)
@@ -64,6 +68,7 @@ def data_edit(resource: str, uid: str) -> tuple:
 
 
 @admin_bp.route('/settings/<path:path>', methods=["GET", "POST"])
+@route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
 def settings(path):
     if path == "api":
         return render_template("api/settings.html")
@@ -72,6 +77,7 @@ def settings(path):
 
 
 @admin_bp.route('/schedules/<path:path>', methods=["GET", "POST"])
+@route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
 def schedules(path):
     if path == "api":
         return render_template("api/schedules.html")
@@ -80,9 +86,9 @@ def schedules(path):
 
 
 @admin_bp.route('/logs/<path:path>', methods=["GET"])
+@route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
 def logs(path):
     if path == "api":
         return render_template("api/logs.html")
     elif path == "scrapper":
         return render_template("scrapper/logs.html")
-

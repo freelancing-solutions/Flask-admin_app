@@ -7,6 +7,10 @@ from requests.exceptions import ConnectTimeout, SSLError, ConnectionError, HTTPE
 
 # noinspection PyAttributeOutsideInit
 class APIFetcher:
+    # 6 Hours
+    long_cache_timeout: int = 60*60*6
+    # short cache Timeout 10 minutes
+    short_cache_timeout: int = 60*10
     cache: Cache = Cache(config={'CACHE_TYPE': 'SimpleCache'})
     use_cache: bool = True
     headers: dict = {'user-agent': 'admin-app',
@@ -56,6 +60,7 @@ class APIFetcher:
 
         return self
 
+    @cache.memoize(timeout=long_cache_timeout)
     def _build_url(self, endpoint: str) -> str:
         if endpoint == "stock":
             return self.base_uri + self.all_stocks_data_endpoint
@@ -86,7 +91,7 @@ class APIFetcher:
         else:
             return ""
 
-    @cache.memoize(timeout=600)
+    @cache.memoize(timeout=short_cache_timeout)
     def _requester(self, url: str, data: dict = None) -> tuple:
         try:
             if data:

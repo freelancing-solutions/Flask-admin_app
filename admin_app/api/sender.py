@@ -10,6 +10,11 @@ class APISender:
     """
         send data to data-service
     """
+    # 6 Hours
+    long_cache_timeout: int = 60*60*6
+    # short cache Timeout 10 minutes
+    short_cache_timeout: int = 60*10
+    cache: Cache = Cache(config={'CACHE_TYPE': 'SimpleCache'})
     headers: dict = {'user-agent': 'admin-app',
                      'project': '',
                      'Content-type': 'application/json',
@@ -28,7 +33,6 @@ class APISender:
         self.send_membership_data_endpoint: str = ""
         self.send_api_data_endpoint: str = ""
         self.send_scrapper_data_endpoint: str = ""
-        self.cache: Cache = Cache(config={'CACHE_TYPE': 'SimpleCache'})
 
     def init_app(self, app):
         with app.app_context():
@@ -45,11 +49,12 @@ class APISender:
             self.send_scrapper_data_endpoint = app.config.get("SEND_SCRAPPER_DATA_ENDPOINT")
             self.headers.setdefault('project', app.config.get('PROJECT'))
             self.headers.setdefault('token', app.config.get('SECRET'))
+            # initializing cache
+            self.cache.init_app(app, config={'CACHE_TYPE': 'simple'})
 
-            # # initializing cache
-            # self.cache.init_app(app)
         return self
 
+    @cache.memoize(timeout=long_cache_timeout)
     def _build_url(self, endpoint: str) -> str:
         if endpoint == "stock":
             return self.base_uri + self.send_stock_data_endpoint
