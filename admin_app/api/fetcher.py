@@ -1,9 +1,19 @@
 import requests
 from flask import jsonify
+from flask_caching import Cache
+from requests import ReadTimeout, TooManyRedirects
+from requests.exceptions import ConnectTimeout, SSLError, ConnectionError
 
 
 # noinspection PyAttributeOutsideInit
 class APIFetcher:
+    cache = None
+    headers: dict = {'user-agent': 'admin-app',
+                     'project': '',
+                     'Content-type': 'application/json',
+                     'mode': 'cors',
+                     'token': ''}
+
     def __int__(self):
         self.base_uri: str = ""
         self.all_stocks_data_endpoint: str = ""
@@ -21,6 +31,7 @@ class APIFetcher:
         self.get_stock_endpoint: str = ""
 
     def init_app(self, app):
+        # TODO - initialize caching here for fetching data
         with app.app_context():
             self.base_uri = app.config.get('BASE_URI')
             self.all_stocks_data_endpoint = app.config.get('ALL_STOCKS_DATA_ENDPOINT')
@@ -36,6 +47,8 @@ class APIFetcher:
             self.get_exchange_endpoint = app.config.get('GET_EXCHANGE_DATA_ENDPOINT')
             self.get_broker_endpoint = app.config.get('GET_BROKER_ENDPOINT')
             self.get_stock_endpoint = app.config.get('GET_STOCK_ENDPOINT')
+            self.headers.setdefault('project', app.config.get('PROJECT'))
+            self.headers.setdefault('token', app.config.get('SECRET'))
         return self
 
     def _build_url(self, endpoint: str) -> str:
@@ -68,17 +81,25 @@ class APIFetcher:
         else:
             return ""
 
-    @staticmethod
-    def _requester(url: str, data: dict = None) -> tuple:
+    def _requester(self, url: str, data: dict = None) -> tuple:
         try:
             if data:
-                response = requests.post(url=url, json=data)
+                response = requests.post(url=url, json=data, headers=self.headers)
             else:
                 response = requests.post(url=url)
             response_data: dict = response.json()
             if response.ok:
-                return jsonify({'status': True, 'message': response_data['message'], 'payload': response_data['payload']}), 200
+                return jsonify(
+                    {'status': True, 'message': response_data['message'], 'payload': response_data['payload']}), 200
             return jsonify({'status': False, 'message': response_data['message']}), 500
+        except ConnectTimeout as e:
+            return jsonify({'status': False, 'message': e}), 200
+        except ReadTimeout as e:
+            return jsonify({'status': False, 'message': e}), 200
+        except TooManyRedirects as e:
+            return jsonify({'status': False, 'message': e}), 200
+        except SSLError as e:
+            return jsonify({'status': False, 'message': e}), 200
         except ConnectionError as e:
             return jsonify({'status': False, 'message': e}), 200
 
@@ -100,4 +121,3 @@ class APIFetcher:
 
     def fetch_stock(self, stock_id: str) -> tuple:
         return self._requester(url=self._build_url(endpoint='get-stock'), data={'stock_id': stock_id})
-

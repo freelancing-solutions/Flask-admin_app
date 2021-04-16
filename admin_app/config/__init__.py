@@ -34,3 +34,5 @@ class Config:
         'send_membership_data_endpoint')
     SEND_API_DATA_ENDPOINT: str = os.getenv('send_api_data_endpoint') or config('send_api_data_endpoint')
     SEND_SCRAPPER_DATA_ENDPOINT: str = os.getenv('send_scrapper_data_endpoint') or config('send_scrapper_data_endpoint')
+    SECRET: str = os.getenv('secret') or config('secret')
+    PROJECT: str = os.getenv('project') or config('project')

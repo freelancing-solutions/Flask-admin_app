@@ -1,6 +1,7 @@
 import requests
 from flask import jsonify
-
+from requests import ReadTimeout, TooManyRedirects
+from requests.exceptions import ConnectionError, ConnectTimeout, SSLError, HTTPError
 
 class APISender:
     """
@@ -34,8 +35,6 @@ class APISender:
             self.send_api_data_endpoint = app.config.get("SEND_API_DATA_ENDPOINT")
             self.send_scrapper_data_endpoint = app.config.get("SEND_SCRAPPER_DATA_ENDPOINT")
 
-
-
     def _build_url(self, endpoint: str) -> str:
         if endpoint == "stock":
             return self.base_uri + self.send_stock_data_endpoint
@@ -60,15 +59,23 @@ class APISender:
         else:
             return ""
 
-
     @staticmethod
     def _requester(url: str, data: dict) -> tuple:
         try:
             response = requests.post(url=url, json=data)
+            response.raise_for_status()
             response_data: dict = response.json()
-            if response.ok:
-                return jsonify(response_data), 200
-            return jsonify({'status': False, 'message': response_data['message']}), 500
+            return jsonify(response_data), 200
+        except HTTPError as e:
+            return jsonify({'status': False, 'message': e}), 200
+        except ConnectTimeout as e:
+            return jsonify({'status': False, 'message': e}), 200
+        except ReadTimeout as e:
+            return jsonify({'status': False, 'message': e}), 200
+        except TooManyRedirects as e:
+            return jsonify({'status': False, 'message': e}), 200
+        except SSLError as e:
+            return jsonify({'status': False, 'message': e}), 200
         except ConnectionError as e:
             return jsonify({'status': False, 'message': e}), 200
 
