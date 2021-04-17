@@ -49,5 +49,5 @@ class Config:
     SECRET: str = os.getenv('secret') or config('secret')
     PROJECT: str = os.getenv('project') or config('project')
 
-    CACHE_DEFAULT_TIMEOUT: int = int(os.getenv('cache_default_timeout')) or int(config('cache_default_timeout'))
+    CACHE_DEFAULT_TIMEOUT: int = os.getenv('cache_default_timeout') or config('cache_default_timeout')
     CACHE_TYPE: str = os.getenv('cache_type') or config('cache_type')
