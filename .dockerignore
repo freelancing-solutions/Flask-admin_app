@@ -1,10 +1,9 @@
-/deploy_commands.md
-*.pyc
+Dockerfile
 *.pyo
 *.pyd
 __pycache__
 .pytest_cache
 .vscode
-*.bat
 .idea
+demo.log
 *.map
