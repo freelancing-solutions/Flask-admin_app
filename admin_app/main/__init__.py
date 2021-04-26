@@ -10,7 +10,7 @@ api_sender: APISender = APISender()
 
 # NOTE: used to cache routes, normally cache get requests
 route_cache: Cache = Cache()
-cache_timeout: int = Config.CACHE_DEFAULT_TIMEOUT
+cache_timeout: int = int(Config.CACHE_DEFAULT_TIMEOUT)
 
 
 def create_admin_app(config_class=Config):

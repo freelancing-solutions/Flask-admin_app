@@ -1,5 +1,5 @@
 import requests
-from flask import jsonify
+from flask import jsonify, current_app
 from flask_caching import Cache
 from requests import ReadTimeout, TooManyRedirects
 from requests.exceptions import ConnectionError, ConnectTimeout, SSLError, HTTPError
@@ -15,11 +15,6 @@ class APISender:
     # short cache Timeout 10 minutes
     short_cache_timeout: int = 60*10
     cache: Cache = Cache(config={'CACHE_TYPE': 'SimpleCache'})
-    headers: dict = {'user-agent': 'admin-app',
-                     'project': '',
-                     'Content-type': 'application/json',
-                     'mode': 'cors',
-                     'token': ''}
 
     def __init__(self):
         self.base_uri: str = ""
@@ -33,6 +28,7 @@ class APISender:
         self.send_membership_data_endpoint: str = ""
         self.send_api_data_endpoint: str = ""
         self.send_scrapper_data_endpoint: str = ""
+        self.headers = {}
 
     def init_app(self, app):
         with app.app_context():
@@ -47,18 +43,26 @@ class APISender:
             self.send_membership_data_endpoint = app.config.get("SEND_MEMBERSHIP_DATA_ENDPOINT")
             self.send_api_data_endpoint = app.config.get("SEND_API_DATA_ENDPOINT")
             self.send_scrapper_data_endpoint = app.config.get("SEND_SCRAPPER_DATA_ENDPOINT")
-            self.headers.setdefault('project', app.config.get('PROJECT'))
-            self.headers.setdefault('token', app.config.get('SECRET'))
             # initializing cache
+            x_project_name: str = app.config.get('PROJECT') + ".admin"
+            self.headers: dict = {'user-agent': 'admin-app',
+                                  'X-PROJECT-NAME': x_project_name,
+                                  'Content-type': 'application/json',
+                                  'mode': 'cors',
+                                  'x-auth-token': app.config.get('SECRET')}
+
+            print(self.headers)
             self.cache.init_app(app, config={'CACHE_TYPE': 'simple'})
 
         return self
 
-    @cache.memoize(timeout=long_cache_timeout)
+    # @cache.memoize(timeout=long_cache_timeout)
     def _build_url(self, endpoint: str) -> str:
+        print("build url : {}".format(endpoint))
         if endpoint == "stock":
             return self.base_uri + self.send_stock_data_endpoint
         elif endpoint == "broker":
+            print("returning broker : {}{}".format(self.base_uri, self.send_broker_data_endpoint))
             return self.base_uri + self.send_broker_data_endpoint
         elif endpoint == "exchange":
             return self.base_uri + self.send_add_exchange_data_endpoint
@@ -81,6 +85,8 @@ class APISender:
 
     def _requester(self, url: str, data: dict) -> tuple:
         try:
+            print(url)
+            print(self.headers)
             response = requests.post(url=url, json=data, headers=self.headers)
             response.raise_for_status()
             response_data: dict = response.json()
@@ -115,6 +121,7 @@ class APISender:
         :return:
         """
         url: str = self._build_url(endpoint="broker")
+        print("URL {}: ".format(url))
         return self._requester(url=url, data=broker)
 
     def send_exchange(self, exchange: dict) -> tuple:
@@ -192,4 +199,5 @@ class APISender:
         :return:
         """
         url: str = self._build_url(endpoint="scrapper")
+        print("Scrapper URL : {}".format(url))
         return self._requester(url=url, data=scrapper)

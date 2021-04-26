@@ -17,7 +17,7 @@ class Config:
     """
         CONFIGURATION SETTINGS FOR ADMIN CONSOLE
     """
-    BASE_URI: str = os.getenv('base_uri') or config('base_uri')
+    BASE_URI: str = config('base_uri') or os.getenv('base_uri')
     ALL_STOCKS_DATA_ENDPOINT: str = os.getenv('all_stocks_data_endpoint') or config('all_stocks_data_endpoint')
     ALL_BROKERS_DATA_ENDPOINT: str = os.getenv('all_brokers_data_endpoint') or config('all_brokers_data_endpoint')
     EXCHANGE_DATA_ENDPOINT: str = os.getenv('exchange_data_endpoint') or config('exchange_data_endpoint')
@@ -28,6 +28,7 @@ class Config:
     MEMBERSHIP_DATA_ENDPOINT: str = os.getenv('membership_data_endpoint') or config('membership_data_endpoint')
     API_DATA_ENDPOINT: str = os.getenv('api_data_endpoint') or config('api_data_endpoint')
     SCRAPPER_DATA_ENDPOINT: str = os.getenv('scrapper_data_endpoint') or config('scrapper_data_endpoint')
+
     GET_EXCHANGE_DATA_ENDPOINT: str = os.getenv('get_exchange_endpoint') or config('get_exchange_endpoint')
     GET_BROKER_ENDPOINT: str = os.getenv('get_broker_endpoint') or config('get_broker_endpoint')
     GET_STOCK_ENDPOINT: str = os.getenv('get_stock_endpoint') or config('get_stock_endpoint')

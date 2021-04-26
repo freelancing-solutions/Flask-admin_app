@@ -1,5 +1,5 @@
 import requests
-from flask import jsonify
+from flask import jsonify, current_app
 from flask_caching import Cache
 from requests import ReadTimeout, TooManyRedirects
 from requests.exceptions import ConnectTimeout, SSLError, ConnectionError, HTTPError
@@ -34,6 +34,7 @@ class APIFetcher:
         self.get_exchange_endpoint: str = ""
         self.get_broker_endpoint: str = ""
         self.get_stock_endpoint: str = ""
+        self.headers = {}
 
     def init_app(self, app):
         # TODO - initialize caching here for fetching data
@@ -54,6 +55,13 @@ class APIFetcher:
             self.get_stock_endpoint = app.config.get('GET_STOCK_ENDPOINT')
             self.headers.setdefault('project', app.config.get('PROJECT'))
             self.headers.setdefault('token', app.config.get('SECRET'))
+
+            x_project_name: str = current_app.config.get('PROJECT') + ".admin"
+            self.headers: dict = {'user-agent': 'admin-app',
+                                  'X-PROJECT-NAME': x_project_name,
+                                  'Content-type': 'application/json',
+                                  'mode': 'cors',
+                                  'x-auth-token': current_app.config.get('SECRET')}
 
             # initializing cache
             self.cache.init_app(app, config={'CACHE_TYPE': 'simple'})
@@ -94,6 +102,8 @@ class APIFetcher:
     @cache.memoize(timeout=short_cache_timeout)
     def _requester(self, url: str, data: dict = None) -> tuple:
         try:
+            print('headers : {}'.format(self.headers))
+            print('url : {}'.format(url))
             if data:
                 response = requests.post(url=url, json=data, headers=self.headers)
             else:

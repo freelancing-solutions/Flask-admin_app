@@ -22,6 +22,8 @@ def data(path: str) -> tuple:
             return render_template("forms/broker.html")
         elif path == "stock":
             return render_template("forms/stock.html")
+        elif path == "scrapped":
+            return render_template("forms/manual.html")
     else:
         json_data: dict = request.get_json()
         if path == "exchange":
