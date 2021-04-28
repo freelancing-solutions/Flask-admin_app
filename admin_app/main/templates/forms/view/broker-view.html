@@ -1,0 +1,117 @@
+
+
+
+{% extends "layouts/layout.html" %}
+
+{% block content %}
+          <div class="right_col" role="main">
+					<div class="page-title">
+						<div class="title_left">
+							<h3>Broker Data</h3>
+						</div>
+
+						<div class="title_right">
+							<div class="col-md-5 col-sm-5  form-group pull-right top_search">
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="Search for...">
+									<span class="input-group-btn">
+										<button class="btn btn-default" type="button">Go!</button>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="clearfix"></div>
+					<div class="row">
+						<div class="col-md-12 col-sm-12 ">
+							<div class="x_panel">
+								<div class="x_title">
+									<h2>Broker <small> Details</small></h2>
+									<ul class="nav navbar-right panel_toolbox">
+										<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+										</li>
+										<li class="dropdown">
+											<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+											<ul class="dropdown-menu" role="menu">
+												<li id="add-broker"><a class="dropdown-item" href="#">Add Broker</a></li>
+												<li id="brokers-list"><a class="dropdown-item" href="#">Brokers List</a></li>
+											</ul>
+										</li>
+										<li><a class="close-link"><i class="fa fa-close"></i></a>
+										</li>
+									</ul>
+									<div class="clearfix"></div>
+								</div>
+								<div class="x_content" id="form_data">
+									<br />
+									<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+                                        <div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="exchange">Select Exchange <span class="required">*</span>
+											</label>
+                                            <div class="col-md-6 col-sm-6 ">
+                                                <select class="form-control">
+                                                    <option> Philippines Stock Exchange </option>
+                                                </select>
+                                            </div>
+
+                                        </div>
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="broker-id">Broker ID <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="text" id="broker-id"  class="form-control " readonly="readonly">
+											</div>
+										</div>
+
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="broker-code">Broker Code <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="text" id="broker-code" required="required" class="form-control " readonly="readonly">
+											</div>
+										</div>
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="broker-name">Broker Name <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="text" id="broker-name" name="broker-name" required="required" class="form-control" readonly="readonly">
+											</div>
+										</div>
+
+										<div class="ln_solid"></div>
+
+										<div class="item form-group">
+											<div class="col-md-6 col-sm-6 offset-md-3">
+												<button class="btn btn-primary" type="button">Cancel</button>
+												<button class="btn btn-primary" type="reset">Reset</button>
+												<button id="submit-button" type="button" class="btn btn-success">Submit</button>
+											</div>
+										</div>
+										<div class="ln_solid"></div>
+										<div class="item form-group" id="message">
+
+										</div>
+										<div class="ln_solid"></div>
+
+									</form>
+									<form action="/uploads/broker" class="dropzone dz-clickable"><div class="dz-default dz-message">
+										<span>
+											<p>To Upload Broker Data in CSV Formatted Files, Drop Files Here</p>
+											<p>Broker Data Format: </p>
+											<p>format 1: <code>broker_code</code>, <code>broker_name</code></p>
+											<p>format 2: <code>broker_id</code>, <code>broker_code</code>, <code>broker_name</code></p>
+									    </span>
+									</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+
+          </div>
+          <!-- /page content -->
+{% endblock %}
+
+{% block scripts %}
+	<script src="{{ url_for('static', filename='js/data/broker.js')}}" rel="script"></script>
+{% endblock %}

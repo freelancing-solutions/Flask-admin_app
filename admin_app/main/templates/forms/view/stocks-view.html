@@ -1,0 +1,97 @@
+
+
+
+{% extends "layouts/layout.html" %}
+
+{% block content %}
+          <div class="right_col" role="main">
+					<div class="page-title">
+						<div class="title_left">
+							<h3>Stock Data</h3>
+						</div>
+
+						<div class="title_right">
+							<div class="col-md-5 col-sm-5  form-group pull-right top_search">
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="Search for...">
+									<span class="input-group-btn">
+										<button class="btn btn-default" type="button">Go!</button>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="clearfix"></div>
+					<div class="row">
+						<div class="col-md-12 col-sm-12 ">
+							<div class="x_panel">
+								<div class="x_title">
+									<h2>Stock <small> Details</small></h2>
+									<ul class="nav navbar-right panel_toolbox">
+										<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+										</li>
+										<li class="dropdown">
+											<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+											<ul class="dropdown-menu" role="menu">
+												<li id="add-stock"><a class="dropdown-item" href="#">Add Stock</a></li>
+												<li id="stocks-list"><a class="dropdown-item" href="#">Stocks List</a>
+												</li>
+											</ul>
+										</li>
+										<li><a class="close-link"><i class="fa fa-close"></i></a></li>
+									</ul>
+									<div class="clearfix"></div>
+								</div>
+								<div class="x_content" id="form_data">
+									<br />
+									<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="stock-id">Stock ID <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="text" id="stock-id"  class="form-control" value="{{ stock_data.stock_id }}" readonly="readonly">
+											</div>
+										</div>
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="stock-code">Stock Code <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="text" id="stock-code" required="required" class="form-control" value="{{ stock_data.stock_code }}" readonly="readonly">
+											</div>
+										</div>
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="stock-name">Stock Name <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="text" id="stock-name" name="broker-name" required="required" class="form-control" value="{{ stock_data.stock_name }}" readonly="readonly">
+											</div>
+										</div>
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="symbol">Symbol <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="text" id="symbol" name="symbol" required="required" class="form-control" value="{{ stock_data.symbol }}" readonly="readonly">
+											</div>
+										</div>
+										<div class="ln_solid"></div>
+										<div class="item form-group">
+											<div class="col-md-6 col-sm-6 offset-md-3">
+												<button class="btn btn-primary" type="button">Delete</button>
+												<button id="submit-button" type="button" class="btn btn-success">Update</button>
+											</div>
+										</div>
+									</form>
+									<div class="ln_solid"></div>
+									<div class="item form-group" id="message">
+									</div>
+									<div class="ln_solid"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+          </div>
+          <!-- /page content -->
+{% endblock %}
+{% block scripts %}
+	<script src="{{ url_for('static', filename='js/data/stock.js')}}" rel="script"></script>
+{% endblock %}

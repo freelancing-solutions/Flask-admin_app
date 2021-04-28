@@ -4,16 +4,15 @@ from flask_caching import Cache
 from requests import ReadTimeout, TooManyRedirects
 from requests.exceptions import ConnectionError, ConnectTimeout, SSLError, HTTPError
 
-
 # noinspection PyAttributeOutsideInit
 class APISender:
     """
         send data to data-service
     """
     # 6 Hours
-    long_cache_timeout: int = 60*60*6
+    long_cache_timeout: int = 60 * 60 * 6
     # short cache Timeout 10 minutes
-    short_cache_timeout: int = 60*10
+    short_cache_timeout: int = 60 * 10
     cache: Cache = Cache(config={'CACHE_TYPE': 'SimpleCache'})
 
     def __init__(self):
@@ -28,6 +27,9 @@ class APISender:
         self.send_membership_data_endpoint: str = ""
         self.send_api_data_endpoint: str = ""
         self.send_scrapper_data_endpoint: str = ""
+        self.send_buy_volume_endpoint: str = ""
+        self.send_sell_volume_endpoint: str = ""
+        self.send_net_volume_endpoint: str = ""
         self.headers = {}
 
     def init_app(self, app):
@@ -43,6 +45,10 @@ class APISender:
             self.send_membership_data_endpoint = app.config.get("SEND_MEMBERSHIP_DATA_ENDPOINT")
             self.send_api_data_endpoint = app.config.get("SEND_API_DATA_ENDPOINT")
             self.send_scrapper_data_endpoint = app.config.get("SEND_SCRAPPER_DATA_ENDPOINT")
+            self.send_buy_volume_endpoint: str = app.config.get("SEND_BUY_VOLUME_ENDPOINT")
+            self.send_sell_volume_endpoint: str = app.config.get("SEND_SELL_VOLUME_ENDPOINT")
+            self.send_net_volume_endpoint: str = app.config.get("SEND_NET_VOLUME_ENDPOINT")
+
             # initializing cache
             x_project_name: str = app.config.get('PROJECT') + ".admin"
             self.headers: dict = {'user-agent': 'admin-app',
@@ -58,11 +64,9 @@ class APISender:
 
     # @cache.memoize(timeout=long_cache_timeout)
     def _build_url(self, endpoint: str) -> str:
-        print("build url : {}".format(endpoint))
         if endpoint == "stock":
             return self.base_uri + self.send_stock_data_endpoint
         elif endpoint == "broker":
-            print("returning broker : {}{}".format(self.base_uri, self.send_broker_data_endpoint))
             return self.base_uri + self.send_broker_data_endpoint
         elif endpoint == "exchange":
             return self.base_uri + self.send_add_exchange_data_endpoint
@@ -80,13 +84,18 @@ class APISender:
             return self.base_uri + self.send_api_data_endpoint
         elif endpoint == "scrapper":
             return self.base_uri + self.send_scrapper_data_endpoint
+        elif endpoint == "buy-volume":
+            return self.base_uri + self.send_buy_volume_endpoint
+        elif endpoint == "sell-volume":
+            return self.base_uri + self.send_sell_volume_endpoint
+        elif endpoint == "net-volume":
+            return self.base_uri + self.send_net_volume_endpoint
         else:
             return ""
 
     def _requester(self, url: str, data: dict) -> tuple:
         try:
-            print(url)
-            print(self.headers)
+
             response = requests.post(url=url, json=data, headers=self.headers)
             response.raise_for_status()
             response_data: dict = response.json()
@@ -105,6 +114,12 @@ class APISender:
         except HTTPError:
             return jsonify({'status': False, 'message': 'Well Something Snapped'}), 500
 
+    def _async_requester(self, url: str, data: dict):
+        response = requests.post(url=url, json=data, headers=self.headers)
+        response.raise_for_status()
+        response_data: dict = response.json()
+        return jsonify(response_data), 200
+
     def send_stock(self, stock: dict) -> tuple:
         """
             send stock data
@@ -112,7 +127,8 @@ class APISender:
         :return:
         """
         url: str = self._build_url(endpoint="stock")
-        return self._requester(url=url, data=stock)
+        response = self._async_requester(url=url, data=stock)
+        return response
 
     def send_broker(self, broker: dict) -> tuple:
         """
@@ -121,8 +137,23 @@ class APISender:
         :return:
         """
         url: str = self._build_url(endpoint="broker")
-        print("URL {}: ".format(url))
-        return self._requester(url=url, data=broker)
+        response = self._requester(url=url, data=broker)
+        return response
+
+    def send_buy_volume(self, buy_volume: dict) -> tuple:
+        url: str = self._build_url(endpoint="buy-volume")
+        response = self._requester(url=url, data=buy_volume)
+        return response
+
+    def send_sell_volume(self, sell_volume: dict) -> tuple:
+        url: str = self._build_url(endpoint="sell-volume")
+        response = self._requester(url=url, data=sell_volume)
+        return response
+
+    def send_net_volume(self, net_volume: dict) -> tuple:
+        url: str = self._build_url(endpoint="net-volume")
+        response = self._requester(url=url, data=net_volume)
+        return response
 
     def send_exchange(self, exchange: dict) -> tuple:
         """
@@ -148,7 +179,6 @@ class APISender:
         :param ticket:
         :return:
         """
-
         url: str = self._build_url(endpoint="tickets")
         return self._requester(url=url, data=ticket)
 
@@ -158,7 +188,6 @@ class APISender:
         :param affiliate_data:
         :return:
         """
-
         url: str = self._build_url(endpoint="affiliate")
         return self._requester(url=url, data=affiliate_data)
 
@@ -168,7 +197,6 @@ class APISender:
         :param user:
         :return:
         """
-
         url: str = self._build_url(endpoint="user")
         return self._requester(url=url, data=user)
 
@@ -179,7 +207,6 @@ class APISender:
         :param subscriptions:
         :return:
         """
-
         url: str = self._build_url(endpoint="memberships")
         return self._requester(url=url, data=memberships)
 

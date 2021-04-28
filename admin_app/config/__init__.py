@@ -47,6 +47,10 @@ class Config:
         'send_membership_data_endpoint')
     SEND_API_DATA_ENDPOINT: str = os.getenv('send_api_data_endpoint') or config('send_api_data_endpoint')
     SEND_SCRAPPER_DATA_ENDPOINT: str = os.getenv('send_scrapper_data_endpoint') or config('send_scrapper_data_endpoint')
+    SEND_BUY_VOLUME_ENDPOINT: str = os.getenv("send_buy_volume_endpoint") or config("send_buy_volume_endpoint")
+    SEND_SELL_VOLUME_ENDPOINT: str = os.getenv("send_sell_volume_endpoint") or config("send_sell_volume_endpoint")
+    SEND_NET_VOLUME_ENDPOINT: str = os.getenv("send_net_volume_endpoint") or config("send_net_volume_endpoint")
+
     SECRET: str = os.getenv('secret') or config('secret')
     PROJECT: str = os.getenv('project') or config('project')
 

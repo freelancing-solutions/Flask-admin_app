@@ -68,6 +68,32 @@ def data_edit(resource: str, uid: str) -> tuple:
         elif resource == "stock":
             return api_sender.send_stock(stock=json_data)
 
+@admin_bp.route('/data/<path:resource>/view/<path:uid>', methods=["GET", "POST"])
+@route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
+def data_view(resource: str, uid: str) -> tuple:
+    if request.method == "GET":
+        if resource == "exchange":
+            response = api_fetcher.fetch_exchange(exchange_id=uid)
+            response_code: int = int(response[1])
+            if response_code == 200:
+                exchange_data: dict = response[0].get_json().get('payload')
+                return render_template("forms/view/exchange-view.html", exchange_data=exchange_data)
+            else:
+                # let error handlers handle this problem
+                pass
+        elif resource == "broker":
+            response = api_fetcher.fetch_broker(broker_id=uid)
+            response_code: int = int(response[1])
+            if response_code == 200:
+                broker_data: dict = response[0].get_json().get('payload')
+                return render_template("forms/view/broker-view.html", broker_data=broker_data)
+        elif resource == "stock":
+            response = api_fetcher.fetch_stock(stock_id=uid)
+            response_code: int = int(response[1])
+            if response_code == 200:
+                stock_data: dict = response[0].get_json().get('payload')
+                return render_template("forms/view/stocks-view.html", stock_data=stock_data)
+
 
 @admin_bp.route('/settings/<path:path>', methods=["GET", "POST"])
 @route_cache.cached(timeout=cache_timeout, unless=only_cache_get)

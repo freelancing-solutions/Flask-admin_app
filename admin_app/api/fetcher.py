@@ -56,12 +56,12 @@ class APIFetcher:
             self.headers.setdefault('project', app.config.get('PROJECT'))
             self.headers.setdefault('token', app.config.get('SECRET'))
 
-            x_project_name: str = current_app.config.get('PROJECT') + ".admin"
+            x_project_name: str = app.config.get('PROJECT') + ".admin"
             self.headers: dict = {'user-agent': 'admin-app',
                                   'X-PROJECT-NAME': x_project_name,
                                   'Content-type': 'application/json',
                                   'mode': 'cors',
-                                  'x-auth-token': current_app.config.get('SECRET')}
+                                  'x-auth-token': app.config.get('SECRET')}
 
             # initializing cache
             self.cache.init_app(app, config={'CACHE_TYPE': 'simple'})

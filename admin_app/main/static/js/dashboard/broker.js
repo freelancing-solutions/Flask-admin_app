@@ -10,7 +10,6 @@ self.addEventListener('load', async e => {
     }
     let reguest = new Request('/dashboard/brokers', init_post);
     let response = await fetch(reguest);
-    console.log(response)
     let json_data = await response.json();
     let brokers_list = json_data.payload;
     let brokers_dom_elements = brokers_list.map(broker => {
@@ -52,5 +51,4 @@ self.addEventListener('load', async e => {
                 </div>
               </div>                
         `
-
 });

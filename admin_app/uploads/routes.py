@@ -1,3 +1,5 @@
+import asyncio
+
 import pandas as pd
 from flask import Blueprint, jsonify, request, current_app
 from admin_app.main import api_sender
@@ -9,32 +11,103 @@ raw_dataframe = ["id", "stock_id", "broker_id", "stock_code", "stock_name", "bro
                  "sell_trade_count", "net_volume", "net_value", "total_volume", "total_value"]
 
 
-def compile_scrapped_data(stock) -> dict:
-    data: dict = {
-        "id": stock[0],
-        "stock_id": stock[1],
-        "broker_id": stock[2],
-        "stock_code": stock[3],
-        "stock_name": stock[4],
-        "broker_code": stock[5],
-        "date": stock[6],
-        "buy_volume": stock[7],
-        "buy_value": stock[8],
-        "buy_ave_price": stock[9],
-        "buy_market_val_percent": stock[10],
-        "buy_trade_count": stock[11],
-        "sell_volume": stock[12],
-        "sell_value": stock[13],
-        "sell_ave_price": stock[14],
-        "sell_market_val_percent": stock[15],
-        "sell_trade_count": stock[16],
-        "net_volume": stock[17],
-        "net_value": stock[18],
-        "total_volume": stock[19],
-        "total_value": stock[20]
-    }
+class ScrappedDataCompiler:
+    def __init__(self):
+        pass
 
-    return data
+    @staticmethod
+    def compile_scrapped_data(stock) -> dict:
+        data: dict = {
+            "id": stock[0],
+            "stock_id": stock[1],
+            "stock_code": stock[3],
+            "stock_name": stock[4],
+            "date": stock[6],
+
+            "broker_code": stock[5],
+            "broker_id": stock[2],
+
+            "buy_volume": stock[7],
+            "buy_value": stock[8],
+            "buy_ave_price": stock[9],
+            "buy_market_val_percent": stock[10],
+            "buy_trade_count": stock[11],
+
+            "sell_volume": stock[12],
+            "sell_value": stock[13],
+            "sell_ave_price": stock[14],
+            "sell_market_val_percent": stock[15],
+            "sell_trade_count": stock[16],
+
+            "net_volume": stock[17],
+            "net_value": stock[18],
+            "total_volume": stock[19],
+            "total_value": stock[20]
+        }
+        print(data)
+        return data
+
+    @staticmethod
+    def compile_stock(stock) -> dict:
+        data: dict = {
+            "id": stock[0],
+            "stock_id": stock[1],
+            "stock_code": stock[3],
+            "stock_name": stock[4],
+            "date": stock[6]
+        }
+        return data
+
+    @staticmethod
+    def compile_broker(stock) -> dict:
+        data: dict = {
+            "stock_id": stock[1],
+            "broker_code": stock[5],
+            "broker_id": stock[2],
+            "date": stock[6]
+        }
+        return data
+
+    @staticmethod
+    def compile_buy_volume(stock) -> dict:
+        data: dict = {
+            "stock_id": stock[1],
+            "buy_volume": stock[7],
+            "buy_value": stock[8],
+            "buy_ave_price": stock[9],
+            "buy_market_val_percent": stock[10],
+            "buy_trade_count": stock[11],
+            "date": stock[6]
+        }
+        return data
+
+    @staticmethod
+    def compile_sell_volume(stock) -> dict:
+        data: dict = {
+            "stock_id": stock[1],
+            "sell_volume": stock[12],
+            "sell_value": stock[13],
+            "sell_ave_price": stock[14],
+            "sell_market_val_percent": stock[15],
+            "sell_trade_count": stock[16],
+            "date": stock[6]
+        }
+        return data
+
+    @staticmethod
+    def compile_net_volume(stock) -> dict:
+        data: dict = {
+            "stock_id": stock[1],
+            "net_volume": stock[17],
+            "net_value": stock[18],
+            "total_volume": stock[19],
+            "total_value": stock[20],
+            "date": stock[6]
+        }
+        return data
+
+
+data_compiler_instance: ScrappedDataCompiler = ScrappedDataCompiler()
 
 
 @uploads_bp.route('/uploads/<path:path>', methods=['GET', 'POST'])
@@ -43,10 +116,23 @@ def uploads(path: str) -> tuple:
         f = request.files['file']
         data_frame = pd.read_csv(f, names=raw_dataframe)
         stock_data = data_frame.values.tolist()
+        if len(stock_data) > 1000:
+            return jsonify({'status': True, 'message': 'upload at least 1000 records at once'}), 500
         for stock in stock_data[1:]:
             try:
-                data = compile_scrapped_data(stock=stock)
-                api_sender.send_scrapper(scrapper=data)
+                stock_data: dict = data_compiler_instance.compile_stock(stock=stock)
+                broker_data: dict = data_compiler_instance.compile_broker(stock=stock)
+                buy_volume: dict = data_compiler_instance.compile_buy_volume(stock=stock)
+                sell_volume: dict = data_compiler_instance.compile_sell_volume(stock=stock)
+                net_volume: dict = data_compiler_instance.compile_net_volume(stock=stock)
+
+                # TODO Perform this actions asynchronously
+                api_sender.send_stock(stock=stock_data),
+                api_sender.send_broker(broker=broker_data),
+                api_sender.send_buy_volume(buy_volume=buy_volume),
+                api_sender.send_sell_volume(sell_volume=sell_volume),
+                api_sender.send_net_volume(net_volume=net_volume)
+
             except Exception:
                 pass
 
