@@ -6,7 +6,7 @@ dash_bp = Blueprint('dashboard', __name__)
 
 
 @dash_bp.route('/dashboard/<path:path>', methods=['GET', 'POST'])
-@route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
+# @route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
 def dashboard(path):
     if request.method == "GET":
         if path == "exchanges":

@@ -62,7 +62,6 @@ class APIFetcher:
                                   'Content-type': 'application/json',
                                   'mode': 'cors',
                                   'x-auth-token': app.config.get('SECRET')}
-
             # initializing cache
             self.cache.init_app(app, config={'CACHE_TYPE': 'simple'})
 

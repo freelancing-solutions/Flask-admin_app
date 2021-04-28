@@ -6,7 +6,7 @@ users_bp = Blueprint('users', __name__)
 
 
 @users_bp.route('/users/<path:path>', methods=["GET", "POST"])
-@route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
+# @route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
 def users(path: str) -> tuple:
     if path == "users":
         return render_template('users/users.html')

@@ -1,5 +1,3 @@
-
-
 self.addEventListener('load', async e => {
     // TODO - listen for form input
     // TODO take data and send to backend
@@ -31,7 +29,6 @@ self.addEventListener('load', async e => {
             `
         }
     })
-
     document.getElementById('add-broker').addEventListener('click', async e => {
         document.getElementById('form_data').innerHTML = `
                                     <div class="ln_solid"></div>
@@ -106,8 +103,8 @@ self.addEventListener('load', async e => {
                 credentials: "same-origin",
                 cache: "no-cache"
         }
-        let reguest = new Request('/dashboard/brokers', init_post);
-        let response = await fetch(reguest);
+        let request = new Request('/dashboard/brokers', init_post);
+        let response = await fetch(request);
         let json_data = await response.json();
         let brokers_list = json_data.payload;
         let brokers_dom_elements = brokers_list.map(broker => {
@@ -125,28 +122,28 @@ self.addEventListener('load', async e => {
             )
         })
         document.getElementById('form_data').innerHTML = `
-                      <div class="row">
-                          <div class="col-sm-12">
-                            <div class="card-box table-responsive">
-                            <p class="text-muted font-13 m-b-30">
-                              Click on a broker to edit details
-                            </p>
-                            <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action" style="width:100%">
-                              <thead>
-                                <tr>                                  
-                                  <th><input type="checkbox" id="check-all" ></th>
-                                  <th>Broker ID</th>
-                                  <th>Broker Code</th>
-                                  <th>Broker Name</th>
-                                  <td>Action</td>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                ${brokers_dom_elements}
-                              </tbody>
-                          </table>
-                        </div>
-                      </div>                
+          <div class="row">
+              <div class="col-sm-12">
+                <div class="card-box table-responsive">
+                <p class="text-muted font-13 m-b-30">
+                  Click on a broker to edit details
+                </p>
+                <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action" style="width:100%">
+                  <thead>
+                    <tr>                                  
+                      <th><input type="checkbox" id="check-all" ></th>
+                      <th>Broker ID</th>
+                      <th>Broker Code</th>
+                      <th>Broker Name</th>
+                      <td>Action</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${brokers_dom_elements}
+                  </tbody>
+              </table>
+            </div>
+          </div>                
         `
     })
 });

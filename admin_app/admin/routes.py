@@ -2,18 +2,15 @@ from flask import Blueprint, render_template, url_for, request, current_app
 from admin_app.config import only_cache_get
 from admin_app.main import api_fetcher, api_sender, cache_timeout
 from admin_app.main import route_cache
-
 admin_bp = Blueprint('admin', __name__)
 
-
 @admin_bp.route('/', methods=["GET"])
-@route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
+# @route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
 def home() -> tuple:
     return render_template('index.html')
 
-
 @admin_bp.route('/data/<path:path>', methods=["GET", "POST"])
-@route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
+# @route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
 def data(path: str) -> tuple:
     if request.method == "GET":
         if path == "exchange":
@@ -33,9 +30,8 @@ def data(path: str) -> tuple:
         elif path == "stock":
             return api_sender.send_stock(stock=json_data)
 
-
 @admin_bp.route('/data/<path:resource>/edit/<path:uid>', methods=["GET", "POST"])
-@route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
+# @route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
 def data_edit(resource: str, uid: str) -> tuple:
     if request.method == "GET":
         if resource == "exchange":
@@ -69,7 +65,7 @@ def data_edit(resource: str, uid: str) -> tuple:
             return api_sender.send_stock(stock=json_data)
 
 @admin_bp.route('/data/<path:resource>/view/<path:uid>', methods=["GET", "POST"])
-@route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
+# @route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
 def data_view(resource: str, uid: str) -> tuple:
     if request.method == "GET":
         if resource == "exchange":
@@ -96,25 +92,29 @@ def data_view(resource: str, uid: str) -> tuple:
 
 
 @admin_bp.route('/settings/<path:path>', methods=["GET", "POST"])
-@route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
+# @route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
 def settings(path):
-    if path == "api":
-        return render_template("api/settings.html")
-    elif path == "scrapper":
-        return render_template("scrapper/settings.html")
+    if request.method == "GET":
+        if path == "api":
+            return render_template("api/settings.html")
+        elif path == "scrapper":
+            return render_template("scrapper/settings.html")
 
+    elif request.method == "POST":
+        if path == "scrapper":
+            settings_data: dict = request.get_json()
+            return api_sender.send_scrapping_settings(settings_data=settings_data)
 
 @admin_bp.route('/schedules/<path:path>', methods=["GET", "POST"])
-@route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
+# @route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
 def schedules(path):
     if path == "api":
         return render_template("api/schedules.html")
     elif path == "scrapper":
         return render_template("scrapper/schedules.html")
 
-
 @admin_bp.route('/logs/<path:path>', methods=["GET"])
-@route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
+# @route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
 def logs(path):
     if path == "api":
         return render_template("api/logs.html")

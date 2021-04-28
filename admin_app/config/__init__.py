@@ -38,6 +38,8 @@ class Config:
     SEND_BROKER_DATA_ENDPOINT: str = os.getenv('send_broker_data_endpoint') or config('send_broker_data_endpoint')
     SEND_ADD_EXCHANGE_DATA_ENDPOINT = os.getenv('send_add_exchange_data_endpoint') or config(
         'send_add_exchange_data_endpoint')
+
+    SEND_SCRAPPER_SETTINGS = os.getenv('send_scrapping_settings') or config('send_scrapping_settings')
     SEND_MESSAGES_DATA_ENDPOINT: str = os.getenv('send_messages_data_endpoint') or config('send_messages_data_endpoint')
     SEND_TICKETS_DATA_ENDPOINT: str = os.getenv('send_tickets_data_endpoint') or config('send_tickets_data_endpoint')
     SEND_AFFILIATE_DATA_ENDPOINT: str = os.getenv('send_affiliate_data_endpoint') or config(

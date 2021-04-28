@@ -27,6 +27,7 @@ class APISender:
         self.send_membership_data_endpoint: str = ""
         self.send_api_data_endpoint: str = ""
         self.send_scrapper_data_endpoint: str = ""
+        self.send_scrapper_scrapping_settings: str = ""
         self.send_buy_volume_endpoint: str = ""
         self.send_sell_volume_endpoint: str = ""
         self.send_net_volume_endpoint: str = ""
@@ -37,6 +38,7 @@ class APISender:
             self.base_uri = app.config.get("BASE_URI")
             self.send_stock_data_endpoint = app.config.get("SEND_STOCK_DATA_ENDPOINT")
             self.send_broker_data_endpoint = app.config.get("SEND_BROKER_DATA_ENDPOINT")
+            self.send_scrapper_scrapping_settings = app.config.get("SEND_SCRAPPER_SETTINGS")
             self.send_add_exchange_data_endpoint = app.config.get("SEND_ADD_EXCHANGE_DATA_ENDPOINT")
             self.send_messages_data_endpoint = app.config.get("SEND_MESSAGES_DATA_ENDPOINT")
             self.send_tickets_data_endpoint = app.config.get("SEND_TICKETS_DATA_ENDPOINT")
@@ -84,6 +86,8 @@ class APISender:
             return self.base_uri + self.send_api_data_endpoint
         elif endpoint == "scrapper":
             return self.base_uri + self.send_scrapper_data_endpoint
+        elif endpoint == "scrapping-settings":
+            return self.base_uri + self.send_scrapper_scrapping_settings
         elif endpoint == "buy-volume":
             return self.base_uri + self.send_buy_volume_endpoint
         elif endpoint == "sell-volume":
@@ -228,3 +232,8 @@ class APISender:
         url: str = self._build_url(endpoint="scrapper")
         print("Scrapper URL : {}".format(url))
         return self._requester(url=url, data=scrapper)
+
+    def send_scrapping_settings(self, settings_data: dict) -> tuple:
+
+        url: str = self._build_url(endpoint="scrapping-settings")
+        return self._requester(url=url, data=settings_data)
