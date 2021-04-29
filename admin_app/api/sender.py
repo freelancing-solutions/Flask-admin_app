@@ -25,6 +25,7 @@ class APISender:
         self.send_affiliate_data_endpoint: str = ""
         self.send_user_data_endpoint: str = ""
         self.send_membership_data_endpoint: str = ""
+        self.send_membership_plan_endpoint: str = ""
         self.send_api_data_endpoint: str = ""
         self.send_scrapper_data_endpoint: str = ""
         self.send_scrapper_scrapping_settings: str = ""
@@ -45,6 +46,7 @@ class APISender:
             self.send_affiliate_data_endpoint = app.config.get("SEND_AFFILIATE_DATA_ENDPOINT")
             self.send_user_data_endpoint = app.config.get("SEND_USER_DATA_ENDPOINT")
             self.send_membership_data_endpoint = app.config.get("SEND_MEMBERSHIP_DATA_ENDPOINT")
+            self.send_membership_plan_endpoint = app.config.get("SEND_MEMBERSHIP_PLAN_ENDPOINT")
             self.send_api_data_endpoint = app.config.get("SEND_API_DATA_ENDPOINT")
             self.send_scrapper_data_endpoint = app.config.get("SEND_SCRAPPER_DATA_ENDPOINT")
             self.send_buy_volume_endpoint: str = app.config.get("SEND_BUY_VOLUME_ENDPOINT")
@@ -82,6 +84,8 @@ class APISender:
             return self.base_uri + self.send_user_data_endpoint
         elif endpoint == "membership":
             return self.base_uri + self.send_membership_data_endpoint
+        elif endpoint == "membership-plan":
+            return self.base_uri + self.send_membership_plan_endpoint
         elif endpoint == "api":
             return self.base_uri + self.send_api_data_endpoint
         elif endpoint == "scrapper":
@@ -99,7 +103,6 @@ class APISender:
 
     def _requester(self, url: str, data: dict) -> tuple:
         try:
-
             response = requests.post(url=url, json=data, headers=self.headers)
             response.raise_for_status()
             response_data: dict = response.json()
@@ -213,6 +216,10 @@ class APISender:
         """
         url: str = self._build_url(endpoint="memberships")
         return self._requester(url=url, data=memberships)
+
+    def send_membership_plans(self, membership_plan: dict) -> tuple:
+        url: str = self._build_url(endpoint='membership-plan')
+        return self._requester(url=url, data=membership_plan)
 
     def send_api(self, api: dict) -> tuple:
         """

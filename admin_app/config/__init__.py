@@ -45,8 +45,8 @@ class Config:
     SEND_AFFILIATE_DATA_ENDPOINT: str = os.getenv('send_affiliate_data_endpoint') or config(
         'send_affiliate_data_endpoint')
     SEND_USER_DATA_ENDPOINT: str = os.getenv('send_user_data_endpoint') or config('send_user_data_endpoint')
-    SEND_MEMBERSHIP_DATA_ENDPOINT: str = os.getenv('send_membership_data_endpoint') or config(
-        'send_membership_data_endpoint')
+    SEND_MEMBERSHIP_DATA_ENDPOINT: str = os.getenv('send_membership_data_endpoint') or config('send_membership_data_endpoint')
+    SEND_MEMBERSHIP_PLAN_ENDPOINT: str = os.getenv('send_membership_plan_endpoint') or config('send_membership_plan_endpoint')
     SEND_API_DATA_ENDPOINT: str = os.getenv('send_api_data_endpoint') or config('send_api_data_endpoint')
     SEND_SCRAPPER_DATA_ENDPOINT: str = os.getenv('send_scrapper_data_endpoint') or config('send_scrapper_data_endpoint')
     SEND_BUY_VOLUME_ENDPOINT: str = os.getenv("send_buy_volume_endpoint") or config("send_buy_volume_endpoint")
