@@ -34,23 +34,16 @@
                       <li><a href="{{ url_for('admin.logs', path='api')}}">Logs</a></li>
                     </ul>
                   </li>
-
                 </ul>
               </div>
-
-
                 <ul class="nav side-menu">
                   <li><a><i class="fa fa-user-plus"></i> Membership Plans <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                          <li><a href="">Create Plan</a></li>
-                          <li><a href="">Membership Plans</a></li>
+                          <li><a href="{{ url_for('memberships.create_membership_plan')}}">Create Plan</a></li>
+                          <li><a href="{{ url_for('memberships.membership_plans')}}">Membership Plans</a></li>
                         </ul>
                   </li>
-
                 </ul>
-
-
-
                 <ul class="nav side-menu">
                   <li><a><i class="fa fa-bar-chart"></i> Affiliate Program <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
@@ -59,8 +52,6 @@
                         </ul>
                   </li>
                 </ul>
-
-
                 <ul class="nav side-menu">
                   <li><a><i class="fa fa-user"></i> Users Information <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">

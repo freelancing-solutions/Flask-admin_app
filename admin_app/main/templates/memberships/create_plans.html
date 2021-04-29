@@ -1,7 +1,4 @@
-
-
 {% extends "layouts/layout.html" %}
-
 {% block content %}
           <div class="right_col" role="main">
                     <div class="page-title">
@@ -22,11 +19,51 @@
 					<div class="clearfix"></div>
 					<div class="row">
 						<div class="col-md-12 col-sm-12 ">
-					
+							<form class="form-horizontal">
+								<div class="form-group">
+									<label>Plan Name</label>
+									<input id="plan_name" type="text" class="form-control" placeholder="Plan Name">
+								</div>
+								<div class="form-group">
+									<label>Description</label>
+									<textarea id="description" type="text" class="form-control" placeholder="Description">
+									</textarea>
+								</div>
+								<div class="form-group">
+									<label>Total Members</label>
+									<select id="schedule_day" class="form-control">
+										<option value="1">1st Day of Month</option>
+										<option value="2">2nd Day of Month</option>
+										<option value="3">3rd Day of Month</option>
+										<option value="4">4th Day of Month</option>
+										<option value="5">5th Day of Month</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label>Schedule Term</label>
+									<select id="schedule_term" class="form-control">
+										<option value="monthly">Monthly</option>
+										<option value="quaterly">Quaterly</option>
+										<option value="annually">Annually</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label>Payment Amount</label>
+									<input type="text" class="form-control" placeholder="Payment Amount" />
+								</div>
+								<div class="form-group">
+									<label>Registration Amount</label>
+									<input type="text" class="form-control" placeholder="Registration Amount" />
+								</div>
+								<div class="form-group">
+									<button type="button" class="btn btn-primary btn-sm" id="submit_butt">
+										<i class="fa fa-save"> </i>
+										Submit
+									</button>
+								</div>
+ 							</form>
 						</div>
 					</div>
-
           </div>
           <!-- /page content -->
-
 {% endblock %}
