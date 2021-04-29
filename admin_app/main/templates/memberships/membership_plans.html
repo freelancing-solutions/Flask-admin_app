@@ -19,7 +19,66 @@
 					<div class="clearfix"></div>
 					<div class="row">
 						<div class="col-md-12 col-sm-12 ">
-					
+							<table class="table table-responsive">
+								<thead>
+									<tr>
+										<td>
+											<strong>
+												<i class="fa fa-info-circle"> </i>
+												Plan Name
+											</strong>
+										</td>
+										<td>
+											<strong>
+												<i class="fa fa-info"> </i>
+												Description
+											</strong>
+										</td>
+										<td>
+											<strong>
+												<i class="fa fa-server"> </i>
+												Total Members
+											</strong>
+										</td>
+										<td>
+											<strong>
+												<i class="fa fa-calendar"> </i>
+												Scheduled Day
+											</strong>
+										</td>
+										<td>
+											<strong>
+												<i class="fa fa-adjust"> </i>
+												Scheduled Term
+											</strong>
+										</td>
+										<td>
+											<strong>
+												<i class="fa fa-money"> </i>
+												Payment Amount
+											</strong>
+										</td>
+										<td>
+											<strong>
+												<i class="fa fa-calendar"> </i>
+												Date Created
+											</strong>
+										</td>
+									</tr>
+								</thead>
+								<tbody>
+									{% for plan in membership_plans %}
+									<tr>
+										<td>{{ plan.plan_name }}</td>
+										<td>{{ plan.description }}</td>
+										<td>{{ plan.total_members }}</td>
+										<td>{{ plan.schedule_day }}</td>
+										<td>{{ plan.schedule_term }}</td>
+										<td>{{ plan.date_created }}</td>
+									</tr>
+									{% endfor %}
+								</tbody>
+							</table>
 						</div>
 					</div>
 
