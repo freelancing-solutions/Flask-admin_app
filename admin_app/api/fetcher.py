@@ -48,6 +48,7 @@ class APIFetcher:
             self.affiliate_data_endpoint = app.config.get('AFFILIATE_DATA_ENDPOINT')
             self.user_data_endpoint = app.config.get('USER_DATA_ENDPOINT')
             self.membership_data_endpoint = app.config.get('MEMBERSHIP_DATA_ENDPOINT')
+            self.get_membership_plans_endpoint = app.config.get('GET_MEMBERSHIP_PLANS_ENDPOINT')
             self.api_data_endpoint = app.config.get('API_DATA_ENDPOINT')
             self.scrapper_data_endpoint = app.config.get('SCRAPPER_DATA_ENDPOINT')
             self.get_exchange_endpoint = app.config.get('GET_EXCHANGE_DATA_ENDPOINT')
@@ -91,6 +92,8 @@ class APIFetcher:
             return self.base_uri + self.user_data_endpoint
         elif endpoint == "membership":
             return self.base_uri + self.membership_data_endpoint
+        elif endpoint == "membership-plans":
+            return self.base_uri + self.get_membership_plans_endpoint
         elif endpoint == "api":
             return self.base_uri + self.api_data_endpoint
         elif endpoint == "scrapper":
@@ -143,3 +146,6 @@ class APIFetcher:
 
     def fetch_stock(self, stock_id: str) -> tuple:
         return self._requester(url=self._build_url(endpoint='get-stock'), data={'stock_id': stock_id})
+
+    def get_all_membership_plans(self) -> tuple:
+        return self._requester(url=self._build_url(endpoint='membership-plans'), data=None)
