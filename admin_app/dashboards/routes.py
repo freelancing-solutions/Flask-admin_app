@@ -21,8 +21,11 @@ def dashboard(path):
             return render_template("dashboard/statistics.html")
     else:
         if path == "exchanges":
+            
             return api_fetcher.fetch_exchanges()
         elif path == "brokers":
+
             return api_fetcher.fetch_brokers()
         elif path == "stocks":
+
             return api_fetcher.fetch_stocks()
