@@ -7,3 +7,5 @@ __pycache__
 .idea
 demo.log
 *.map
+/venv
+data_scrape_pdf2text.docx
