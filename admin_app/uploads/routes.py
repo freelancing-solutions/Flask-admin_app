@@ -74,11 +74,11 @@ class ScrappedDataCompiler:
     def compile_buy_volume(stock) -> dict:
         data: dict = {
             "stock_id": stock[1],
-            "buy_volume": stock[7],
-            "buy_value": stock[8],
-            "buy_ave_price": stock[9],
-            "buy_market_val_percent": stock[10],
-            "buy_trade_count": stock[11],
+            "buy_volume": int(float(stock[7])),
+            "buy_value": int(float(stock[8])),
+            "buy_ave_price": int(float(stock[9])),
+            "buy_market_val_percent": int(float(stock[10])),
+            "buy_trade_count": int(float(stock[11])),
             "date_created": stock[6]
         }
         return data
@@ -87,11 +87,11 @@ class ScrappedDataCompiler:
     def compile_sell_volume(stock) -> dict:
         data: dict = {
             "stock_id": stock[1],
-            "sell_volume": stock[12],
-            "sell_value": stock[13],
-            "sell_ave_price": stock[14],
-            "sell_market_val_percent": stock[15],
-            "sell_trade_count": stock[16],
+            "sell_volume": int(float(stock[12])),
+            "sell_value": int(float(stock[13])),
+            "sell_ave_price": int(float(stock[14])),
+            "sell_market_val_percent": int(float(stock[15])),
+            "sell_trade_count": int(float(stock[16])),
             "date_created": stock[6]
         }
         return data
@@ -100,10 +100,10 @@ class ScrappedDataCompiler:
     def compile_net_volume(stock) -> dict:
         data: dict = {
             "stock_id": stock[1],
-            "net_volume": stock[17],
-            "net_value": stock[18],
-            "total_volume": stock[19],
-            "total_value": stock[20],
+            "net_volume": int(float(stock[17])),
+            "net_value": int(float(stock[18])),
+            "total_volume": int(float(stock[19])),
+            "total_value": int(float(stock[20])),
             "date_created": stock[6]
         }
         return data

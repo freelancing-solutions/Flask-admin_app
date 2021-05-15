@@ -1,15 +1,10 @@
-
-
-
 {% extends "layouts/layout.html" %}
-
 {% block content %}
           <div class="right_col" role="main">
 					<div class="page-title">
 						<div class="title_left">
 							<h3>Stock Data</h3>
 						</div>
-
 						<div class="title_right">
 							<div class="col-md-5 col-sm-5  form-group pull-right top_search">
 								<div class="input-group">
@@ -40,8 +35,8 @@
 									<form action="/uploads/scrapped" class="dropzone dz-clickable">
                                         <div class="dz-default dz-message">
                                             <span>
-                                                <p> Drop CSV files here
-												<p>format</p>
+												<p> Drop CSV files here </p>
+												<p> Format</p>
 												<code>
 													"stock_id", "broker_id", "stock_code", "stock_name", "broker_code",
 													"date", "buy_volume", "buy_value", "buy_ave_price", "buy_market_val_percent",
@@ -57,5 +52,5 @@
 						</div>
 					</div>
           </div>
-          <!-- /page content -->
+<!-- /page content -->
 {% endblock %}
