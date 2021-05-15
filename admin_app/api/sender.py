@@ -121,20 +121,15 @@ class APISender:
         except HTTPError:
             return jsonify({'status': False, 'message': 'Well Something Snapped'}), 500
 
-    def _async_requester(self, url: str, data: dict):
-        response = requests.post(url=url, json=data, headers=self.headers)
-        response.raise_for_status()
-        response_data: dict = response.json()
-        return jsonify(response_data), 200
-
     def send_stock(self, stock: dict) -> tuple:
         """
             send stock data
         :param stock:
         :return:
         """
+        print("Stock Data Received : {}".format(stock))
         url: str = self._build_url(endpoint="stock")
-        response = self._async_requester(url=url, data=stock)
+        response = self._requester(url=url, data=stock)
         return response
 
     def send_broker(self, broker: dict) -> tuple:
@@ -143,21 +138,26 @@ class APISender:
         :param broker:
         :return:
         """
+        print("broker data : {}".format(broker))
+
         url: str = self._build_url(endpoint="broker")
         response = self._requester(url=url, data=broker)
         return response
 
     def send_buy_volume(self, buy_volume: dict) -> tuple:
+        print("buy volume data: {}".format(buy_volume))
         url: str = self._build_url(endpoint="buy-volume")
         response = self._requester(url=url, data=buy_volume)
         return response
 
     def send_sell_volume(self, sell_volume: dict) -> tuple:
+        print("Sell volume data: {}".format(sell_volume))
         url: str = self._build_url(endpoint="sell-volume")
         response = self._requester(url=url, data=sell_volume)
         return response
 
     def send_net_volume(self, net_volume: dict) -> tuple:
+        print("net volume data: {}".format(net_volume))
         url: str = self._build_url(endpoint="net-volume")
         response = self._requester(url=url, data=net_volume)
         return response

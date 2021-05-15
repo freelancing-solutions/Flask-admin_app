@@ -54,6 +54,7 @@ class ScrappedDataCompiler:
             "stock_id": stock[1],
             "stock_code": stock[3],
             "stock_name": stock[4],
+            "symbol": stock[3],
             "date": stock[6]
         }
         return data
@@ -64,6 +65,7 @@ class ScrappedDataCompiler:
             "stock_id": stock[1],
             "broker_code": stock[5],
             "broker_id": stock[2],
+            "broker_name": "",
             "date": stock[6]
         }
         return data
@@ -77,7 +79,7 @@ class ScrappedDataCompiler:
             "buy_ave_price": stock[9],
             "buy_market_val_percent": stock[10],
             "buy_trade_count": stock[11],
-            "date": stock[6]
+            "date_created": stock[6]
         }
         return data
 
@@ -90,7 +92,7 @@ class ScrappedDataCompiler:
             "sell_ave_price": stock[14],
             "sell_market_val_percent": stock[15],
             "sell_trade_count": stock[16],
-            "date": stock[6]
+            "date_created": stock[6]
         }
         return data
 
@@ -102,7 +104,7 @@ class ScrappedDataCompiler:
             "net_value": stock[18],
             "total_volume": stock[19],
             "total_value": stock[20],
-            "date": stock[6]
+            "date_created": stock[6]
         }
         return data
 
@@ -110,6 +112,7 @@ class ScrappedDataCompiler:
 data_compiler_instance: ScrappedDataCompiler = ScrappedDataCompiler()
 
 
+# noinspection PyBroadException
 @uploads_bp.route('/uploads/<path:path>', methods=['GET', 'POST'])
 def uploads(path: str) -> tuple:
     if path == "scrapped":
@@ -117,7 +120,8 @@ def uploads(path: str) -> tuple:
         data_frame = pd.read_csv(f, names=raw_dataframe)
         stock_data = data_frame.values.tolist()
         if len(stock_data) > 1000:
-            return jsonify({'status': True, 'message': 'upload at least 1000 records at once'}), 500
+            return jsonify({'status': False, 'message': 'upload at least 1000 records at once'}), 500
+
         for stock in stock_data[1:]:
             try:
                 stock_data: dict = data_compiler_instance.compile_stock(stock=stock)
@@ -126,7 +130,6 @@ def uploads(path: str) -> tuple:
                 sell_volume: dict = data_compiler_instance.compile_sell_volume(stock=stock)
                 net_volume: dict = data_compiler_instance.compile_net_volume(stock=stock)
 
-                # TODO Perform this actions asynchronously
                 api_sender.send_stock(stock=stock_data),
                 api_sender.send_broker(broker=broker_data),
                 api_sender.send_buy_volume(buy_volume=buy_volume),
@@ -136,7 +139,7 @@ def uploads(path: str) -> tuple:
             except Exception:
                 pass
 
-        return jsonify({'status': False, 'message': 'successfully sent scrapped data'}), 200
+        return jsonify({'status': True, 'message': 'successfully sent scrapped data'}), 200
 
     elif path == "broker":
         """ broker file is uploaded"""
