@@ -59,13 +59,14 @@ class ScrappedDataCompiler:
         }
         return data
 
+    # TODO when broker name is set to NA set to the correct broker name
     @staticmethod
     def compile_broker(stock) -> dict:
         data: dict = {
             "stock_id": stock[1],
             "broker_code": stock[5],
             "broker_id": stock[2],
-            "broker_name": "",
+            "broker_name": "NA",
             "date": stock[6]
         }
         return data
@@ -119,7 +120,7 @@ def uploads(path: str) -> tuple:
         f = request.files['file']
         data_frame = pd.read_csv(f, names=raw_dataframe)
         stock_data = data_frame.values.tolist()
-        if len(stock_data) > 1000:
+        if len(stock_data) > 11000:
             return jsonify({'status': False, 'message': 'upload at least 1000 records at once'}), 500
 
         for stock in stock_data[1:]:

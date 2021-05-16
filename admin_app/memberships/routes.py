@@ -4,6 +4,7 @@ from admin_app.main import api_sender, api_fetcher
 
 memberships_bp = Blueprint('memberships', __name__)
 
+
 @memberships_bp.route('/membership-plans', methods=["GET", "POST"])
 def membership_plans() -> tuple:
     if request.method == "GET":
@@ -16,7 +17,7 @@ def membership_plans() -> tuple:
             status, message = response
             membership_plans_list: typing.List[dict] = []
 
-        return render_template('memberships/membership_plans.html',  membership_plans=membership_plans_list)
+        return render_template('memberships/membership_plans.html', membership_plans=membership_plans_list)
 
 
 @memberships_bp.route('/create-membership_plan', methods=['GET', 'POST'])
