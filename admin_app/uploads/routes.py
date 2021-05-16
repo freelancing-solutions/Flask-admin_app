@@ -44,7 +44,7 @@ class ScrappedDataCompiler:
             "total_volume": stock[19],
             "total_value": stock[20]
         }
-        print(data)
+
         return data
 
     @staticmethod
@@ -148,7 +148,7 @@ def uploads(path: str) -> tuple:
         if f.filename.endswith('csv'):
             data_frame = pd.read_csv(f, names=['broker_id', 'broker_code', 'broker_name'])
             brokers_data = data_frame.values.tolist()
-            print("broker data : {}".format(brokers_data))
+
             for broker in brokers_data[1:]:
                 try:
                     data: dict = {
@@ -198,8 +198,6 @@ def uploads(path: str) -> tuple:
         if f.filename.endswith('png') or f.filename.endswith('jpg') or f.filename.endswith(
                 'jpeg') or f.filename.endswith('pdf'):
             file_data = f.read()
-            # TODO - sends the filedata to data-service
-
         return jsonify({'status': True, 'message': 'successfully uploaded'}), 200
     elif path == "messages":
         """ files """
