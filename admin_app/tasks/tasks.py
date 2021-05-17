@@ -3,7 +3,7 @@ from google.protobuf.timestamp_pb2 import Timestamp
 import datetime
 import json
 
-queue = "default-queue"
+queue = "cloudrun-queue"
 location = "us-central1"
 project = "pinoydesk"
 
