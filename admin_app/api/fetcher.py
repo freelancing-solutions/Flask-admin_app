@@ -104,8 +104,6 @@ class APIFetcher:
     @cache.memoize(timeout=short_cache_timeout)
     def _requester(self, url: str, data: dict = None) -> tuple:
         try:
-            print('headers : {}'.format(self.headers))
-            print('url : {}'.format(url))
             if data:
                 response = requests.post(url=url, json=data, headers=self.headers)
             else:
