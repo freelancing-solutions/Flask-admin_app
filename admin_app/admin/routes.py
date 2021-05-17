@@ -7,14 +7,14 @@ admin_bp = Blueprint('admin', __name__)
 
 
 @admin_bp.route('/', methods=["GET"])
-# @route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
+@route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
 def home() -> tuple:
     return render_template('index.html'), 200
 
 
 # noinspection DuplicatedCode
 @admin_bp.route('/data/<path:path>', methods=["GET", "POST"])
-# @route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
+@route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
 def data(path: str) -> tuple:
     import asyncio
     if request.method == "GET":
@@ -39,7 +39,7 @@ def data(path: str) -> tuple:
 
 # noinspection DuplicatedCode
 @admin_bp.route('/data/<path:resource>/edit/<path:uid>', methods=["GET", "POST"])
-# @route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
+@route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
 def data_edit(resource: str, uid: str) -> tuple:
     import asyncio
     if request.method == "GET":
@@ -78,7 +78,7 @@ def data_edit(resource: str, uid: str) -> tuple:
 
 
 @admin_bp.route('/data/<path:resource>/view/<path:uid>', methods=["GET", "POST"])
-# @route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
+@route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
 def data_view(resource: str, uid: str) -> tuple:
     if request.method == "GET":
         if resource == "exchange":
@@ -103,7 +103,7 @@ def data_view(resource: str, uid: str) -> tuple:
 
 
 @admin_bp.route('/settings/<path:path>', methods=["GET", "POST"])
-# @route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
+@route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
 def settings(path):
     if request.method == "GET":
         if path == "api":
@@ -118,7 +118,7 @@ def settings(path):
 
 
 @admin_bp.route('/schedules/<path:path>', methods=["GET", "POST"])
-# @route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
+@route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
 def schedules(path):
     if path == "api":
         return render_template("api/schedules.html"), 200
@@ -127,7 +127,7 @@ def schedules(path):
 
 
 @admin_bp.route('/logs/<path:path>', methods=["GET"])
-# @route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
+@route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
 def logs(path):
     if path == "api":
         return render_template("api/logs.html"), 200
