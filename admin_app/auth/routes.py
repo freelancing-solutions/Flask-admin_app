@@ -7,8 +7,8 @@ auth_bp = Blueprint('auth', __name__)
 
 @auth_bp.route('/login')
 # @route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
-def login():
-    return render_template('login.html')
+def login() -> tuple :
+    return render_template('login.html'), 200
 
 
 @auth_bp.route('/recover', methods=['POST'])
@@ -22,12 +22,12 @@ def recover():
 
 @auth_bp.route('/register')
 # @route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
-def register():
-    return render_template('register.html')
+def register() -> tuple:
+    return render_template('register.html'), 200
 
 
 @auth_bp.route('/logout')
 # @route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
-def logout():
-    return render_template('logout.html')
+def logout() -> tuple:
+    return render_template('logout.html'), 200
 

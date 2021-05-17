@@ -15,6 +15,7 @@ def home() -> tuple:
 @admin_bp.route('/data/<path:path>', methods=["GET", "POST"])
 # @route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
 def data(path: str) -> tuple:
+    import asyncio
     if request.method == "GET":
         if path == "exchange":
             return render_template("forms/exchange.html")
@@ -26,17 +27,22 @@ def data(path: str) -> tuple:
             return render_template("forms/manual.html")
     else:
         json_data: dict = request.get_json()
+        loop = asyncio.new_event_loop()
+
         if path == "exchange":
-            return api_sender.send_exchange(exchange=json_data)
+            # response = await api_sender.send_exchange(exchange=json_data)
+            return loop.run_until_complete(api_sender.send_exchange(exchange=json_data))
         elif path == "broker":
-            return api_sender.send_broker(broker=json_data)
+            return loop.run_until_complete(api_sender.send_broker(broker=json_data))
         elif path == "stock":
-            return api_sender.send_stock(stock=json_data)
+            return loop.run_until_complete(api_sender.send_stock(stock=json_data))
 
 
+# noinspection DuplicatedCode
 @admin_bp.route('/data/<path:resource>/edit/<path:uid>', methods=["GET", "POST"])
 # @route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
 def data_edit(resource: str, uid: str) -> tuple:
+    import asyncio
     if request.method == "GET":
         if resource == "exchange":
             response = api_fetcher.fetch_exchange(exchange_id=uid)
@@ -60,13 +66,16 @@ def data_edit(resource: str, uid: str) -> tuple:
                 stock_data: dict = response[0].get_json().get('payload')
                 return render_template("forms/edit-stock.html", stock_data=stock_data)
     else:
+
         json_data: dict = request.get_json()
+
+        loop = asyncio.new_event_loop()
         if resource == "exchange":
-            return api_sender.send_exchange(exchange=json_data)
+            return loop.run_until_complete(api_sender.send_exchange(exchange=json_data))
         elif resource == "broker":
-            return api_sender.send_broker(broker=json_data)
+            return loop.run_until_complete(api_sender.send_broker(broker=json_data))
         elif resource == "stock":
-            return api_sender.send_stock(stock=json_data)
+            return loop.run_until_complete(api_sender.send_stock(stock=json_data))
 
 
 @admin_bp.route('/data/<path:resource>/view/<path:uid>', methods=["GET", "POST"])

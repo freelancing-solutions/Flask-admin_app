@@ -1,4 +1,3 @@
-
 import pandas as pd
 from flask import Blueprint, jsonify, request, current_app
 from admin_app.main import api_sender
@@ -58,7 +57,6 @@ class ScrappedDataCompiler:
         }
         return data
 
-    # TODO when broker name is set to NA set to the correct broker name
     @staticmethod
     def compile_broker(stock) -> dict:
         data: dict = {

@@ -8,7 +8,7 @@ location = "us-central1"
 project = "pinoydesk"
 
 
-def create_task(uri, payload, in_seconds):
+def create_task(uri: str, payload: dict, in_seconds: int = 5):
     # Create a client.
     client = tasks_v2.CloudTasksClient()
     parent = client.queue_path(project, location, queue)
@@ -26,11 +26,15 @@ def create_task(uri, payload, in_seconds):
             payload = json.dumps(payload)
             # specify http content-type to application/json
             task["app_engine_http_request"]["headers"] = {"Content-type": "application/json"}
-        # The API expects a payload of type bytes.
-        converted_payload = payload.encode()
-
-        # Add the payload to the request.
-        task['app_engine_http_request']['body'] = converted_payload
+            # The API expects a payload of type bytes.
+            converted_payload = payload.encode()
+            # Add the payload to the request.
+            # noinspection PyTypeChecker
+            task['app_engine_http_request']['body'] = converted_payload
+        else:
+            return None
+    else:
+        return None
 
     if in_seconds is not None:
         # Convert "seconds from now" into an rfc3339 datetime string.
@@ -39,7 +43,8 @@ def create_task(uri, payload, in_seconds):
 
         # Add the timestamp to the tasks.
         task['schedule_time'] = timestamp
-
+    else:
+        return None
     # Use the client to build and send the task.
     # noinspection PyTypeChecker,PyBroadException
     try:

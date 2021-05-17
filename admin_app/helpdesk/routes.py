@@ -7,7 +7,7 @@ helpdesk_bp = Blueprint('helpdesk', __name__)
 
 
 @helpdesk_bp.route('/helpdesk/<path:path>', methods=['POST', 'GET'])
-# @route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
+@route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
 def helpdesk(path):
     if path == "messages":
         return render_template('helpdesk/messages.html')
