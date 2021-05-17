@@ -134,7 +134,6 @@ class APISender:
         :param stock:
         :return:
         """
-        print("Stock Data Received : {}".format(stock))
         url: str = self._build_url(endpoint="stock")
         return await self._requester(url=url, data=stock)
 
@@ -144,23 +143,18 @@ class APISender:
         :param broker:
         :return:
         """
-        print("broker data : {}".format(broker))
-
         url: str = self._build_url(endpoint="broker")
         return await self._requester(url=url, data=broker)
 
     async def send_buy_volume(self, buy_volume: dict) -> tuple:
-        print("buy volume data: {}".format(buy_volume))
         url: str = self._build_url(endpoint="buy-volume")
         return await self._requester(url=url, data=buy_volume)
 
     async def send_sell_volume(self, sell_volume: dict) -> tuple:
-        print("Sell volume data: {}".format(sell_volume))
         url: str = self._build_url(endpoint="sell-volume")
         return await self._requester(url=url, data=sell_volume)
 
     async def send_net_volume(self, net_volume: dict) -> tuple:
-        print("net volume data: {}".format(net_volume))
         url: str = self._build_url(endpoint="net-volume")
         return await self._requester(url=url, data=net_volume)
 

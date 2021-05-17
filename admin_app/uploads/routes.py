@@ -116,6 +116,7 @@ data_compiler_instance: ScrappedDataCompiler = ScrappedDataCompiler()
 @uploads_bp.route('/uploads/<path:path>', methods=['GET', 'POST'])
 def uploads(path: str) -> tuple:
     import asyncio
+    coroutines = []
     if path == "scrapped":
         f = request.files['file']
         data_frame = pd.read_csv(f, names=raw_dataframe)
@@ -123,7 +124,6 @@ def uploads(path: str) -> tuple:
         if len(stock_data) > 11000:
             return jsonify({'status': False, 'message': 'upload at least 1000 records at once'}), 500
 
-        coroutines = []
         for stock in stock_data[1:]:
             try:
                 stock_data: dict = data_compiler_instance.compile_stock(stock=stock)
@@ -160,9 +160,11 @@ def uploads(path: str) -> tuple:
                         "broker_code": broker[1],
                         "broker_name": broker[2]
                     }
-                    api_sender.send_broker(broker=data)
+                    coroutines.append(api_sender.send_broker(broker=data))
                 except IndexError:
                     jsonify({'status': False, 'message': 'please check your csv file format'}), 500
+            loop = asyncio.new_event_loop()
+            loop.run_until_complete(asyncio.wait(coroutines))
             return jsonify({'status': True, 'message': 'successfully uploaded'}), 200
         else:
             return jsonify({'status': False, 'message': 'please upload csv file'}), 500
@@ -180,9 +182,12 @@ def uploads(path: str) -> tuple:
                         'stock_name': stock[2],
                         'symbol': stock[3]
                     }
-                    api_sender.send_stock(stock=data)
+                    coroutines.append(api_sender.send_stock(stock=data))
                 except IndexError:
                     jsonify({'status': False, 'message': 'please check your csv file format'}), 500
+            loop = asyncio.new_event_loop()
+            loop.run_until_complete(asyncio.wait(coroutines))
+
             return jsonify({'status': True, 'message': 'successfully uploaded'}), 200
         else:
             return jsonify({'status': False, 'message': 'please upload csv file'}), 500
