@@ -23,6 +23,7 @@ requests-toolbelt==0.9.1
 Werkzeug==1.0.1
 pandas==1.2.3
 python-decouple
+aiohttp
 pytest
 pytest_cov
 pytest_mock

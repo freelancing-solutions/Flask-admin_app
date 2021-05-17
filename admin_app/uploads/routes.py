@@ -1,4 +1,3 @@
-import asyncio
 
 import pandas as pd
 from flask import Blueprint, jsonify, request, current_app
@@ -116,6 +115,7 @@ data_compiler_instance: ScrappedDataCompiler = ScrappedDataCompiler()
 # noinspection PyBroadException
 @uploads_bp.route('/uploads/<path:path>', methods=['GET', 'POST'])
 def uploads(path: str) -> tuple:
+    import asyncio
     if path == "scrapped":
         f = request.files['file']
         data_frame = pd.read_csv(f, names=raw_dataframe)
@@ -123,6 +123,7 @@ def uploads(path: str) -> tuple:
         if len(stock_data) > 11000:
             return jsonify({'status': False, 'message': 'upload at least 1000 records at once'}), 500
 
+        coroutines = []
         for stock in stock_data[1:]:
             try:
                 stock_data: dict = data_compiler_instance.compile_stock(stock=stock)
@@ -131,14 +132,17 @@ def uploads(path: str) -> tuple:
                 sell_volume: dict = data_compiler_instance.compile_sell_volume(stock=stock)
                 net_volume: dict = data_compiler_instance.compile_net_volume(stock=stock)
 
-                api_sender.send_stock(stock=stock_data),
-                api_sender.send_broker(broker=broker_data),
-                api_sender.send_buy_volume(buy_volume=buy_volume),
-                api_sender.send_sell_volume(sell_volume=sell_volume),
-                api_sender.send_net_volume(net_volume=net_volume)
+                coroutines.append(api_sender.send_stock(stock=stock_data))
+                coroutines.append(api_sender.send_broker(broker=broker_data))
+                coroutines.append(api_sender.send_buy_volume(buy_volume=buy_volume))
+                coroutines.append(api_sender.send_sell_volume(sell_volume=sell_volume))
+                coroutines.append(api_sender.send_net_volume(net_volume=net_volume))
 
-            except Exception:
+            except Exception as e:
                 pass
+        # loop = asyncio.new_event_loop()
+        loop = asyncio.new_event_loop()
+        loop.run_until_complete(asyncio.wait(coroutines))
 
         return jsonify({'status': True, 'message': 'successfully sent scrapped data'}), 200
 
