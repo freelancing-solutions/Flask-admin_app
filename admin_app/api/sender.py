@@ -179,8 +179,8 @@ class APISender:
     async def send_tickets(self, ticket: dict) -> tuple:
         """
             send ticket data
-        :param ticket:
-        :return:
+            :param ticket:
+            :return:
         """
         url: str = self._build_url(endpoint="tickets")
         return await self._requester(url=url, data=ticket)
