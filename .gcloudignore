@@ -1,11 +1,5 @@
 /deploy_commands.md
-*.pyc
-*.pyo
-*.pyd
 venv/
-__pycache__
-.pytest_cache
-.vscode
 *.bat
 .idea
 *.map
