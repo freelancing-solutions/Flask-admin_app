@@ -22,8 +22,10 @@ def membership_plans() -> tuple:
 
 @memberships_bp.route('/create-membership_plan', methods=['GET', 'POST'])
 def create_membership_plan() -> tuple:
+    import asyncio
     if request.method == "GET":
         return render_template('memberships/create_plans.html')
     elif request.method == "POST":
         membership_plan_data: dict = request.get_json()
-        return api_sender.send_membership_plans(membership_plan=membership_plan_data)
+        loop = asyncio.new_event_loop()
+        return  loop.run_until_complete(asyncio.wait(api_sender.send_membership_plans(membership_plan=membership_plan_data)))

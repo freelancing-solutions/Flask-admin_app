@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from flask import Blueprint, jsonify, request, current_app
 from admin_app.main import api_sender
 
@@ -117,8 +118,8 @@ def uploads(path: str) -> tuple:
     coroutines = []
     if path == "scrapped":
         f = request.files['file']
-        data_frame = pd.read_csv(f, names=raw_dataframe)
-        stock_data = data_frame.values.tolist()
+        data_frame: pd.DataFrame = pd.read_csv(f, names=raw_dataframe)
+        stock_data: np.ndarray = np.array(data_frame.values.tolist())
         if len(stock_data) > 11000:
             return jsonify({'status': False, 'message': 'upload at least 1000 records at once'}), 500
 
@@ -138,7 +139,7 @@ def uploads(path: str) -> tuple:
 
             except Exception as e:
                 pass
-        # loop = asyncio.new_event_loop()
+
         loop = asyncio.new_event_loop()
         loop.run_until_complete(asyncio.wait(coroutines))
 
@@ -192,7 +193,7 @@ def uploads(path: str) -> tuple:
     elif path == "user":
         """ user image is being uploaded"""
         f = request.files['file']
-        json_data = request.get_json()
+        json_data: dict = request.get_json()
 
         if f.filename.endswith('png') or f.filename.endswith('jpg') or f.filename.endswith('jpeg'):
             image_data = f.read()
