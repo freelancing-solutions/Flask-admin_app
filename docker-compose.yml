@@ -1,6 +1,7 @@
 version: "3.9"  # optional since v1.27.0
 services:
   web:
+    container_name: admin-app
     build: .
     image: mobiusdocker/admin-app:latest
     ports:
@@ -13,11 +14,13 @@ services:
       - rabbit
       - memcache
   rabbit:
+    container_name: rabbitmg
     image: library/rabbitmq:3
     hostname: host-rabbitmq
     ports:
       - 5672:5672
   memcache:
+    container_name: memcached
     image: library/memcached:latest
     hostname: host-memcache
     ports:
