@@ -1,11 +1,10 @@
 Dockerfile
-*.pyo
-*.pyd
-__pycache__
-.pytest_cache
-.vscode
+initial_data/
+external notes/
+tests/
+.github/
+.git/
 .idea
-demo.log
 *.map
-/venv
-data_scrape_pdf2text.docx
+*.docx
+*.bat
