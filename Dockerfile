@@ -16,9 +16,6 @@ RUN pip install -r /var/www/app/requirements.txt
 COPY . /var/www/app
 ENV PORT 8080
 EXPOSE $PORT
-# Run the web service on container startup. Here we use the gunicorn
-# webserver, with one worker process and 8 threads.
-# For environments with multiple CPU cores, increase the number of workers
 # to be equal to the cores available.
 CMD exec gunicorn --bind :$PORT run:app  --workers 2 --threads 8 --timeout 3600
 #ENTRYPOINT ["./gunicorn.sh"]
