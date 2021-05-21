@@ -1,13 +1,10 @@
 from functools import lru_cache
-
-import requests
 from aiohttp import ClientConnectorError
 from flask import jsonify, current_app
 from flask_caching import Cache
 from requests import ReadTimeout, TooManyRedirects
 from requests.exceptions import ConnectionError, ConnectTimeout, SSLError, HTTPError
 import aiohttp
-import asyncio
 
 
 # noinspection PyAttributeOutsideInit
@@ -61,7 +58,7 @@ class APISender:
     @lru_cache(maxsize=1024)
     def _build_url(self, endpoint: str) -> str:
         return "{}{}".format(self.base_uri, self._url_look_up[endpoint])
-    
+
     async def _requester(self, url: str, data: dict) -> tuple:
         try:
             async with aiohttp.ClientSession() as session:
@@ -162,7 +159,6 @@ class APISender:
         """
             send subscriptions data
         :param memberships:
-        :param subscriptions:
         :return:
         """
         url: str = self._build_url(endpoint="memberships")
