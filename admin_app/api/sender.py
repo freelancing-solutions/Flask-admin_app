@@ -23,42 +23,28 @@ class APISender:
 
     def __init__(self):
         self.base_uri: str = ""
-        self.send_stock_data_endpoint: str = ""
-        self.send_broker_data_endpoint: str = ""
-        self.send_add_exchange_data_endpoint: str = ""
-        self.send_messages_data_endpoint: str = ""
-        self.send_tickets_data_endpoint: str = ""
-        self.send_affiliate_data_endpoint: str = ""
-        self.send_user_data_endpoint: str = ""
-        self.send_membership_data_endpoint: str = ""
-        self.send_membership_plan_endpoint: str = ""
-        self.send_api_data_endpoint: str = ""
-        self.send_scrapper_data_endpoint: str = ""
-        self.send_scrapper_scrapping_settings: str = ""
-        self.send_buy_volume_endpoint: str = ""
-        self.send_sell_volume_endpoint: str = ""
-        self.send_net_volume_endpoint: str = ""
         self.headers = {}
 
     def init_app(self, app):
         with app.app_context():
             self.base_uri = app.config.get("BASE_URI")
-            self.send_stock_data_endpoint = app.config.get("SEND_STOCK_DATA_ENDPOINT")
-            self.send_broker_data_endpoint = app.config.get("SEND_BROKER_DATA_ENDPOINT")
-            self.send_scrapper_scrapping_settings = app.config.get("SEND_SCRAPPER_SETTINGS")
-            self.send_add_exchange_data_endpoint = app.config.get("SEND_ADD_EXCHANGE_DATA_ENDPOINT")
-            self.send_messages_data_endpoint = app.config.get("SEND_MESSAGES_DATA_ENDPOINT")
-            self.send_tickets_data_endpoint = app.config.get("SEND_TICKETS_DATA_ENDPOINT")
-            self.send_affiliate_data_endpoint = app.config.get("SEND_AFFILIATE_DATA_ENDPOINT")
-            self.send_user_data_endpoint = app.config.get("SEND_USER_DATA_ENDPOINT")
-            self.send_membership_data_endpoint = app.config.get("SEND_MEMBERSHIP_DATA_ENDPOINT")
-            self.send_membership_plan_endpoint = app.config.get("SEND_MEMBERSHIP_PLAN_ENDPOINT")
-            self.send_api_data_endpoint = app.config.get("SEND_API_DATA_ENDPOINT")
-            self.send_scrapper_data_endpoint = app.config.get("SEND_SCRAPPER_DATA_ENDPOINT")
-            self.send_buy_volume_endpoint: str = app.config.get("SEND_BUY_VOLUME_ENDPOINT")
-            self.send_sell_volume_endpoint: str = app.config.get("SEND_SELL_VOLUME_ENDPOINT")
-            self.send_net_volume_endpoint: str = app.config.get("SEND_NET_VOLUME_ENDPOINT")
-
+            self._url_look_up: dict = {
+                "stock": app.config.get("SEND_STOCK_DATA_ENDPOINT"),
+                "broker": app.config.get("SEND_BROKER_DATA_ENDPOINT"),
+                "exchange": app.config.get("SEND_ADD_EXCHANGE_DATA_ENDPOINT"),
+                "messages": app.config.get("SEND_MESSAGES_DATA_ENDPOINT"),
+                "tickets": app.config.get("SEND_TICKETS_DATA_ENDPOINT"),
+                "affiliate": app.config.get("SEND_AFFILIATE_DATA_ENDPOINT"),
+                "user": app.config.get("SEND_USER_DATA_ENDPOINT"),
+                "membership": app.config.get("SEND_MEMBERSHIP_DATA_ENDPOINT"),
+                "membership_plan": app.config.get("SEND_MEMBERSHIP_PLAN_ENDPOINT"),
+                "api": app.config.get("SEND_API_DATA_ENDPOINT"),
+                "scrapper": app.config.get("SEND_SCRAPPER_DATA_ENDPOINT"),
+                "scrapping-settings": app.config.get("SEND_SCRAPPER_SETTINGS"),
+                "buy-volume": app.config.get("SEND_BUY_VOLUME_ENDPOINT"),
+                "sell-volume": app.config.get("SEND_SELL_VOLUME_ENDPOINT"),
+                "net-volume": app.config.get("SEND_NET_VOLUME_ENDPOINT")
+            }
             # initializing cache
             x_project_name: str = app.config.get('PROJECT') + ".admin"
             self.headers: dict = {'user-agent': 'admin-app',
@@ -74,39 +60,8 @@ class APISender:
 
     @lru_cache(maxsize=1024)
     def _build_url(self, endpoint: str) -> str:
-        if endpoint == "stock":
-            return self.base_uri + self.send_stock_data_endpoint
-        elif endpoint == "broker":
-            return self.base_uri + self.send_broker_data_endpoint
-        elif endpoint == "exchange":
-            return self.base_uri + self.send_add_exchange_data_endpoint
-        elif endpoint == "messages":
-            return self.base_uri + self.send_messages_data_endpoint
-        elif endpoint == "tickets":
-            return self.base_uri + self.send_tickets_data_endpoint
-        elif endpoint == "affiliate":
-            return self.base_uri + self.send_affiliate_data_endpoint
-        elif endpoint == "user":
-            return self.base_uri + self.send_user_data_endpoint
-        elif endpoint == "membership":
-            return self.base_uri + self.send_membership_data_endpoint
-        elif endpoint == "membership-plan":
-            return self.base_uri + self.send_membership_plan_endpoint
-        elif endpoint == "api":
-            return self.base_uri + self.send_api_data_endpoint
-        elif endpoint == "scrapper":
-            return self.base_uri + self.send_scrapper_data_endpoint
-        elif endpoint == "scrapping-settings":
-            return self.base_uri + self.send_scrapper_scrapping_settings
-        elif endpoint == "buy-volume":
-            return self.base_uri + self.send_buy_volume_endpoint
-        elif endpoint == "sell-volume":
-            return self.base_uri + self.send_sell_volume_endpoint
-        elif endpoint == "net-volume":
-            return self.base_uri + self.send_net_volume_endpoint
-        else:
-            return ""
-
+        return "{}{}".format(self.base_uri, self._url_look_up[endpoint])
+    
     async def _requester(self, url: str, data: dict) -> tuple:
         try:
             async with aiohttp.ClientSession() as session:
