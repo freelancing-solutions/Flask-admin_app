@@ -1,6 +1,6 @@
 from functools import lru_cache
 from aiohttp import ClientConnectorError
-from flask import jsonify, current_app
+from flask import jsonify
 from flask_caching import Cache
 from requests import ReadTimeout, TooManyRedirects
 from requests.exceptions import ConnectionError, ConnectTimeout, SSLError, HTTPError

@@ -1,7 +1,6 @@
 from functools import lru_cache
-
 import requests
-from flask import jsonify, current_app
+from flask import jsonify
 from flask_caching import Cache
 from requests import ReadTimeout, TooManyRedirects
 from requests.exceptions import ConnectTimeout, SSLError, ConnectionError, HTTPError

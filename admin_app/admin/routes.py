@@ -6,8 +6,8 @@ from admin_app.main import route_cache
 admin_bp = Blueprint('admin', __name__)
 
 
-@admin_bp.route('/', methods=["GET"])
-@route_cache.cached(timeout=cache_timeout, unless=only_cache_get)
+@admin_bp.route('/', methods=["GET", "POST"])
+@route_cache.cached(timeout=cache_timeout)
 def home() -> tuple:
     return render_template('index.html'), 200
 

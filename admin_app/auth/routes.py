@@ -1,7 +1,4 @@
-from flask import Blueprint, render_template, url_for, current_app
-from admin_app.config import only_cache_get
-from admin_app.main import route_cache, cache_timeout
-
+from flask import Blueprint, render_template
 auth_bp = Blueprint('auth', __name__)
 
 

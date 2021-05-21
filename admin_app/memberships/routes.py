@@ -1,5 +1,5 @@
 import typing
-from flask import Blueprint, jsonify, request, current_app, render_template
+from flask import Blueprint, request, render_template
 from admin_app.main import api_sender, api_fetcher
 
 memberships_bp = Blueprint('memberships', __name__)

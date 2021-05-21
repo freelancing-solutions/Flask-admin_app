@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from flask import Blueprint, jsonify, request, current_app
+from flask import Blueprint, jsonify, request
 from admin_app.main import api_sender
 
 uploads_bp = Blueprint('uploads', __name__)
