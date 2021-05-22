@@ -4,7 +4,7 @@ external notes/
 tests/
 .github/
 .git/
-.idea
+.idea/
 *.map
 *.docx
 *.bat
