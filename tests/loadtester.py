@@ -1,7 +1,10 @@
+# noinspection PyPackageRequirements,PyUnresolvedReferences
 from locust import HttpUser, task, between
 
+
 class WebLoadTester(HttpUser):
-    Wait_time = between(0.5, 3.0)
+    Wait_time: int = between(0.5, 3.0)
+    target: str = "http://localhost:8080"
 
     def on_start(self):
         pass
@@ -11,10 +14,8 @@ class WebLoadTester(HttpUser):
 
     @task(1)
     def hello_world(self):
-        self.client.get("http://localhost:8080")
+        self.client.get(self.target)
 
     @task(2)
     def poster(self):
-        self.client.post("http://localhost:8080", json={"content": "2"})
-
-
+        self.client.post(self.target, json={"content": "2"})
