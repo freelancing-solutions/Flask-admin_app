@@ -2,7 +2,7 @@
 appengine-generated/
 .env
 .idea/
-/deploy_commands.md
+deploy_commands.md
 *.pyc
 *.bat
 *.pyo
