@@ -103,6 +103,7 @@ self.addEventListener('load', async e => {
                 credentials: "same-origin",
                 cache: "no-cache"
         }
+
         let request = new Request('/dashboard/brokers', init_post);
         let response = await fetch(request);
         let json_data = await response.json();
