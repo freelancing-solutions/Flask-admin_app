@@ -22,6 +22,7 @@ class APISender:
         self.base_uri: str = ""
         self.headers = {}
 
+    # noinspection DuplicatedCode
     def init_app(self, app):
         with app.app_context():
             self.base_uri = app.config.get("BASE_URI")
@@ -49,10 +50,7 @@ class APISender:
                                   'Content-type': 'application/json',
                                   'mode': 'cors',
                                   'x-auth-token': app.config.get('SECRET')}
-
-            print(self.headers)
             self.cache.init_app(app, config={'CACHE_TYPE': 'simple'})
-
         return self
 
     @lru_cache(maxsize=1024)
@@ -80,35 +78,41 @@ class APISender:
         except HTTPError:
             return jsonify({'status': False, 'message': 'Well Something Snapped'}), 500
 
-    async def send_stock(self, stock: dict) -> tuple:
+    async def send_stock(self, stock) -> tuple:
         """
             send stock data
         :param stock:
         :return:
         """
+        stock_data = stock if isinstance(stock, dict) else await stock
+        print("stock data : {}".format(stock_data))
         url: str = self._build_url(endpoint="stock")
-        return await self._requester(url=url, data=stock)
+        return await self._requester(url=url, data=stock_data)
 
-    async def send_broker(self, broker: dict) -> tuple:
+    async def send_broker(self, broker) -> tuple:
         """
             send broker data
         :param broker:
         :return:
         """
+        broker_data = broker if isinstance(broker, dict) else await broker
         url: str = self._build_url(endpoint="broker")
-        return await self._requester(url=url, data=broker)
+        return await self._requester(url=url, data=broker_data)
 
-    async def send_buy_volume(self, buy_volume: dict) -> tuple:
+    async def send_buy_volume(self, buy_volume) -> tuple:
+        buy_volume_data = buy_volume if isinstance(buy_volume, dict) else await buy_volume
         url: str = self._build_url(endpoint="buy-volume")
-        return await self._requester(url=url, data=buy_volume)
+        return await self._requester(url=url, data=buy_volume_data)
 
-    async def send_sell_volume(self, sell_volume: dict) -> tuple:
+    async def send_sell_volume(self, sell_volume) -> tuple:
+        sell_volume_data = sell_volume if isinstance(sell_volume, dict) else await sell_volume
         url: str = self._build_url(endpoint="sell-volume")
-        return await self._requester(url=url, data=sell_volume)
+        return await self._requester(url=url, data=sell_volume_data)
 
-    async def send_net_volume(self, net_volume: dict) -> tuple:
+    async def send_net_volume(self, net_volume) -> tuple:
+        net_volume_data = net_volume if isinstance(net_volume, dict) else await net_volume
         url: str = self._build_url(endpoint="net-volume")
-        return await self._requester(url=url, data=net_volume)
+        return await self._requester(url=url, data=net_volume_data)
 
     async def send_exchange(self, exchange: dict) -> tuple:
         """

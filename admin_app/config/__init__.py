@@ -17,6 +17,9 @@ class Config:
     """
         CONFIGURATION SETTINGS FOR ADMIN CONSOLE
     """
+    def __init__(self):
+        pass
+        
     BASE_URI: str = config('base_uri') or os.getenv('base_uri')
     ALL_STOCKS_DATA_ENDPOINT: str = os.getenv('all_stocks_data_endpoint') or config('all_stocks_data_endpoint')
     ALL_BROKERS_DATA_ENDPOINT: str = os.getenv('all_brokers_data_endpoint') or config('all_brokers_data_endpoint')

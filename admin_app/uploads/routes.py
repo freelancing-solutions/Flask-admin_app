@@ -15,7 +15,7 @@ class ScrappedDataCompiler:
         pass
 
     @staticmethod
-    def compile_scrapped_data(stock) -> dict:
+    async def compile_scrapped_data(stock) -> dict:
         data: dict = {
             "id": stock[0],
             "stock_id": stock[1],
@@ -47,7 +47,7 @@ class ScrappedDataCompiler:
         return data
 
     @staticmethod
-    def compile_stock(stock) -> dict:
+    async def compile_stock(stock) -> dict:
         data: dict = {
             "id": stock[0],
             "stock_id": stock[1],
@@ -59,7 +59,7 @@ class ScrappedDataCompiler:
         return data
 
     @staticmethod
-    def compile_broker(stock) -> dict:
+    async def compile_broker(stock) -> dict:
         data: dict = {
             "stock_id": stock[1],
             "broker_code": stock[5],
@@ -70,7 +70,7 @@ class ScrappedDataCompiler:
         return data
 
     @staticmethod
-    def compile_buy_volume(stock) -> dict:
+    async def compile_buy_volume(stock) -> dict:
         data: dict = {
             "stock_id": stock[1],
             "buy_volume": int(float(stock[7])),
@@ -83,7 +83,7 @@ class ScrappedDataCompiler:
         return data
 
     @staticmethod
-    def compile_sell_volume(stock) -> dict:
+    async def compile_sell_volume(stock) -> dict:
         data: dict = {
             "stock_id": stock[1],
             "sell_volume": int(float(stock[12])),
@@ -96,7 +96,7 @@ class ScrappedDataCompiler:
         return data
 
     @staticmethod
-    def compile_net_volume(stock) -> dict:
+    async def compile_net_volume(stock) -> dict:
         data: dict = {
             "stock_id": stock[1],
             "net_volume": int(float(stock[17])),
@@ -115,34 +115,35 @@ data_compiler_instance: ScrappedDataCompiler = ScrappedDataCompiler()
 @uploads_bp.route('/uploads/<path:path>', methods=['GET', 'POST'])
 def uploads(path: str) -> tuple:
     import asyncio
-    coroutines = []
+    coroutines: list = []
     if path == "scrapped":
         f = request.files['file']
         data_frame: pd.DataFrame = pd.read_csv(f, names=raw_dataframe)
+        # noinspection PyTypeChecker
         stock_data: np.ndarray = np.array(data_frame.values.tolist())
-        if len(stock_data) > 11000:
-            return jsonify({'status': False, 'message': 'upload at least 1000 records at once'}), 500
+        if len(stock_data) > 10000:
+            return jsonify({'status': False, 'message': 'upload at least 10000 records at once'}), 500
 
         for stock in stock_data[1:]:
             try:
-                stock_data: dict = data_compiler_instance.compile_stock(stock=stock)
-                broker_data: dict = data_compiler_instance.compile_broker(stock=stock)
-                buy_volume: dict = data_compiler_instance.compile_buy_volume(stock=stock)
-                sell_volume: dict = data_compiler_instance.compile_sell_volume(stock=stock)
-                net_volume: dict = data_compiler_instance.compile_net_volume(stock=stock)
+                stock_data_dict = data_compiler_instance.compile_stock(stock=stock)
+                broker_data = data_compiler_instance.compile_broker(stock=stock)
+                buy_volume = data_compiler_instance.compile_buy_volume(stock=stock)
+                sell_volume = data_compiler_instance.compile_sell_volume(stock=stock)
+                net_volume = data_compiler_instance.compile_net_volume(stock=stock)
 
-                coroutines.append(api_sender.send_stock(stock=stock_data))
+                coroutines.append(api_sender.send_stock(stock=stock_data_dict))
                 coroutines.append(api_sender.send_broker(broker=broker_data))
                 coroutines.append(api_sender.send_buy_volume(buy_volume=buy_volume))
                 coroutines.append(api_sender.send_sell_volume(sell_volume=sell_volume))
                 coroutines.append(api_sender.send_net_volume(net_volume=net_volume))
 
-            except Exception as e:
+            except Exception:
                 pass
 
+        coroutines: np.ndarray = np.array(coroutines)
         loop = asyncio.new_event_loop()
         loop.run_until_complete(asyncio.wait(coroutines))
-
         return jsonify({'status': True, 'message': 'successfully sent scrapped data'}), 200
 
     elif path == "broker":
@@ -172,6 +173,7 @@ def uploads(path: str) -> tuple:
         f = request.files['file']
         if f.filename.endswith('csv'):
             data_frame = pd.read_csv(f, names=['stock_id', 'stock_code', 'stock_name', 'symbol'])
+            # noinspection PyTypeChecker
             stock_list: list = data_frame.values.tolist()
             for stock in stock_list[1:]:
                 try:
@@ -196,7 +198,8 @@ def uploads(path: str) -> tuple:
         json_data: dict = request.get_json()
 
         if f.filename.endswith('png') or f.filename.endswith('jpg') or f.filename.endswith('jpeg'):
-            image_data = f.read()
+            pass
+            # image_data = f
             # TODO-  send the image to user database, json_data will contain the information
             # for the user being updated
         return jsonify({'status': True, 'message': 'successfully uploaded'}), 200
@@ -205,8 +208,9 @@ def uploads(path: str) -> tuple:
         f = request.files['file']
         if f.filename.endswith('png') or f.filename.endswith('jpg') or f.filename.endswith(
                 'jpeg') or f.filename.endswith('pdf'):
-            file_data = f.read()
+            # file_data = f.read()
+            pass
         return jsonify({'status': True, 'message': 'successfully uploaded'}), 200
     elif path == "messages":
         """ files """
-        pass
+        return jsonify({'status': True, 'message': 'successfully uploaded'}), 200

@@ -23,6 +23,7 @@ class APIFetcher:
     def __int__(self):
         pass
 
+    # noinspection DuplicatedCode
     def init_app(self, app):
         # TODO - initialize caching here for fetching data
         with app.app_context():
