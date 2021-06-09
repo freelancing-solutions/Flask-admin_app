@@ -19,9 +19,11 @@ class APIFetcher:
                      'Content-type': 'application/json',
                      'mode': 'cors',
                      'token': ''}
+    _url_look_up: dict = {}
 
     def __int__(self):
         pass
+
 
     # noinspection DuplicatedCode
     def init_app(self, app):
