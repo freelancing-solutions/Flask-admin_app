@@ -108,5 +108,8 @@ class APIFetcher:
     def fetch_stock(self, stock_id: str) -> tuple:
         return self._requester(url=self._build_url(endpoint='get-stock'), data={'stock_id': stock_id})
 
+    def fetch_buy_volume(self, stock_id: str) -> tuple:
+        return self._requester(url=self._build_url(endpoint='buy-volume'), data={'stock_id': stock_id})
+
     def get_all_membership_plans(self) -> tuple:
         return self._requester(url=self._build_url(endpoint='membership-plans'), data=None)
