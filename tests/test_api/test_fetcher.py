@@ -1,6 +1,4 @@
 import typing
-
-from flask import current_app
 from admin_app.api.fetcher import APIFetcher
 from tests import test_app
 
@@ -21,7 +19,7 @@ def test_fetch_broker():
     response, status = api_fetcher.fetch_broker(broker_id="ABC")
     json_data: dict = response.get_json()
     message: typing.Union[None, str] = json_data.get('message')
-    assert message is not None, "fetch_broker not responding corrrectly"
+    assert message is not None, "fetch_broker not responding correctly"
     assert json_data['status'], message
 
 
