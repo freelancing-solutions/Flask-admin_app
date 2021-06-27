@@ -38,14 +38,10 @@ def create_task(uri: str, payload: dict, in_seconds: int = 5):
 
     if in_seconds is not None:
         # Convert "seconds from now" into an rfc3339 datetime string.
-        schedule_time = datetime.datetime.utcnow() + datetime.timedelta(seconds=in_seconds)
-        timestamp = Timestamp().FromDatetime(schedule_time)
-
-        # Add the timestamp to the tasks.
-        task['schedule_time'] = timestamp
+        time_delta = datetime.datetime.utcnow() + datetime.timedelta(seconds=in_seconds)
+        task['schedule_time'] = Timestamp().FromDatetime(time_delta)
     else:
         return None
-    # Use the client to build and send the task.
     # noinspection PyTypeChecker,PyBroadException
     try:
         # noinspection PyTypeChecker

@@ -5,7 +5,7 @@ auth_bp = Blueprint('auth', __name__)
 
 @auth_bp.route('/login')
 @lru_cache(maxsize=16)
-def login() -> tuple :
+def login() -> tuple:
     return render_template('login.html'), 200
 
 
@@ -13,7 +13,7 @@ def login() -> tuple :
 def recover():
     """
         recover password
-    :return:
+        :return:
     """
     pass
 

@@ -81,8 +81,8 @@ class APISender:
     async def send_stock(self, stock) -> tuple:
         """
             send stock data
-        :param stock:
-        :return:
+            :param stock:
+            :return:
         """
         stock_data = stock if isinstance(stock, dict) else await stock
         print("stock data : {}".format(stock_data))
@@ -92,8 +92,8 @@ class APISender:
     async def send_broker(self, broker) -> tuple:
         """
             send broker data
-        :param broker:
-        :return:
+            :param broker:
+            :return:
         """
         broker_data = broker if isinstance(broker, dict) else await broker
         url: str = self._build_url(endpoint="broker")
@@ -117,8 +117,8 @@ class APISender:
     async def send_exchange(self, exchange: dict) -> tuple:
         """
             send exchange data
-        :param exchange:
-        :return:
+            :param exchange:
+            :return:
         """
         url: str = self._build_url(endpoint="exchange")
         return await self._requester(url=url, data=exchange)
@@ -126,8 +126,8 @@ class APISender:
     async def send_messages(self, messages: dict) -> tuple:
         """
             send messages
-        :param messages:
-        :return:
+            :param messages:
+            :return:
         """
         url: str = self._build_url(endpoint="messages")
         return await self._requester(url=url, data=messages)
@@ -144,8 +144,8 @@ class APISender:
     async def send_affiliate(self, affiliate_data: dict) -> tuple:
         """
             send affiliate data
-        :param affiliate_data:
-        :return:
+            :param affiliate_data:
+            :return:
         """
         url: str = self._build_url(endpoint="affiliate")
         return await self._requester(url=url, data=affiliate_data)
@@ -153,8 +153,8 @@ class APISender:
     async def send_user(self, user: dict) -> tuple:
         """
             send user data
-        :param user:
-        :return:
+            :param user:
+            :return:
         """
         url: str = self._build_url(endpoint="user")
         return await self._requester(url=url, data=user)
@@ -162,8 +162,8 @@ class APISender:
     async def send_memberships(self, memberships: dict) -> tuple:
         """
             send subscriptions data
-        :param memberships:
-        :return:
+            :param memberships:
+            :return:
         """
         url: str = self._build_url(endpoint="memberships")
         return await self._requester(url=url, data=memberships)
@@ -175,23 +175,27 @@ class APISender:
     async def send_api(self, api: dict) -> tuple:
         """
             send api data
-        :param api:
-        :return:
+            :param api:
+            :return:
         """
         url: str = self._build_url(endpoint="memberships")
         return await self._requester(url=url, data=api)
 
     async def send_scrapper(self, scrapper: dict) -> tuple:
         """
-            send scrapping service
-        :param scrapper:
-        :return:
+            :send scrapping service
+            :param scrapper:
+            :return:
         """
         url: str = self._build_url(endpoint="scrapper")
         print("Scrapper URL : {}".format(url))
         return await self._requester(url=url, data=scrapper)
 
     async def send_scrapping_settings(self, settings_data: dict) -> tuple:
-
+        """
+            :send scrapping service
+            :param: scrapper
+            :return: tuple
+        """
         url: str = self._build_url(endpoint="scrapping-settings")
         return await self._requester(url=url, data=settings_data)

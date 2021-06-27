@@ -13,7 +13,7 @@ def membership_plans() -> tuple:
         try:
             status, payload, message = response
             membership_plans_list: typing.List[dict] = payload
-        except Exception:
+        except Exception as e:
             status, message = response
             membership_plans_list: typing.List[dict] = []
 
