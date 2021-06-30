@@ -21,16 +21,16 @@
 						<div class="col-md-12 col-sm-12 ">
 							<form class="form-horizontal">
 								<div class="form-group">
-									<label>Plan Name</label>
+									<label for="plan_name">Plan Name</label>
 									<input id="plan_name" type="text" class="form-control" placeholder="Plan Name">
 								</div>
 								<div class="form-group">
-									<label>Description</label>
+									<label for="description">Description</label>
 									<textarea id="description" type="text" class="form-control" placeholder="Description">
 									</textarea>
 								</div>
 								<div class="form-group">
-									<label>Total Members</label>
+									<label for="schedule_day">Total Members</label>
 									<select id="schedule_day" class="form-control">
 										<option value="1">1st Day of Month</option>
 										<option value="2">2nd Day of Month</option>
@@ -40,20 +40,28 @@
 									</select>
 								</div>
 								<div class="form-group">
-									<label>Schedule Term</label>
+									<label for="schedule_term">Schedule Term</label>
 									<select id="schedule_term" class="form-control">
 										<option value="monthly">Monthly</option>
-										<option value="quaterly">Quaterly</option>
+										<option value="quarterly">Quarterly</option>
 										<option value="annually">Annually</option>
 									</select>
 								</div>
 								<div class="form-group">
-									<label>Payment Amount</label>
-									<input id="payment_amount" type="text" class="form-control" placeholder="Payment Amount" />
+									<label for="currency">Currency</label>
+									<select class="form-control" id="currency">
+										<option value="USD">American Dollars</option>
+										<option value="ZAR">South African Rands</option>
+									</select>
 								</div>
 								<div class="form-group">
-									<label>Registration Amount</label>
-									<input id="registration_amount" type="text" class="form-control" placeholder="Registration Amount" />
+									<label for="payment_amount">Payment Amount</label>
+									<input id="payment_amount" type="number" class="form-control" placeholder="150" />
+								</div>
+								<div class="form-group">
+									<label for="registration_amount">Registration Amount</label>
+									<input id="registration_amount" type="number" class="form-control"
+										   placeholder="300" />
 								</div>
 								<div class="form-group">
 									<button type="button" class="btn btn-primary btn-sm" id="submit_butt">
@@ -73,7 +81,6 @@
           <!-- /page content -->
 {% endblock %}
 
-{% block script %}
-
+{% block scripts %}
 	<script src="{{ url_for('static', filename='js/memberships/create.js')}}"></script>
-{% endblock script %}
+{% endblock scripts %}

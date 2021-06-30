@@ -35,7 +35,7 @@ class APISender:
                 "affiliate": app.config.get("SEND_AFFILIATE_DATA_ENDPOINT"),
                 "user": app.config.get("SEND_USER_DATA_ENDPOINT"),
                 "membership": app.config.get("SEND_MEMBERSHIP_DATA_ENDPOINT"),
-                "membership_plan": app.config.get("SEND_MEMBERSHIP_PLAN_ENDPOINT"),
+                "membership-plan": app.config.get("SEND_MEMBERSHIP_PLAN_ENDPOINT"),
                 "api": app.config.get("SEND_API_DATA_ENDPOINT"),
                 "scrapper": app.config.get("SEND_SCRAPPER_DATA_ENDPOINT"),
                 "scrapping-settings": app.config.get("SEND_SCRAPPER_SETTINGS"),
@@ -62,7 +62,10 @@ class APISender:
             async with aiohttp.ClientSession() as session:
                 async with session.post(url=url, json=data, headers=self.headers) as response:
                     response_data: dict = await response.json()
-                    return jsonify(response_data), 200
+                    if response_data['status']:
+                        return jsonify(response_data), 200
+                    else:
+                        return jsonify(response_data), 500
         except ClientConnectorError:
             return jsonify({'status': False, 'message': 'A time-out occurred while connecting to data-service'}), 500
         except ConnectTimeout:

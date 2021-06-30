@@ -72,7 +72,7 @@ class APIFetcher:
                 response = requests.post(url=url, headers=self.headers)
             response.raise_for_status()
             response_data: dict = response.json()
-            return jsonify({'status': True, 'message': response_data['message'],
+            return jsonify({'status': response_data['status'], 'message': response_data['message'],
                             'payload': response_data['payload']}), 200
 
         except ConnectTimeout:
