@@ -88,7 +88,6 @@ class APISender:
             :return:
         """
         stock_data = stock if isinstance(stock, dict) else await stock
-        print("stock data : {}".format(stock_data))
         url: str = self._build_url(endpoint="stock")
         return await self._requester(url=url, data=stock_data)
 
@@ -173,6 +172,10 @@ class APISender:
 
     async def send_membership_plans(self, membership_plan: dict) -> tuple:
         url: str = self._build_url(endpoint='membership-plan')
+        return await self._requester(url=url, data=membership_plan)
+
+    async def update_membership_plans(self, membership_plan: dict) -> tuple:
+        url: str = self._build_url(endpoint='update-membership-plan')
         return await self._requester(url=url, data=membership_plan)
 
     async def send_api(self, api: dict) -> tuple:

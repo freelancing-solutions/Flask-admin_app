@@ -1,3 +1,4 @@
+import asyncio
 import json
 import typing
 from flask import Blueprint, request, render_template, jsonify, flash
@@ -21,8 +22,14 @@ def membership_plans() -> tuple:
         except Exception as e:
             message: str = str(e)
             membership_plans_list: typing.List[dict] = []
-        flash(message=message)
+        # TODO- fix SECRET KEY Error before enabling flash messages
+        # flash(message=message)
         return render_template('memberships/membership_plans.html', membership_plans=membership_plans_list), status
+    # Update membership plan
+    elif request.method == "POST":
+        return asyncio.new_event_loop().run_until_complete(api_sender.update_membership_plans(
+            membership_plan=request.get_json())
+
 
 
 @memberships_bp.route('/create-membership-plan', methods=['GET', 'POST'])

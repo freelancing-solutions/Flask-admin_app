@@ -38,5 +38,5 @@ def create_admin_app(config_class=Config):
     admin_app.register_blueprint(helpdesk_bp)
     admin_app.register_blueprint(uploads_bp)
     admin_app.register_blueprint(memberships_bp)
-
+    print(Config.SECRET)
     return admin_app

@@ -55,7 +55,7 @@ class Config:
     SEND_SELL_VOLUME_ENDPOINT: str = os.getenv("send_sell_volume_endpoint") or config("send_sell_volume_endpoint")
     SEND_NET_VOLUME_ENDPOINT: str = os.getenv("send_net_volume_endpoint") or config("send_net_volume_endpoint")
 
-    SECRET: str = os.getenv('secret') or config('secret')
+    SECRET: str = config('secret') or os.getenv('secret')
     PROJECT: str = os.getenv('project') or config('project')
 
     CACHE_DEFAULT_TIMEOUT: int = os.getenv('cache_default_timeout') or config('cache_default_timeout')
