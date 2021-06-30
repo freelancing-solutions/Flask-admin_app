@@ -31,6 +31,7 @@ class Config:
     USER_DATA_ENDPOINT: str = os.getenv('user_data_endpoint') or config('user_data_endpoint')
     MEMBERSHIP_DATA_ENDPOINT: str = os.getenv('membership_data_endpoint') or config('membership_data_endpoint')
     GET_MEMBERSHIP_PLANS_ENDPOINT: str = os.getenv('get_membership_plans_endpoint') or config('get_membership_plans_endpoint')
+    UPDATE_MEMBERSHIP_PLAN_ENDPOINT: str = os.getenv('update_membership_plan_endpoint') or config('update_membership_plan_endpoint')
     API_DATA_ENDPOINT: str = os.getenv('api_data_endpoint') or config('api_data_endpoint')
     SCRAPPER_DATA_ENDPOINT: str = os.getenv('scrapper_data_endpoint') or config('scrapper_data_endpoint')
 

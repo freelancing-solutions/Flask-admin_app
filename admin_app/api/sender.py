@@ -36,6 +36,7 @@ class APISender:
                 "user": app.config.get("SEND_USER_DATA_ENDPOINT"),
                 "membership": app.config.get("SEND_MEMBERSHIP_DATA_ENDPOINT"),
                 "membership-plan": app.config.get("SEND_MEMBERSHIP_PLAN_ENDPOINT"),
+                "update-membership-plan": app.config.get("UPDATE_MEMBERSHIP_PLAN_ENDPOINT"),
                 "api": app.config.get("SEND_API_DATA_ENDPOINT"),
                 "scrapper": app.config.get("SEND_SCRAPPER_DATA_ENDPOINT"),
                 "scrapping-settings": app.config.get("SEND_SCRAPPER_SETTINGS"),

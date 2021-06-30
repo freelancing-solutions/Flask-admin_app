@@ -1,5 +1,3 @@
-import asyncio
-import json
 import typing
 from flask import Blueprint, request, render_template, jsonify, flash
 from admin_app.main import api_sender, api_fetcher
@@ -9,6 +7,7 @@ memberships_bp = Blueprint('memberships', __name__)
 
 @memberships_bp.route('/membership-plans', methods=["GET", "POST"])
 def membership_plans() -> tuple:
+    import asyncio
     if request.method == "GET":
         response, status = api_fetcher.get_all_membership_plans()
         try:
@@ -27,9 +26,9 @@ def membership_plans() -> tuple:
         return render_template('memberships/membership_plans.html', membership_plans=membership_plans_list), status
     # Update membership plan
     elif request.method == "POST":
-        return asyncio.new_event_loop().run_until_complete(api_sender.update_membership_plans(
-            membership_plan=request.get_json())
-
+        return asyncio.new_event_loop().run_until_complete(api_sender.update_membership_plans(membership_plan=request.get_json()))
+    else:
+        pass
 
 
 @memberships_bp.route('/create-membership-plan', methods=['GET', 'POST'])
