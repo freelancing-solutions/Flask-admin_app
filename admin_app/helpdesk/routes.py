@@ -26,7 +26,6 @@ def helpdesk(path) -> tuple:
         else:
             tickets_list: typing.List['dict'] = []
         return render_template('helpdesk/tickets.html', tickets_list=tickets_list), 200
-
     elif path == "tickets":
         response, status = api_fetcher.fetch_support_tickets()
         response_data: dict = response.get_json()
@@ -35,3 +34,14 @@ def helpdesk(path) -> tuple:
         else:
             tickets_list: typing.List['dict'] = []
         return render_template('helpdesk/tickets.html', tickets_list=tickets_list), 200
+
+
+@helpdesk_bp.route('/help-desk/ticket/<path:ticket_id>', methods=['POST', 'GET'])
+def helpdesk_ticket(ticket_id: str) -> tuple:
+    response, status = api_fetcher.fetch_ticket(ticket_id=ticket_id)
+    response_data: dict = response.get_json()
+    if response_data['status']:
+        ticket_instance: typing.Union[dict, None] = response_data['payload']
+    else:
+        ticket_instance: typing.Union[dict, None] = None
+    return render_template('helpdesk/ticket.html', ticket=ticket_instance), 200

@@ -40,6 +40,7 @@ class APIFetcher:
                 "tickets": app.config.get('TICKETS_DATA_ENDPOINT'),
                 "unresolved-tickets": app.config.get('UNRESOLVED_TICKETS_ENDPOINT'),
                 "resolved-tickets": app.config.get('RESOLVED_TICKETS_ENDPOINT'),
+                "support-ticket": app.config.get('GET_SUPPORT_TICKET'),
                 "affiliates": app.config.get('AFFILIATE_DATA_ENDPOINT'),
                 "user": app.config.get('USER_DATA_ENDPOINT'),
                 "membership": app.config.get('MEMBERSHIP_DATA_ENDPOINT'),
@@ -138,3 +139,6 @@ class APIFetcher:
 
     def fetch_unresolved_tickets(self) -> tuple:
         return self._requester(url=self._build_url(endpoint='unresolved-tickets'))
+
+    def fetch_ticket(self, ticket_id: str) -> tuple:
+        return self._requester(url=self._build_url(endpoint='support-ticket'))

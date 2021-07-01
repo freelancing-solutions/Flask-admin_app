@@ -22,31 +22,37 @@
                             <table class="table table-responsive">
                                 <thead>
                                     <tr>
-                                        <td>topic</td>
-                                        <td>subject</td>
-                                        <td>message</td>
-                                        <td>email</td>
-                                        <td>cell</td>
-                                        <td>assigned</td>
-                                        <td>assign to</td>
-                                        <td>response sent</td>
-                                        <td>is_resolved</td>
+                                        <td><strong><i class="fa fa-info"> </i> Topic</strong></td>
+                                        <td><strong><i class="fa fa-info"> </i> Subject</strong></td>
+                                        <td><strong><i class="fa fa-file"> </i> Message</strong></td>
+                                        <td><strong><i class="fa fa-envelope"> </i> Email</strong></td>
+                                        <td><strong><i class="fa fa-mobile-phone"> </i> Cell</strong></td>
+                                        <td><strong><i class="fa fa-send"> </i> Response Sent</strong></td>
+                                        <td><strong><i class="fa fa-asterisk"> </i> is_resolved</strong></td>
                                     </tr>
                                 </thead>
                                 <tbody>
-
+                                    {% for ticket in tickets_list %}
+                                            <tr>
+                                                <td><a href="/help-desk/ticket/{{ ticket.ticket_id }}">{{ ticket.topic }}</a></td>
+                                                <td>{{ ticket.subject }}</td>
+                                                <td>{{ ticket.message }}</td>
+                                                <td>{{ ticket.email }}</td>
+                                                <td>{{ ticket.cell }}</td>
+                                                <td>{{ ticket.response_sent }}</td>
+                                                <td>{{ ticket.is_resolved }}</td>
+                                            </tr>
+                                    {% endfor %}
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td>topic</td>
-                                        <td>subject</td>
-                                        <td>message</td>
-                                        <td>email</td>
-                                        <td>cell</td>
-                                        <td>assigned</td>
-                                        <td>assign to</td>
-                                        <td>response sent</td>
-                                        <td>is_resolved</td>
+                                        <td><strong><i class="fa fa-info"> </i> Topic</strong></td>
+                                        <td><strong><i class="fa fa-info"> </i> Subject</strong></td>
+                                        <td><strong><i class="fa fa-file"> </i> Message</strong></td>
+                                        <td><strong><i class="fa fa-envelope"> </i> Email</strong></td>
+                                        <td><strong><i class="fa fa-mobile-phone"> </i> Cell</strong></td>
+                                        <td><strong><i class="fa fa-send"> </i> Response Sent</strong></td>
+                                        <td><strong><i class="fa fa-asterisk"> </i> is_resolved</strong></td>
                                     </tr>
                                 </tfoot>
                             </table>

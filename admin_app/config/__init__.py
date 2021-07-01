@@ -29,6 +29,7 @@ class Config:
     TICKETS_DATA_ENDPOINT: str = os.getenv('tickets_data_endpoint') or config('tickets_data_endpoint')
     UNRESOLVED_TICKETS_ENDPOINT: str = os.getenv('unresolved_tickets_endpoint') or config('unresolved_tickets_endpoint')
     RESOLVED_TICKETS_ENDPOINT: str = os.getenv('resolved_tickets_endpoint') or config('resolved_tickets_endpoint')
+    GET_SUPPORT_TICKET: str = os.getenv('get_support_ticket') or config('get_support_ticket')
     AFFILIATE_DATA_ENDPOINT: str = os.getenv('affiliate_data_endpoint') or config('affiliate_data_endpoint')
     USER_DATA_ENDPOINT: str = os.getenv('user_data_endpoint') or config('user_data_endpoint')
     MEMBERSHIP_DATA_ENDPOINT: str = os.getenv('membership_data_endpoint') or config('membership_data_endpoint')
