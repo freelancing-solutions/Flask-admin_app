@@ -38,6 +38,8 @@ class APIFetcher:
                 "get-exchange": app.config.get('GET_EXCHANGE_DATA_ENDPOINT'),
                 "messages": app.config.get('MESSAGES_DATA_ENDPOINT'),
                 "tickets": app.config.get('TICKETS_DATA_ENDPOINT'),
+                "unresolved-tickets": app.config.get('UNRESOLVED_TICKETS_ENDPOINT'),
+                "resolved-tickets": app.config.get('RESOLVED_TICKETS_ENDPOINT'),
                 "affiliates": app.config.get('AFFILIATE_DATA_ENDPOINT'),
                 "user": app.config.get('USER_DATA_ENDPOINT'),
                 "membership": app.config.get('MEMBERSHIP_DATA_ENDPOINT'),
@@ -112,3 +114,27 @@ class APIFetcher:
 
     def get_all_membership_plans(self) -> tuple:
         return self._requester(url=self._build_url(endpoint='membership-plans'), data=None)
+
+    def fetch_user(self, uid: str) -> tuple:
+        return self._requester(url=self._build_url(endpoint='user')+'/get', data={'uid': uid})
+
+    def update_user(self, user_data: dict) -> tuple:
+        return self._requester(url=self._build_url(endpoint='user')+'/update', data=user_data)
+
+    def fetch_all_users(self) -> tuple:
+        return self._requester(url=self._build_url(endpoint='user')+'s/all')
+
+    def fetch_memberships(self) -> tuple:
+        return self._requester(url=self._build_url(endpoint='membership'), data=None)
+
+    def fetch_help_desk_messages(self) -> tuple:
+        return self._requester(url=self._build_url(endpoint='messages'))
+
+    def fetch_support_tickets(self) -> tuple:
+        return self._requester(url=self._build_url(endpoint='tickets'))
+
+    def fetch_resolved_tickets(self) -> tuple:
+        return self._requester(url=self._build_url(endpoint='resolved-tickets'))
+
+    def fetch_unresolved_tickets(self) -> tuple:
+        return self._requester(url=self._build_url(endpoint='unresolved-tickets'))

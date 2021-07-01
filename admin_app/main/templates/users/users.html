@@ -1,6 +1,66 @@
 {% extends "layouts/layout.html" %}
 {% block content %}
           <div class="right_col" role="main">
+                    <div class="page-title">
+						<div class="title_left">
+							<h3>Users</h3>
+						</div>
+						<div class="title_right">
+							<div class="col-md-5 col-sm-5  form-group pull-right top_search">
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="Search for...">
+									<span class="input-group-btn">
+										<button class="btn btn-default" type="button">Go!</button>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="clearfix"></div>
+					<div class="row">
+						<div class="col-md-12 col-sm-12 ">
+							<table class="table table-responsive">
+								<thead>
+									<tr>
+										<td><strong> <i class="fa fa-user"> </i> Name</strong></td>
+										<td><strong><i class="fa fa-user"> </i> Surname </strong></td>
+										<td><strong><i class="fa fa-envelope"> </i> Email</strong></td>
+										<td><strong><i class="fa fa-mobile-phone"> </i> Cell </strong></td>
+										<td><strong><i class="fa fa-asterisk"> </i> is Active </strong></td>
+										<td><strong><i class="fa fa-calendar"> </i> Time Registered </strong></td>
+									</tr>
+								</thead>
+								<tbody>
+								{% for user in users %}
+									<tr>
+										<td><a href="/" target="_self">{{ user.names }}</a> </td>
+										<td>{{ user.surname }}</td>
+										<td>{{ user.email }}</td>
+										<td>{{ user.cell }}</td>
+										{% if user.is_active %}
+											<td><span class="info"> Active  </span></td>
+										{% else %}
+											<td><span class="danger"> In Active  </span></td>
+										{% endif %}
+										<td>{{ user.time_registered }}</td>
+									</tr>
+								{% endfor %}
+								</tbody>
+								<tfoot>
+									<tr>
+										<td><strong> <i class="fa fa-user"> </i> Name</strong></td>
+										<td><strong><i class="fa fa-user"> </i> Surname </strong></td>
+										<td><strong><i class="fa fa-envelope"> </i> Email</strong></td>
+										<td><strong><i class="fa fa-mobile-phone"> </i> Cell </strong></td>
+										<td><strong><i class="fa fa-asterisk"> </i> is Active </strong></td>
+										<td><strong><i class="fa fa-calendar"> </i> Time Registered </strong></td>
+									</tr>
+
+								</tfoot>
+							</table>
+						</div>
+					</div>
+
           </div>
           <!-- /page content -->
 

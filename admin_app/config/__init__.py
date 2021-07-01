@@ -27,6 +27,8 @@ class Config:
     EXCHANGE_DATA_ENDPOINT: str = os.getenv('exchange_data_endpoint') or config('exchange_data_endpoint')
     MESSAGES_DATA_ENDPOINT: str = os.getenv('messages_data_endpoint') or config('messages_data_endpoint')
     TICKETS_DATA_ENDPOINT: str = os.getenv('tickets_data_endpoint') or config('tickets_data_endpoint')
+    UNRESOLVED_TICKETS_ENDPOINT: str = os.getenv('unresolved_tickets_endpoint') or config('unresolved_tickets_endpoint')
+    RESOLVED_TICKETS_ENDPOINT: str = os.getenv('resolved_tickets_endpoint') or config('resolved_tickets_endpoint')
     AFFILIATE_DATA_ENDPOINT: str = os.getenv('affiliate_data_endpoint') or config('affiliate_data_endpoint')
     USER_DATA_ENDPOINT: str = os.getenv('user_data_endpoint') or config('user_data_endpoint')
     MEMBERSHIP_DATA_ENDPOINT: str = os.getenv('membership_data_endpoint') or config('membership_data_endpoint')
@@ -34,12 +36,9 @@ class Config:
     UPDATE_MEMBERSHIP_PLAN_ENDPOINT: str = os.getenv('update_membership_plan_endpoint') or config('update_membership_plan_endpoint')
     API_DATA_ENDPOINT: str = os.getenv('api_data_endpoint') or config('api_data_endpoint')
     SCRAPPER_DATA_ENDPOINT: str = os.getenv('scrapper_data_endpoint') or config('scrapper_data_endpoint')
-
     GET_EXCHANGE_DATA_ENDPOINT: str = os.getenv('get_exchange_endpoint') or config('get_exchange_endpoint')
     GET_BROKER_ENDPOINT: str = os.getenv('get_broker_endpoint') or config('get_broker_endpoint')
     GET_STOCK_ENDPOINT: str = os.getenv('get_stock_endpoint') or config('get_stock_endpoint')
-
-    # sender settings
     SEND_STOCK_DATA_ENDPOINT: str = os.getenv('send_stock_data_endpoint') or config('send_stock_data_endpoint')
     SEND_BROKER_DATA_ENDPOINT: str = os.getenv('send_broker_data_endpoint') or config('send_broker_data_endpoint')
     SEND_ADD_EXCHANGE_DATA_ENDPOINT = os.getenv('send_add_exchange_data_endpoint') or config('send_add_exchange_data_endpoint')
@@ -55,9 +54,7 @@ class Config:
     SEND_BUY_VOLUME_ENDPOINT: str = os.getenv("send_buy_volume_endpoint") or config("send_buy_volume_endpoint")
     SEND_SELL_VOLUME_ENDPOINT: str = os.getenv("send_sell_volume_endpoint") or config("send_sell_volume_endpoint")
     SEND_NET_VOLUME_ENDPOINT: str = os.getenv("send_net_volume_endpoint") or config("send_net_volume_endpoint")
-
-    SECRET: str = config('secret') or os.getenv('secret')
+    SECRET_KEY: str = config('secret') or os.getenv('secret')
     PROJECT: str = os.getenv('project') or config('project')
-
     CACHE_DEFAULT_TIMEOUT: int = os.getenv('cache_default_timeout') or config('cache_default_timeout')
     CACHE_TYPE: str = os.getenv('cache_type') or config('cache_type')

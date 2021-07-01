@@ -1,0 +1,70 @@
+{% extends "layouts/layout.html" %}
+{% block content %}
+          <div class="right_col" role="main">
+                    <div class="page-title">
+						<div class="title_left">
+							<h3>User</h3>
+						</div>
+						<div class="title_right">
+							<div class="col-md-5 col-sm-5  form-group pull-right top_search">
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="Search for...">
+									<span class="input-group-btn">
+										<button class="btn btn-default" type="button">Go!</button>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="clearfix"></div>
+					<div class="row">
+						<div class="col-md-12 col-sm-12 ">
+                            <form class="form form-horizontal">
+                            {% if user %}
+
+                                <div class="form-group">
+                                    <label for="names"></label>
+                                    <input id="names" type="text" value="{{ user.names }}" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="surname">Surname</label>
+                                    <input id="surname" type="text" value="{{ user.surname }}" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Surname</label>
+                                    <input id="email" type="text" value="{{ user.email }}" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="cell">Surname</label>
+                                    <input id="cell" type="text" value="{{ user.cell }}" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="is_admin">Is Admin</label>
+                                    <select id="is_admin">
+                                        <option value="true">True</option>
+                                        <option value="false">False</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="is_support">Is Support</label>
+                                    <select id="is_support">
+                                        <option value="true">True</option>
+                                        <option value="false">False</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-primary"> <i class="fa fa-save"> </i> Update</button>
+                                </div>
+                            {% else %}
+                                <div class="form-group">
+                                    <label>Unable to display user</label>
+                                </div>
+                            {% endif %}
+                        </form>
+						</div>
+					</div>
+
+          </div>
+          <!-- /page content -->
+
+{% endblock content %}

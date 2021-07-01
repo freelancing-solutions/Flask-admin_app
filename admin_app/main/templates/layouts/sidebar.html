@@ -63,7 +63,8 @@
                 <ul class="nav side-menu">
                   <li><a><i class="fa fa-envelope"></i> Help Desk <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="{{ url_for('helpdesk.helpdesk', path='messages')}}">Messages</a></li>
+                      <li><a href="{{ url_for('helpdesk.helpdesk', path='resolved')}}">Resolved</a></li>
+                        <li><a href="{{ url_for('helpdesk.helpdesk', path='unresolved')}}">UN Resolved</a></li>
                       <li><a href="{{ url_for('helpdesk.helpdesk', path='tickets')}}">Support Tickets</a></li>
                     </ul>
                   </li>

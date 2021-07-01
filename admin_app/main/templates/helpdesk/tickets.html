@@ -1,10 +1,56 @@
-
-
 {% extends "layouts/layout.html" %}
-
 {% block content %}
           <div class="right_col" role="main">
-          </div>
-          <!-- /page content -->
+                    <div class="page-title">
+						<div class="title_left">
+							<h3>Tickets</h3>
+						</div>
+						<div class="title_right">
+							<div class="col-md-5 col-sm-5  form-group pull-right top_search">
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="Search for...">
+									<span class="input-group-btn">
+										<button class="btn btn-default" type="button">Go!</button>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="clearfix"></div>
+					<div class="row">
+						<div class="col-md-12 col-sm-12 ">
+                            <table class="table table-responsive">
+                                <thead>
+                                    <tr>
+                                        <td>topic</td>
+                                        <td>subject</td>
+                                        <td>message</td>
+                                        <td>email</td>
+                                        <td>cell</td>
+                                        <td>assigned</td>
+                                        <td>assign to</td>
+                                        <td>response sent</td>
+                                        <td>is_resolved</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
 
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td>topic</td>
+                                        <td>subject</td>
+                                        <td>message</td>
+                                        <td>email</td>
+                                        <td>cell</td>
+                                        <td>assigned</td>
+                                        <td>assign to</td>
+                                        <td>response sent</td>
+                                        <td>is_resolved</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+          </div>
 {% endblock %}
