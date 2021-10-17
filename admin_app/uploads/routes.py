@@ -25,7 +25,6 @@ class ScrappedDataCompiler:
 
             "broker_code": stock[5],
             "broker_id": stock[2],
-
             "buy_volume": stock[7],
             "buy_value": stock[8],
             "buy_ave_price": stock[9],
